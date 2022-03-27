@@ -1,4 +1,4 @@
-package ca.ubc.cs304.database;
+package nft.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import ca.ubc.cs304.model.BranchModel;
+import nft.model.BuyerModel;
 
 /**
  * This class handles all database related transactions
@@ -62,7 +62,7 @@ public class DatabaseConnectionHandler {
 		}
 	}
 	
-	public void insertBranch(BranchModel model) {
+	public void insertBranch(BuyerModel model) {
 		try {
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO branch VALUES (?,?,?,?,?)");
 			ps.setInt(1, model.getId());
@@ -85,8 +85,8 @@ public class DatabaseConnectionHandler {
 		}
 	}
 	
-	public BranchModel[] getBranchInfo() {
-		ArrayList<BranchModel> result = new ArrayList<BranchModel>();
+	public BuyerModel[] getBranchInfo() {
+		ArrayList<BuyerModel> result = new ArrayList<BuyerModel>();
 		
 		try {
 			Statement stmt = connection.createStatement();
@@ -104,7 +104,7 @@ public class DatabaseConnectionHandler {
 //    		}
 			
 			while(rs.next()) {
-				BranchModel model = new BranchModel(rs.getString("branch_addr"),
+				BuyerModel model = new BuyerModel(rs.getString("branch_addr"),
 													rs.getString("branch_city"),
 													rs.getInt("branch_id"),
 													rs.getString("branch_name"),
@@ -118,7 +118,7 @@ public class DatabaseConnectionHandler {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}	
 		
-		return result.toArray(new BranchModel[result.size()]);
+		return result.toArray(new BuyerModel[result.size()]);
 	}
 	
 	public void updateBranch(int id, String name) {
@@ -177,10 +177,10 @@ public class DatabaseConnectionHandler {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}
 		
-		BranchModel branch1 = new BranchModel("123 Charming Ave", "Vancouver", 1, "First Branch", 1234567);
+		BuyerModel branch1 = new BuyerModel("123 Charming Ave", "Vancouver", 1, "First Branch", 1234567);
 		insertBranch(branch1);
 		
-		BranchModel branch2 = new BranchModel("123 Coco Ave", "Vancouver", 2, "Second Branch", 1234568);
+		BuyerModel branch2 = new BuyerModel("123 Coco Ave", "Vancouver", 2, "Second Branch", 1234568);
 		insertBranch(branch2);
 	}
 	

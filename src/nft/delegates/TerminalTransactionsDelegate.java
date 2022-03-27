@@ -1,6 +1,6 @@
-package ca.ubc.cs304.delegates;
+package nft.delegates;
 
-import ca.ubc.cs304.model.BranchModel;
+import nft.model.BuyerModel;
 
 /**
  * This interface uses the delegation design pattern where instead of having
@@ -15,7 +15,7 @@ public interface TerminalTransactionsDelegate {
 	public void databaseSetup();
 	
 	public void deleteBranch(int branchId);
-	public void insertBranch(BranchModel model);
+	public void insertBranch(BuyerModel model);
 	public void showBranch();
 	public void updateBranch(int branchId, String name);
 	

@@ -1,11 +1,11 @@
-package ca.ubc.cs304.ui;
+package nft.ui;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import ca.ubc.cs304.delegates.TerminalTransactionsDelegate;
-import ca.ubc.cs304.model.BranchModel;
+import nft.delegates.TerminalTransactionsDelegate;
+import nft.model.BuyerModel;
 
 /**
  * The class is only responsible for handling terminal text inputs. 
@@ -24,7 +24,7 @@ public class TerminalTransactions {
 	
 	/**
 	 * Sets up the database to have a branch table with two tuples so we can insert/update/delete from it.
-	 * Refer to the databaseSetup.sql file to determine what tuples are going to be in the table.
+	 * Refer to the databaseNFT.sql file to determine what tuples are going to be in the table.
 	 */
 	public void setupDatabase(TerminalTransactionsDelegate delegate) {
 		this.delegate = delegate;
@@ -143,7 +143,7 @@ public class TerminalTransactions {
 			phoneNumber = readInteger(true);
 		}
 		
-		BranchModel model = new BranchModel(address,
+		BuyerModel model = new BuyerModel(address,
 											city,
 											id,
 											name,

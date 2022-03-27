@@ -1,4 +1,4 @@
-package ca.ubc.cs304.ui;
+package nft.ui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import ca.ubc.cs304.delegates.LoginWindowDelegate;
+import nft.delegates.LoginWindowDelegate;
 
 /**
  * The class is only responsible for displaying and handling the login GUI. 

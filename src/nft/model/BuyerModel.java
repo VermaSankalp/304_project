@@ -1,16 +1,16 @@
-package ca.ubc.cs304.model;
+package nft.model;
 
 /**
- * The intent for this class is to update/store information about a single branch
+ * The intent for this class is to update/store information about a buyer
  */
-public class BranchModel {
+public class BuyerModel {
 	private final String address;
 	private final String city;
 	private final int id;
 	private final String name;	
 	private final int phoneNumber;
 	
-	public BranchModel(String address, String city, int id, String name, int phoneNumber) {
+	public BuyerModel(String address, String city, int id, String name, int phoneNumber) {
 		this.address = address;
 		this.city = city;
 		this.id = id;

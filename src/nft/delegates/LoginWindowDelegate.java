@@ -1,4 +1,4 @@
-package ca.ubc.cs304.delegates;
+package nft.delegates;
 
 /**
  * This interface uses the delegation design pattern where instead of having
