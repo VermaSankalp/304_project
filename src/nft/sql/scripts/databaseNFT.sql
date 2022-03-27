@@ -56,7 +56,7 @@ CREATE TABLE buyers (
 )
 
 CREATE TABLE sells_to (
-    buyer_id varchar(20),
+    buyer_id varchar(20) NOT NULL,
     c_address varchar(20),
     PRIMARY KEY (buyer_id, c_address),
     FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id),
@@ -64,7 +64,7 @@ CREATE TABLE sells_to (
 )
 
 CREATE TABLE host_website (
-    domain varchar(20),
+    domain varchar(20) NOT NULL,
     published_on date,
     nft_quantity integer,
     currency varchar(20),
@@ -72,7 +72,7 @@ CREATE TABLE host_website (
 )
 
 CREATE TABLE lists_on (
-    domain varchar(20),
+    domain varchar(20) NOT NULL,
     c_address varchar(20),
     PRIMARY KEY (domain, c_address),
     FOREIGN KEY (domain) REFERENCES host_website(domain),
@@ -80,24 +80,24 @@ CREATE TABLE lists_on (
 )
 
 CREATE TABLE hosted_on (
-    domain varchar(20),
-    token_id varchar(20),
+    domain varchar(20) NOT NULL,
+    token_id varchar(20) NOT NULL,
     PRIMARY KEY (domain, token_id),
     FOREIGN KEY (domain) REFERENCES host_website(domain),
     FOREIGN KEY (token_id) REFERENCES nft_owns(token_id),
 )
 
 CREATE TABLE bid_on (
-    token_id varchar(20),
-    buyer_id varchar(20),
+    token_id varchar(20) NOT NULL,
+    buyer_id varchar(20) NOT NULL,
     PRIMARY KEY (token_id, buyer_id),
     FOREIGN KEY (token_id) REFERENCES nft_owns(token_id),
     FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id),
 )
 
 CREATE TABLE buys_from (
-    domain varchar(20),
-    buyer_id varchar(20),
+    domain varchar(20) NOT NULL,
+    buyer_id varchar(20) NOT NULL,
     PRIMARY KEY (domain, buyer_id),
     FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id),
     FOREIGN KEY (domain) REFERENCES host_website(domain),
