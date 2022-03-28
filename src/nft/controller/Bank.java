@@ -3,7 +3,7 @@ package nft.controller;
 import nft.database.DatabaseConnectionHandler;
 import nft.delegates.LoginWindowDelegate;
 import nft.delegates.TerminalTransactionsDelegate;
-import nft.model.BuyerModel;
+import nft.model.DigitalContent;
 import nft.ui.LoginWindow;
 import nft.ui.TerminalTransactions;
 
@@ -54,7 +54,7 @@ public class Bank implements LoginWindowDelegate, TerminalTransactionsDelegate {
 	 * 
 	 * Insert a branch with the given info
 	 */
-    public void insertBranch(BuyerModel model) {
+    public void insertBranch(DigitalContent model) {
     	dbHandler.insertBranch(model);
     }
 
@@ -83,10 +83,10 @@ public class Bank implements LoginWindowDelegate, TerminalTransactionsDelegate {
 	 * Displays information about varies bank branches.
 	 */
     public void showBranch() {
-    	BuyerModel[] models = dbHandler.getBranchInfo();
+    	DigitalContent[] models = dbHandler.getBranchInfo();
     	
     	for (int i = 0; i < models.length; i++) {
-    		BuyerModel model = models[i];
+    		DigitalContent model = models[i];
     		
     		// simplified output formatting; truncation may occur
     		System.out.printf("%-10.10s", model.getId());

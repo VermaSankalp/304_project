@@ -34,8 +34,8 @@ CREATE TABLE nft_owns (
 
 CREATE TABLE people (
     person_id varchar(20) NOT NULL,
-    age integer(3),
     name varchar(20),
+    age integer(3),
     PRIMARY KEY (person_id),
 )
 

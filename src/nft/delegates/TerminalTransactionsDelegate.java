@@ -1,6 +1,6 @@
 package nft.delegates;
 
-import nft.model.BuyerModel;
+import nft.model.DigitalContent;
 
 /**
  * This interface uses the delegation design pattern where instead of having
@@ -15,7 +15,7 @@ public interface TerminalTransactionsDelegate {
 	public void databaseSetup();
 	
 	public void deleteBranch(int branchId);
-	public void insertBranch(BuyerModel model);
+	public void insertBranch(DigitalContent model);
 	public void showBranch();
 	public void updateBranch(int branchId, String name);
 	

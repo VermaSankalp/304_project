@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import nft.delegates.TerminalTransactionsDelegate;
-import nft.model.BuyerModel;
+import nft.model.DigitalContent;
 
 /**
  * The class is only responsible for handling terminal text inputs. 
@@ -143,7 +143,7 @@ public class TerminalTransactions {
 			phoneNumber = readInteger(true);
 		}
 		
-		BuyerModel model = new BuyerModel(address,
+		DigitalContent model = new DigitalContent(address,
 											city,
 											id,
 											name,

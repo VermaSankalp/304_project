@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import nft.model.BuyerModel;
+import nft.model.DigitalContent;
 
 /**
  * This class handles all database related transactions
@@ -62,7 +62,7 @@ public class DatabaseConnectionHandler {
 		}
 	}
 	
-	public void insertBranch(BuyerModel model) {
+	public void insertBranch(DigitalContent model) {
 		try {
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO branch VALUES (?,?,?,?,?)");
 			ps.setInt(1, model.getId());
@@ -85,8 +85,8 @@ public class DatabaseConnectionHandler {
 		}
 	}
 	
-	public BuyerModel[] getBranchInfo() {
-		ArrayList<BuyerModel> result = new ArrayList<BuyerModel>();
+	public DigitalContent[] getBranchInfo() {
+		ArrayList<DigitalContent> result = new ArrayList<DigitalContent>();
 		
 		try {
 			Statement stmt = connection.createStatement();
@@ -104,7 +104,7 @@ public class DatabaseConnectionHandler {
 //    		}
 			
 			while(rs.next()) {
-				BuyerModel model = new BuyerModel(rs.getString("branch_addr"),
+				DigitalContent model = new DigitalContent(rs.getString("branch_addr"),
 													rs.getString("branch_city"),
 													rs.getInt("branch_id"),
 													rs.getString("branch_name"),
@@ -118,7 +118,7 @@ public class DatabaseConnectionHandler {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}	
 		
-		return result.toArray(new BuyerModel[result.size()]);
+		return result.toArray(new DigitalContent[result.size()]);
 	}
 	
 	public void updateBranch(int id, String name) {
@@ -177,10 +177,10 @@ public class DatabaseConnectionHandler {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}
 		
-		BuyerModel branch1 = new BuyerModel("123 Charming Ave", "Vancouver", 1, "First Branch", 1234567);
+		DigitalContent branch1 = new DigitalContent("123 Charming Ave", "Vancouver", 1, "First Branch", 1234567);
 		insertBranch(branch1);
 		
-		BuyerModel branch2 = new BuyerModel("123 Coco Ave", "Vancouver", 2, "Second Branch", 1234568);
+		DigitalContent branch2 = new DigitalContent("123 Coco Ave", "Vancouver", 2, "Second Branch", 1234568);
 		insertBranch(branch2);
 	}
 	
