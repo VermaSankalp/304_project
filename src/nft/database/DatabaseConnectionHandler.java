@@ -1,13 +1,11 @@
 package nft.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.math.BigDecimal;
+import java.sql.*;
 import java.util.ArrayList;
 
+import javafx.util.Pair;
+import nft.model.Buyers;
 import nft.model.DigitalContent;
 
 /**
@@ -83,6 +81,64 @@ public class DatabaseConnectionHandler {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 			rollbackConnection();
 		}
+	}
+
+	// find buyers with current bids > ?
+	public Buyers[] selectionBuyersWithBidsGreaterThan(BigDecimal bid) {
+		ArrayList<Buyers> result = new ArrayList<>();
+
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT b.buyerID FROM buyers b WHERE b.currentBid > ?");
+			ps.setBigDecimal(1, bid);
+
+			ps.execute();
+			ResultSet queryResult = ps.getResultSet();
+
+			String personID;
+			String buyerID;
+			BigDecimal currentBid;
+			while (queryResult.next()) {
+				personID = queryResult.getString("personID");
+				buyerID = queryResult.getString("buyerID");
+				currentBid = queryResult.getBigDecimal("currentBid");
+				result.add(new Buyers(personID, buyerID, currentBid));
+			}
+
+			ps.close();
+			queryResult.close();
+
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+		return result.toArray(new Buyers[0]);
+	}
+
+	// find all buyers that own NFTS
+	public Buyers[] divisionAllBuyersWithCurrentBid() {
+		ArrayList<Buyers> result = new ArrayList<>();
+
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT b.buyerID FROM buyers b WHERE NOT EXISTS (SELECT o.personID FROM NFTOwns o WHERE o.personID <> b.personID");
+
+			ps.execute();
+			ResultSet queryResult = ps.getResultSet();
+
+			String personID;
+			String buyerID;
+			BigDecimal currentBid;
+			while (queryResult.next()) {
+				personID = queryResult.getString("personID");
+				buyerID = queryResult.getString("buyerID");
+				currentBid = queryResult.getBigDecimal("currentBid");
+				result.add(new Buyers(personID, buyerID, currentBid));
+			}
+
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+		return result.toArray(new Buyers[0]);
 	}
 	
 	public String projection(String table, ArrayList<String> attributes) {
