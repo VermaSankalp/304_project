@@ -116,7 +116,7 @@ public class DatabaseConnectionHandler {
 	}
 
 	// find everyone that own NFTs
-	public People[] divisionAllBuyersWithCurrentBid() {
+	public People[] divisionAllNFTOwners() {
 		ArrayList<People> result = new ArrayList<>();
 
 		try {
