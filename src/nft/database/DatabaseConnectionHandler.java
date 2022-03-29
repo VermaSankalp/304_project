@@ -85,6 +85,91 @@ public class DatabaseConnectionHandler {
 		}
 	}
 	
+	public String projection(String table, ArrayList<String> attributes) {
+		String finalResult = null;
+		try {
+			StringBuilder result = new StringBuilder(10000);
+			int tupleCount = 1;
+
+			PreparedStatement ps = connection.prepareStatement("SELECT ? FROM ?");
+			ps.setArray(1, (Array) attributes);
+			ps.setString(2, table);
+
+			ps.execute();
+			ResultSet queryResult = ps.getResultSet();
+
+			while (queryResult.next()) {
+				result.append(tupleCount).append(") ");
+				for (int i = 0; i < attributes.size(); ++i) {
+					result.append(attributes.get(i)).append("= ").append(queryResult.getString(attributes.get(i))).append(" ");
+				}
+				result.append("\n");
+				++tupleCount;
+			}
+
+			connection.commit();
+			ps.close();
+			queryResult.close();
+
+			finalResult = result.toString();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+		return finalResult;
+	}
+
+	public String aggregation() {
+		String finalResult = null;
+		try {
+			StringBuilder result = new StringBuilder(10000);
+
+			Statement stmt = connection.createStatement();
+			ResultSet queryResult = stmt.executeQuery("SELECT COUNT(*) FROM buyers");
+
+			while (queryResult.next()) {
+				result.append(queryResult.getInt(0));
+			}
+
+			stmt.close();
+			queryResult.close();
+
+			finalResult = result.toString();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+		return finalResult;
+	}
+
+	public String aggregationWithGroupBy() {
+		String finalResult = null;
+		try {
+			StringBuilder result = new StringBuilder(10000);
+			int tupleCount = 1;
+
+			Statement stmt = connection.createStatement();
+			ResultSet queryResult = stmt.executeQuery("SELECT currency, AVG(nft_quantity) FROM host_website GROUP BY currency");
+
+			while (queryResult.next()) {
+				result.append(tupleCount).append(") ");
+				result.append("Currency: ").append(queryResult.getString(0));
+				result.append("Average number of NFTs: ").append(queryResult.getString(1));
+				result.append("\n");
+				++tupleCount;
+			}
+
+			stmt.close();
+			queryResult.close();
+
+			finalResult = result.toString();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+		return finalResult;
+	}
+	
 	public DigitalContent[] getBranchInfo() {
 		ArrayList<DigitalContent> result = new ArrayList<DigitalContent>();
 		
