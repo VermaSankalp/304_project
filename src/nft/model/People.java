@@ -1,7 +1,10 @@
 package nft.model;
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> cd4aeff8611e6e4ddd7fa2a08973186bae491b74
 public class People {
     private final String personID;
     private final String name;

@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import javafx.util.Pair;
+<<<<<<< HEAD
 import nft.model.Buyers;
 import nft.model.Collaterals;
 import nft.model.DigitalContent;
@@ -13,6 +14,9 @@ import nft.model.HostWebsite;
 import nft.model.NFTOwns;
 import nft.model.People;
 import nft.model.Sellers;
+=======
+import nft.model.*;
+>>>>>>> cd4aeff8611e6e4ddd7fa2a08973186bae491b74
 
 /**
  * This class handles all database related transactions
@@ -84,6 +88,25 @@ public class DatabaseConnectionHandler {
 		}
 	}
 
+	public void deleteHostWebsite(String domain) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM host_website WHERE domain = ?");
+			ps.setString(1, domain);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + domain + " does not exist!");
+			}
+
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
 	public void insertPeople(People model) {
 		try {
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO people VALUES (?,?,?)");
@@ -92,6 +115,25 @@ public class DatabaseConnectionHandler {
 			ps.setInt(3, model.getAge());
 
 			ps.executeUpdate();
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void deletePeople(String personID) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM people WHERE personID = ?");
+			ps.setString(1, personID);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + personID + " does not exist!");
+			}
+
 			connection.commit();
 
 			ps.close();
@@ -118,6 +160,25 @@ public class DatabaseConnectionHandler {
 		}
 	}
 
+	public void deleteBuyers(String personID) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM buyers WHERE personID = ?");
+			ps.setString(1, personID);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + personID + " does not exist!");
+			}
+
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
 	public void insertSellers(Sellers model) {
 		try {
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO sellers VALUES (?,?,?)");
@@ -126,6 +187,25 @@ public class DatabaseConnectionHandler {
 			ps.setBigDecimal(3, model.getCurrentBid());
 
 			ps.executeUpdate();
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void deleteSellers(String personID) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM sellers WHERE personID = ?");
+			ps.setString(1, personID);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + personID + " does not exist!");
+			}
+
 			connection.commit();
 
 			ps.close();
@@ -152,6 +232,25 @@ public class DatabaseConnectionHandler {
 		}
 	}
 
+	public void deleteNFTOwns(String tokenID) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM buyers WHERE tokenID = ?");
+			ps.setString(1, tokenID);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + tokenID + " does not exist!");
+			}
+
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
 	public void insertDigitalContent(DigitalContent model) {
 		try {
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO digital_content VALUES (?,?,?)");
@@ -160,6 +259,25 @@ public class DatabaseConnectionHandler {
 			ps.setString(3, model.getFileFormat());
 
 			ps.executeUpdate();
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void deleteDigitalContent(String tokenID) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM digital_content WHERE tokenID = ?");
+			ps.setString(1, tokenID);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + tokenID + " does not exist!");
+			}
+
 			connection.commit();
 
 			ps.close();
@@ -188,6 +306,25 @@ public class DatabaseConnectionHandler {
 		}
 	}
 
+	public void deleteCollaterals(String tokenID) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM collaterals WHERE tokenID = ?");
+			ps.setString(1, tokenID);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + tokenID + " does not exist!");
+			}
+
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
 	public void insertGaming(Gaming model) {
 		try {
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO gaming VALUES (?,?,?)");
@@ -196,6 +333,25 @@ public class DatabaseConnectionHandler {
 			ps.setString(3, model.getPublisher());
 
 			ps.executeUpdate();
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void deleteGaming(String tokenID) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM buyers WHERE domain = ?");
+			ps.setString(1, tokenID);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + tokenID + " does not exist!");
+			}
+
 			connection.commit();
 
 			ps.close();
