@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javafx.util.Pair;
 import nft.model.Buyers;
 import nft.model.DigitalContent;
+import nft.model.People;
 
 /**
  * This class handles all database related transactions
@@ -114,31 +115,31 @@ public class DatabaseConnectionHandler {
 		return result.toArray(new Buyers[0]);
 	}
 
-	// find all buyers that own NFTS
-	public Buyers[] divisionAllBuyersWithCurrentBid() {
-		ArrayList<Buyers> result = new ArrayList<>();
+	// find everyone that own NFTs
+	public People[] divisionAllNFTOwners() {
+		ArrayList<People> result = new ArrayList<>();
 
 		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT b.buyerID FROM buyers b WHERE NOT EXISTS (SELECT o.personID FROM NFTOwns o WHERE o.personID <> b.personID");
+			PreparedStatement ps = connection.prepareStatement("SELECT p.personID FROM People p WHERE NOT EXISTS (SELECT o.personID FROM NFTOwns o WHERE o.personID <> p.personID");
 
 			ps.execute();
 			ResultSet queryResult = ps.getResultSet();
 
 			String personID;
-			String buyerID;
-			BigDecimal currentBid;
+			String name;
+			Integer age;
 			while (queryResult.next()) {
 				personID = queryResult.getString("personID");
-				buyerID = queryResult.getString("buyerID");
-				currentBid = queryResult.getBigDecimal("currentBid");
-				result.add(new Buyers(personID, buyerID, currentBid));
+				name = queryResult.getString("name");
+				age = queryResult.getInt("age");
+				result.add(new People(personID, name, age));
 			}
 
 		} catch (SQLException e) {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 			rollbackConnection();
 		}
-		return result.toArray(new Buyers[0]);
+		return result.toArray(new People[0]);
 	}
 	
 	public String projection(String table, ArrayList<String> attributes) {
