@@ -136,7 +136,7 @@ public class NFTDigitalContentPopUp {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /* need to add deleteGaming here method, after they finish implementing that */
+                dHandler.deleteDigitalContent(insertedTokenID);
             }
         });
         updateButton.addActionListener(new ActionListener() {

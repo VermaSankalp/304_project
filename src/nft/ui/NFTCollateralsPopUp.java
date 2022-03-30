@@ -152,7 +152,7 @@ public class NFTCollateralsPopUp {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /* need to add deleteCollateral here method, after they finish implementing that */
+                dHandler.deleteCollaterals(insertedTokenID);
             }
         });
         updateButton.addActionListener(new ActionListener() {

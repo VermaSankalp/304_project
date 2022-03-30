@@ -139,7 +139,7 @@ public class NFTOwnersPopUp {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /* need to add deleteOwner here method, after they finish implementing that */
+                dHandler.deleteNFTOwns(insertedTokenID);
             }
         });
         updateButton.addActionListener(new ActionListener() {

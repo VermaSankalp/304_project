@@ -150,7 +150,7 @@ public class NFTBuyersPopUp {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /* need to add deleteBuyer here method, after they finish implementing that */
+                dHandler.deleteBuyers(insertedPersonID);
             }
         });
         updateButton.addActionListener(new ActionListener() {

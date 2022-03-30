@@ -5,18 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import javafx.util.Pair;
-<<<<<<< HEAD
-import nft.model.Buyers;
-import nft.model.Collaterals;
-import nft.model.DigitalContent;
-import nft.model.Gaming;
-import nft.model.HostWebsite;
-import nft.model.NFTOwns;
-import nft.model.People;
-import nft.model.Sellers;
-=======
 import nft.model.*;
->>>>>>> cd4aeff8611e6e4ddd7fa2a08973186bae491b74
 
 /**
  * This class handles all database related transactions
