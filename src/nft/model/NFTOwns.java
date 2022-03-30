@@ -7,14 +7,14 @@ public class NFTOwns {
     private final String tokenID;
     private final String personID;
     private final String tokenType;
-    private final Date publishedOn;
 
-    public NFTOwns(String tokenID, String personID, String tokenType, Date publishedOn) {
+
+    public NFTOwns(String tokenID, String personID, String tokenType) {
         this.tokenID = tokenID;
         this.personID = personID;
         this.tokenType = tokenType;
-        this.publishedOn = publishedOn;
     }
+
 
     public String getTokenID() {
         return tokenID;
@@ -28,7 +28,4 @@ public class NFTOwns {
         return tokenType;
     }
 
-    public Date getPublishedOn() {
-        return publishedOn;
-    }
 }

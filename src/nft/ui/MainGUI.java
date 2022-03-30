@@ -11,10 +11,7 @@ import java.awt.event.ActionListener;
 public class MainGUI {
     private JFrame GUIFrame;
 
-    //getters
-//    public Driver getDriver() {
-//        return this.driverSetUp;
-//    }
+
 
     //sets up and creates a new driver
     public MainGUI() {
@@ -72,7 +69,7 @@ public class MainGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIFrame.dispose();
-                new NFTDigitalContentPopUp();
+                new NFTGamingPopUp();
             }
         });
     }
@@ -84,7 +81,7 @@ public class MainGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIFrame.dispose();
-                new NFTDigitalContentPopUp();
+                new NFTCollateralsPopUp();
             }
         });
     }
@@ -96,7 +93,7 @@ public class MainGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIFrame.dispose();
-                new NFTDigitalContentPopUp();
+                new NFTOwnersPopUp();
             }
         });
     }
@@ -115,12 +112,11 @@ public class MainGUI {
 
     private void NFTBuyersButton(JButton NFTBuyers) {
         NFTBuyers.setBounds(135, 250, 80, 25);
-//        driverPanel.add(signIn);
         NFTBuyers.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GUIFrame.dispose();
-                new NFTCollateralsPopUp();
+                new NFTBuyersPopUp();
             }
         });
 
@@ -187,7 +183,6 @@ public class MainGUI {
 //                new NumberOfPackagesPopUp(driverSetUp);
 //            }
 //        });
-//
 //    }
 
     public static void main(String[] args) {

@@ -7,7 +7,7 @@ CREATE TABLE digital_content (
 
 CREATE TABLE collaterals (
     token_id varchar(20) NOT NULL,
-    type varchar(20),
+    tokenType varchar(20),
     loanee varchar(20),
     loaner varchar(20),
     token_rate decimal(10, 2),
@@ -16,10 +16,8 @@ CREATE TABLE collaterals (
 
 CREATE TABLE gaming (
     token_id varchar(20) NOT NULL,
-    type varchar(20),
-    loanee varchar(20),
-    loaner varchar(20),
-    token_rate decimal(15, 2),
+    game_id varchar(20),
+    publisher varchar(20),
     PRIMARY KEY (token_id),
 );
 
@@ -27,7 +25,6 @@ CREATE TABLE nft_owns (
     token_id varchar(20) NOT NULL,
     person_id varchar(20) NOT NULL,
     token_type varchar(20),
-    published_on date,
     PRIMARY KEY (token_id),
     FOREIGN KEY (person_id) REFERENCES sellers(person_id),
 )

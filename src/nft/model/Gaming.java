@@ -4,36 +4,26 @@ import java.math.BigDecimal;
 
 public class Gaming {
     private final String tokenID;
-    private final String type;
-    private final String loanee;
-    private final String loaner;
-    private final BigDecimal tokenRate;
+    private final String gameID;
+    private final String publisher;
 
-    public Gaming(String tokenID, String type, String loanee, String loaner, BigDecimal tokenRate) {
+
+    public Gaming(String tokenID, String gameID, String publisher) {
         this.tokenID = tokenID;
-        this.type = type;
-        this.loanee = loanee;
-        this.loaner = loaner;
-        this.tokenRate = tokenRate;
+        this.gameID = gameID;
+        this.publisher = publisher;
     }
 
     public String getTokenID() {
         return tokenID;
     }
 
-    public String getType() {
-        return type;
+    public String getGameID() {
+        return gameID;
     }
 
-    public String getLoanee() {
-        return loanee;
+    public String getPublisher() {
+        return publisher;
     }
 
-    public String getLoaner() {
-        return loaner;
-    }
-
-    public BigDecimal getTokenRate() {
-        return tokenRate;
-    }
 }
