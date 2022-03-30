@@ -61,18 +61,134 @@ public class DatabaseConnectionHandler {
 		}
 	}
 	
-	public void insertBranch(DigitalContent model) {
+	public void insertHostWebsite(HostWebsite model) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("INSERT INTO branch VALUES (?,?,?,?,?)");
-			ps.setInt(1, model.getId());
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO host_website VALUES (?,?,?,?)");
+			ps.setString(1, model.getDomain());
+			ps.setDate(2, (Date) model.getPublishedOn());
+			ps.setInt(3, model.getNFTQuantity());
+			ps.setString(4, model.getCurrency());
+
+			ps.executeUpdate();
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void insertPeople(People model) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO people VALUES (?,?,?)");
+			ps.setString(1, model.getPersonID());
 			ps.setString(2, model.getName());
-			ps.setString(3, model.getAddress());
-			ps.setString(4, model.getCity());
-			if (model.getPhoneNumber() == 0) {
-				ps.setNull(5, java.sql.Types.INTEGER);
-			} else {
-				ps.setInt(5, model.getPhoneNumber());
-			}
+			ps.setInt(3, model.getAge());
+
+			ps.executeUpdate();
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void insertBuyers(Buyers model) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO buyers VALUES (?,?,?)");
+			ps.setString(1, model.getPersonID());
+			ps.setString(2, model.getBuyerID());
+			ps.setBigDecimal(3, model.getCurrentBid());
+
+			ps.executeUpdate();
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void insertSellers(Sellers model) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO sellers VALUES (?,?,?)");
+			ps.setString(1, model.getPersonID());
+			ps.setString(2, model.getCAddress());
+			ps.setBigDecimal(3, model.getCurrentBid());
+
+			ps.executeUpdate();
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void insertNftOwns(NFTOwns model) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO nft_owns VALUES (?,?,?)");
+			ps.setString(1, model.getTokenID());
+			ps.setString(2, model.getPersonID());
+			ps.setString(3, model.getTokenType());
+
+			ps.executeUpdate();
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void insertDigitalContent(DigitalContent model) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO digital_content VALUES (?,?,?)");
+			ps.setString(1, model.getTokenID());
+			ps.setString(2, model.getCreator());
+			ps.setString(3, model.getFileFormat());
+
+			ps.executeUpdate();
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void insertCollaterals(Collaterals model) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO collaterals VALUES (?,?,?,?,?)");
+			ps.setString(1, model.getTokenID());
+			ps.setString(2, model.getType());
+			ps.setString(3, model.getLoanee());
+			ps.setString(4, model.getLoaner());
+			ps.setBigDecimal(5, model.getTokenRate());
+
+			ps.executeUpdate();
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void insertGaming(Gaming model) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO gaming VALUES (?,?,?)");
+			ps.setString(1, model.getTokenID());
+			ps.setString(2, model.getGameID());
+			ps.setString(3, model.getPublisher());
 
 			ps.executeUpdate();
 			connection.commit();
