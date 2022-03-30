@@ -3,24 +3,24 @@ package nft.ui;
 import javax.swing.*;
 
 import nft.database.DatabaseConnectionHandler;
-import nft.model.Buyers;
 import nft.model.Collaterals;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import java.math.BigDecimal;
 
 
+/* NFTCollaterals relation GUI with insert, delete, update, projection and selection methods */
 public class NFTCollateralsPopUp {
     private JFrame NFTBuyersFrame;
     private String table;
+    private DatabaseConnectionHandler dHandler;
 
     public NFTCollateralsPopUp() {
         NFTBuyersFrame = new JFrame();
         JPanel GUIPanel = new JPanel();
+        dHandler = new DatabaseConnectionHandler();
         GUIPanel.setBorder(BorderFactory.createEmptyBorder(100,100,100,100));
         GUIPanel.setBackground(Color.lightGray);
         GUIPanel.setLayout(new GridLayout(20,20));
@@ -35,22 +35,6 @@ public class NFTCollateralsPopUp {
         projectionAction(GUIPanel,NFTBuyersFrame, table);
         selectionAction(GUIPanel, NFTBuyersFrame);
         NFTBuyersFrame.setVisible(true);
-    }
-
-    private void divisionAction(JPanel panel, JFrame frame) {
-        JLabel projLabel = new JLabel("Show all buyers that own NFT's: ");
-        projLabel.setBounds(20, 90, 200, 25);
-        panel.add(projLabel);
-        
-        JButton submitDivision = new JButton("Submit");
-        panel.add(submitDivision);
-        submitDivision.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                new divisionPopUp();
-            }
-        });
     }
 
 
@@ -161,8 +145,8 @@ public class NFTCollateralsPopUp {
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Collaterals newCollateral = new Collaterals(insertedTokenID, insertedTokenType, insertedLoanee,insertedLoanerString,new BigDecimal(insertedTokenRate));
-                /* need to add insertCollateral here, after they finish implementing that */
+                Collaterals newCollaterals = new Collaterals(insertedTokenID, insertedTokenType, insertedLoanee,insertedLoanerString,new BigDecimal(insertedTokenRate));
+                dHandler.insertCollaterals(newCollaterals);
             }
         });
         deleteButton.addActionListener(new ActionListener() {
@@ -177,7 +161,6 @@ public class NFTCollateralsPopUp {
                 /* need to add updateColatteral here, after they finish implementing that */
             }
         });
-       
     }
 }
 

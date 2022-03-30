@@ -6,15 +6,20 @@ import java.util.ArrayList;
 
 import javafx.util.Pair;
 import nft.model.Buyers;
+import nft.model.Collaterals;
 import nft.model.DigitalContent;
+import nft.model.Gaming;
+import nft.model.HostWebsite;
+import nft.model.NFTOwns;
 import nft.model.People;
+import nft.model.Sellers;
 
 /**
  * This class handles all database related transactions
  */
 public class DatabaseConnectionHandler {
 	// Use this version of the ORACLE_URL if you are running the code off of the server
-//	private static final String ORACLE_URL = "jdbc:oracle:thin:@dbhost.students.cs.ubc.ca:1522:stu";
+	//	private static final String ORACLE_URL = "jdbc:oracle:thin:@dbhost.students.cs.ubc.ca:1522:stu";
 	// Use this version of the ORACLE_URL if you are tunneling into the undergrad servers
 	private static final String ORACLE_URL = "jdbc:oracle:thin:@localhost:1522:stu";
 	private static final String EXCEPTION_TAG = "[EXCEPTION]";

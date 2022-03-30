@@ -1,7 +1,5 @@
 package nft.model;
 
-import java.math.BigDecimal;
-
 public class Gaming {
     private final String tokenID;
     private final String gameID;

@@ -3,26 +3,24 @@ package nft.ui;
 import javax.swing.*;
 
 import nft.database.DatabaseConnectionHandler;
-import nft.model.Buyers;
-import nft.model.Collaterals;
 import nft.model.DigitalContent;
-import nft.model.Gaming;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import java.math.BigDecimal;
 
-
+/* NFTDigitalContent relation GUI with insert, delete, update, projection and selection methods */
 public class NFTDigitalContentPopUp {
     private JFrame NFTBuyersFrame;
     private String table;
+    private DatabaseConnectionHandler dHandler;
 
     public NFTDigitalContentPopUp() {
         NFTBuyersFrame = new JFrame();
         JPanel GUIPanel = new JPanel();
+
+        dHandler = new DatabaseConnectionHandler();
         GUIPanel.setBorder(BorderFactory.createEmptyBorder(100,100,100,100));
         GUIPanel.setBackground(Color.lightGray);
         GUIPanel.setLayout(new GridLayout(20,20));
@@ -132,7 +130,7 @@ public class NFTDigitalContentPopUp {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DigitalContent newDigitalContent = new DigitalContent(insertedTokenID, insertedCreator, insertedPublisher);
-                /* need to add insertGame here, after they finish implementing that */
+                dHandler.insertDigitalContent(newDigitalContent);
             }
         });
         deleteButton.addActionListener(new ActionListener() {

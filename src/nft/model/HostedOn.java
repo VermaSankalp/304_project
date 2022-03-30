@@ -1,6 +1,5 @@
 package nft.model;
 
-import java.math.BigDecimal;
 
 public class HostedOn {
     private final String domain;

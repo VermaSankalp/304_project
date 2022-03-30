@@ -3,11 +3,10 @@ package nft.ui;
 import javax.swing.*;
 
 import nft.database.DatabaseConnectionHandler;
-import nft.model.Buyers;
-
+import nft.model.People;
 import java.awt.*;
-import java.util.ArrayList;
 
+/* This class is responsible for handling division requests and print the result on a JPanel */
 public class divisionPopUp {
     private String returnedBuyers;
   
@@ -32,7 +31,7 @@ public class divisionPopUp {
 
     private void addDivisionString(JPanel panel) {
         DatabaseConnectionHandler dHandler = new DatabaseConnectionHandler();
-        Buyers[] returned = dHandler.divisionAllBuyersWithCurrentBid();
+        People[] returned = dHandler.divisionAllNFTOwners();
         for (int i=0; i<returned.length; i++) {
             returnedBuyers = returned[i].getPersonID() + "\n";
         }

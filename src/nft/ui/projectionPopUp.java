@@ -7,6 +7,7 @@ import nft.database.DatabaseConnectionHandler;
 import java.awt.*;
 import java.util.ArrayList;
 
+/* This class is responsible for handling relation Projection */
 public class projectionPopUp {
   
     public projectionPopUp(ArrayList<String> columns, String table) {

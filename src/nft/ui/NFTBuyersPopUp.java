@@ -2,24 +2,25 @@ package nft.ui;
 
 import javax.swing.*;
 
+
 import nft.database.DatabaseConnectionHandler;
 import nft.model.Buyers;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import java.math.BigDecimal;
 
-
+/* NFTBuyers relation GUI with insert, delete, update, division, projection and selection methods */
 public class NFTBuyersPopUp {
     private JFrame NFTBuyersFrame;
     private String table;
+    private DatabaseConnectionHandler dHandler;
 
     public NFTBuyersPopUp() {
         NFTBuyersFrame = new JFrame();
         JPanel GUIPanel = new JPanel();
+        dHandler = new DatabaseConnectionHandler();
         GUIPanel.setBorder(BorderFactory.createEmptyBorder(100,100,100,100));
         GUIPanel.setBackground(Color.lightGray);
         GUIPanel.setLayout(new GridLayout(20,20));
@@ -98,7 +99,6 @@ public class NFTBuyersPopUp {
                 frame.dispose();
                 BigDecimal inputBigDecimal = new BigDecimal(chosenBid);
                 new selectionPopUp(inputBigDecimal);
-                /* need to add projection method here, after they finish implementing that */
             }
         });
 
@@ -144,7 +144,7 @@ public class NFTBuyersPopUp {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Buyers newBuyer = new Buyers(insertedPersonID, insertedBuyerID, new BigDecimal(insertedBid));
-                /* need to add insertBuyer here, after they finish implementing that */
+                dHandler.insertBuyers(newBuyer);
             }
         });
         deleteButton.addActionListener(new ActionListener() {

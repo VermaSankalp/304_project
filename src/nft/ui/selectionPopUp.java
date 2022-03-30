@@ -8,7 +8,7 @@ import nft.model.Buyers;
 import java.awt.*;
 import java.math.BigDecimal;
 
-
+/* This class is responsible for handling relation Selection */
 public class selectionPopUp {
     private String returnedString;
   

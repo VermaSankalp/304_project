@@ -1,14 +1,11 @@
 package nft.ui;
 
 import nft.database.DatabaseConnectionHandler;
-import nft.model.Buyers;
 import nft.model.NFTOwns;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,17 +13,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import java.awt.event.ActionEvent;
-import java.math.BigDecimal;
 
+
+import java.awt.event.ActionEvent;
+
+
+/* NFTOwners relation GUI with insert, delete, update, projection and selection methods */
 public class NFTOwnersPopUp {
     private JFrame NFTOwnersFrame;
     private String table;
+    private DatabaseConnectionHandler dHandler;
 
 
     public NFTOwnersPopUp() {
         NFTOwnersFrame = new JFrame();
         JPanel GUIPanel = new JPanel();
+        dHandler = new DatabaseConnectionHandler();
         GUIPanel.setBorder(BorderFactory.createEmptyBorder(100,100,100,100));
         GUIPanel.setBackground(Color.lightGray);
         GUIPanel.setLayout(new GridLayout(20,20));
@@ -86,7 +88,6 @@ public class NFTOwnersPopUp {
                 frame.dispose();
                 BigDecimal inputBigDecimal = new BigDecimal(chosenBid);
                 new selectionPopUp(inputBigDecimal);
-                /* need to add projection method here, after they finish implementing that */
             }
         });
 
@@ -132,7 +133,7 @@ public class NFTOwnersPopUp {
             @Override
             public void actionPerformed(ActionEvent e) {
                 NFTOwns newOwner = new NFTOwns(insertedTokenID, insertedPersonID, insertedTokenType);
-                /* need to add insertOwner here, after they finish implementing that */
+                dHandler.insertNftOwns(newOwner);
             }
         });
         deleteButton.addActionListener(new ActionListener() {
