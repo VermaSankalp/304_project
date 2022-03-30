@@ -1,7 +1,5 @@
 package nft.model;
 
-import java.math.BigDecimal;
-
 public class People {
     private final String personID;
     private final String name;
