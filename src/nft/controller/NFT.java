@@ -3,6 +3,7 @@
  import nft.database.DatabaseConnectionHandler;
  import nft.delegates.LoginWindowDelegate;
  import nft.delegates.TerminalTransactionsDelegate;
+ import nft.model.Collaterals;
  import nft.model.DigitalContent;
  import nft.ui2.LoginWindow;
  import nft.ui2.TerminalTransactions;
@@ -77,7 +78,7 @@
      	dbHandler.updateDigitalContent(tokenId, name, fileFormat);
      }
 
-     /**
+	 /**
  	 * TermainalTransactionsDelegate Implementation
  	 *
  	 * Displays information about varies bank branches.
@@ -92,22 +93,39 @@
      		System.out.printf("%-10.10s", model.getTokenID());
      		System.out.printf("%-20.20s", model.getCreator());
 			System.out.printf("%-30.30s", model.getFileFormat());
-//     		if (model.getAddress() == null) {
-//     			System.out.printf("%-20.20s", " ");
-//     		} else {
-//     			System.out.printf("%-20.20s", model.getAddress());
-//     		}
-//     		System.out.printf("%-15.15s", model.getCity());
-//     		if (model.getPhoneNumber() == 0) {
-//     			System.out.printf("%-15.15s", " ");
-//     		} else {
-//     			System.out.printf("%-15.15s", model.getPhoneNumber());
-//     		}
     		
      		System.out.println();
      	}
      }
 
+	 public void deleteCollaterals(String tokenID) {
+		 dbHandler.deleteCollaterals(tokenID);
+	 }
+
+	 public void insertCollaterals(Collaterals model) {
+		 dbHandler.insertCollaterals(model);
+	 }
+
+	 public void showCollaterals() {
+		 Collaterals[] models = dbHandler.getCollateralsInfo();
+
+		 for (int i = 0; i < models.length; i++) {
+			 Collaterals model = models[i];
+
+			 // simplified output formatting; truncation may occur
+			 System.out.printf("%-10.10s", model.getTokenID());
+			 System.out.printf("%-20.20s", model.getTokenType());
+			 System.out.printf("%-30.30s", model.getLoanee());
+			 System.out.printf("%-40.40s", model.getLoaner());
+			 System.out.printf("%-50.50s", model.getTokenRate());
+
+			 System.out.println();
+		 }
+	 }
+
+	 public void updateCollaterals(String tokenId, String tokenType, String loanee, String loaner, int tokenRate) {
+		 dbHandler.updateCollaterals(tokenId, tokenType, loanee, loaner, tokenRate);
+	 }
 
 
 	 /**

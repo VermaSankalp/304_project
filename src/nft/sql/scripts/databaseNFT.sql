@@ -1,17 +1,18 @@
 CREATE TABLE digital_content (
-    token_id varchar2(20) not null PRIMARY KEY,
-    creator varchar2(20),
-    file_format varchar2(20)
-    -- PRIMARY KEY (token_id)
+    token_id varchar(20) NOT NULL,
+    creator varchar(20),
+    file_format varchar(20),
+    PRIMARY KEY (token_id);
 );
 
 CREATE TABLE collaterals (
     token_id varchar(20) NOT NULL,
-    tokenType varchar(20),
+    token_type varchar(20),
     loanee varchar(20),
     loaner varchar(20),
-    token_rate decimal(10, 2),
-    PRIMARY KEY (token_id)
+    -- token_rate decimal(10, 2),
+    token_rate int;
+    PRIMARY KEY (token_id);
 );
 
 CREATE TABLE gaming (

@@ -1,11 +1,14 @@
 package nft.ui2;
 
 import nft.delegates.TerminalTransactionsDelegate;
+import nft.model.Collaterals;
 import nft.model.DigitalContent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.util.Objects;
 
 public class TerminalTransactions {
     private static final String EXCEPTION_TAG = "[EXCEPTION]";
@@ -63,10 +66,13 @@ public class TerminalTransactions {
             System.out.println();
             System.out.println("1. Insert Digital Content");
             System.out.println("2. Delete Digital Content");
-            System.out.println("3. Update Digital Content name");
+            System.out.println("3. Update Digital Content");
             System.out.println("4. Show Digital Content");
-            System.out.println("5. Quit");
-            System.out.print("Please choose one of the above 5 options: ");
+            System.out.println("5. Insert Collaterals");
+            System.out.println("6. Delete Collaterals");
+            System.out.println("7. Update Collaterals");
+            System.out.println("8. Show Collaterals");
+            System.out.println("0. Quit");
 
             choice = readInteger(false);
 
@@ -75,18 +81,30 @@ public class TerminalTransactions {
             if (choice != INVALID_INPUT) {
                 switch (choice) {
                     case 1:
-                        handleInsertOption();
+                        handleInsertOptionDigitalContent();
                         break;
                     case 2:
-                        handleDeleteOption();
+                        handleDeleteOptionDigitalContent();
                         break;
                     case 3:
-                        handleUpdateOption();
+                        handleUpdateOptionDigitalContent();
                         break;
                     case 4:
                         delegate.showDigitalContent();
                         break;
                     case 5:
+                        handleInsertOptionCollaterals();
+                        break;
+                    case 6:
+                        handleDeleteOptionCollaterals();
+                        break;
+                    case 7:
+                        handleUpdateOptionCollaterals();
+                        break;
+                    case 8:
+                        delegate.showCollaterals();
+                        break;
+                    case 0:
                         handleQuitOption();
                         break;
                     default:
@@ -97,7 +115,30 @@ public class TerminalTransactions {
         }
     }
 
-    private void handleDeleteOption() {
+    private void handleInsertOptionDigitalContent() {
+        String tokenId = "";
+        while (tokenId == "") {
+            System.out.print("Please enter the Digital Content ID you wish to insert: ");
+            tokenId = readLine().trim();
+        }
+
+        String creator = "";
+        while (creator == "") {
+            System.out.print("Please enter the creator name you wish to insert: ");
+            creator = readLine().trim();
+        }
+
+        String fileFormat = "";
+        while (fileFormat == "") {
+            System.out.print("Please enter the file format you wish to insert: ");
+            fileFormat = readLine().trim();
+        }
+
+        DigitalContent model = new DigitalContent(tokenId, creator, fileFormat);
+        delegate.insertDigitalContent(model);
+    }
+
+    private void handleDeleteOptionDigitalContent() {
         String tokenId = "";
         while (tokenId == "") {
             System.out.print("Please enter the Digital Content ID you wish to delete: ");
@@ -108,40 +149,106 @@ public class TerminalTransactions {
         }
     }
 
-    private void handleInsertOption() {
-        String id = "";
-        while (id == "") {
-            System.out.print("Please enter the Digital Content ID you wish to insert: ");
-            id = readLine().trim();
+    private void handleUpdateOptionDigitalContent() {
+        String tokenId = "";
+        while (tokenId == "") {
+            System.out.print("Please enter the digital content ID you wish to update: ");
+            tokenId = readLine().trim();
         }
 
-        String creator = null;
-        while (creator == null || creator.length() <= 0) {
-            System.out.print("Please enter the creator name you wish to insert: ");
+        String creator = "";
+        while (creator == "") {
+            System.out.print("Please enter new digital content creator: ");
             creator = readLine().trim();
         }
 
-        // branch fileFormat is allowed to be null so we don't need to repeatedly ask for the fileFormat
-        System.out.print("Please enter the file format you wish to insert: ");
-        String fileFormat = readLine().trim();
-        if (fileFormat.length() == 0) {
-            fileFormat = null;
+        String tokenType = "";
+        while (tokenType == "") {
+            System.out.print("Please enter new digital content token type: ");
+            tokenType = readLine().trim();
         }
 
-//        String city = null;
-//        while (city == null || city.length() <= 0) {
-//            System.out.print("Please enter the branch city you wish to insert: ");
-//            city = readLine().trim();
-//        }
-//
-//        int phoneNumber = INVALID_INPUT;
-//        while (phoneNumber == INVALID_INPUT) {
-//            System.out.print("Please enter the branch phone number you wish to insert: ");
-//            phoneNumber = readInteger(true);
-//        }
+        delegate.updateDigitalContent(tokenId, creator, tokenType);
+    }
 
-        DigitalContent model = new DigitalContent(id, creator, fileFormat);
-        delegate.insertDigitalContent(model);
+    private void handleInsertOptionCollaterals() {
+        String tokenId = "";
+        while (tokenId == "") {
+            System.out.print("Please enter the Collaterals ID you wish to insert: ");
+            tokenId = readLine().trim();
+        }
+
+        String tokenType = "";
+        while (tokenType == "") {
+            System.out.print("Please enter the tokenType name you wish to insert: ");
+            tokenType = readLine().trim();
+        }
+
+        String loanee = "";
+        while (loanee == "") {
+            System.out.print("Please enter the loanee name you wish to insert: ");
+            loanee = readLine().trim();
+        }
+
+        String loaner = "";
+        while (loaner == "") {
+            System.out.print("Please enter the loaner name you wish to insert: ");
+            loaner = readLine().trim();
+        }
+
+        int tokenRate = INVALID_INPUT;
+        while (tokenRate == INVALID_INPUT) {
+            System.out.print("Please enter the token rate you wish to insert: ");
+            tokenRate = readInteger(false);
+        }
+
+        Collaterals model = new Collaterals(tokenId, tokenType, loanee, loaner, tokenRate);
+        delegate.insertCollaterals(model);
+    }
+
+    private void handleDeleteOptionCollaterals() {
+        String tokenId = "";
+        while (tokenId == "") {
+            System.out.print("Please enter the Collaterals ID you wish to delete: ");
+            tokenId = readLine().trim();
+            if (tokenId != "") {
+                delegate.deleteCollaterals(tokenId);
+            }
+        }
+    }
+
+    private void handleUpdateOptionCollaterals() {
+        String tokenId = "";
+        while (tokenId == "") {
+            System.out.print("Please enter the Collaterals ID you wish to update: ");
+            tokenId = readLine().trim();
+        }
+
+        String tokenType = "";
+        while (tokenType == "") {
+            System.out.print("Please enter new token type: ");
+            tokenType = readLine().trim();
+        }
+
+        String loanee = "";
+        while (loanee == "") {
+            System.out.print("Please enter new loanee: ");
+            loanee = readLine().trim();
+        }
+
+        String loaner = "";
+        while (loaner == "") {
+            System.out.print("Please enter new loaner: ");
+            loaner = readLine().trim();
+        }
+
+        int tokenRate = INVALID_INPUT;
+        while (tokenRate == INVALID_INPUT) {
+            System.out.print("Please enter the new token rate: ");
+            tokenRate = readInteger(false);
+        }
+
+        delegate.updateCollaterals(tokenId, tokenType, loanee, loaner, tokenRate);
     }
 
     private void handleQuitOption() {
@@ -158,28 +265,6 @@ public class TerminalTransactions {
         delegate.terminalTransactionsFinished();
     }
 
-    private void handleUpdateOption() {
-        String tokenId = "";
-        while (tokenId == "") {
-            System.out.print("Please enter the digital content ID you wish to update: ");
-            tokenId = readLine().trim();
-        }
-
-        String creator = "";
-        while (creator == "") {
-            System.out.print("Please enter new digital content creator you wish to update: ");
-            creator = readLine().trim();
-        }
-
-        String tokenType = "";
-        while (tokenType == "") {
-            System.out.print("Please enter new digital content token type you wish to update: ");
-            tokenType = readLine().trim();
-        }
-
-        delegate.updateDigitalContent(tokenId, creator, tokenType);
-    }
-
     private int readInteger(boolean allowEmpty) {
         String line = null;
         int input = INVALID_INPUT;
@@ -193,6 +278,24 @@ public class TerminalTransactions {
                 input = EMPTY_INPUT;
             } else {
                 System.out.println(WARNING_TAG + " Your input was not an integer");
+            }
+        }
+        return input;
+    }
+
+    private BigDecimal readBigInteger(boolean allowEmpty) {
+        String line = null;
+        BigDecimal input = null;
+        try {
+            line = bufferedReader.readLine();
+            input = new BigDecimal(line);
+        } catch (IOException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        } catch (NumberFormatException e) {
+            if (allowEmpty && line.length() == 0) {
+                input = null;
+            } else {
+                System.out.println(WARNING_TAG + " Your input was not correct");
             }
         }
         return input;

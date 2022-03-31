@@ -284,10 +284,10 @@ public class DatabaseConnectionHandler {
 		try {
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO collaterals VALUES (?,?,?,?,?)");
 			ps.setString(1, model.getTokenID());
-			ps.setString(2, model.getType());
+			ps.setString(2, model.getTokenType());
 			ps.setString(3, model.getLoanee());
 			ps.setString(4, model.getLoaner());
-			ps.setBigDecimal(5, model.getTokenRate());
+			ps.setInt(5, model.getTokenRate());
 
 			ps.executeUpdate();
 			connection.commit();
@@ -352,6 +352,37 @@ public class DatabaseConnectionHandler {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 			rollbackConnection();
 		}
+	}
+
+	public String join() {
+		String finalResult = null;
+		try {
+			StringBuilder result = new StringBuilder(10000);
+			int tupleCount = 1;
+
+			Statement stmt = connection.createStatement();
+			ResultSet queryResult = stmt.executeQuery("SELECT * FROM sellers S, buyers B WHERE S.person_id = B.person_id");
+
+			while (queryResult.next()) {
+				result.append(tupleCount).append(") ");
+				result.append("Person_id: ").append(queryResult.getString("person_id"));
+				result.append("c_address: ").append(queryResult.getString("c_address"));
+				result.append("nft_quantity: ").append(queryResult.getString("nft_quantity"));
+				result.append("buyer_id: ").append(queryResult.getString("buyer_id"));
+				result.append("current_bid: ").append(queryResult.getString("current_bid"));
+				result.append("\n");
+				++tupleCount;
+			}
+
+			stmt.close();
+			queryResult.close();
+
+			finalResult = result.toString();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+		return finalResult;
 	}
 
 	// find buyers with current bids > ?
@@ -598,13 +629,13 @@ public class DatabaseConnectionHandler {
 		}
 	}
 
-	public void updateCollaterals(String tokenID, String type, String loanee, String loaner, BigDecimal tokenRate) {
+	public void updateCollaterals(String tokenID, String type, String loanee, String loaner, int tokenRate) {
 		try {
 			PreparedStatement ps = connection.prepareStatement("UPDATE collaterals SET loanee = ?, loaner = ?, type = ?, token_rate = ? WHERE token_id = ?");
 			ps.setString(1, loanee);
 			ps.setString(2, loaner);
 			ps.setString(3, type);
-			ps.setBigDecimal(4, tokenRate);
+			ps.setInt(4, tokenRate);
 			ps.setString(5, tokenID);
 
 			int rowCount = ps.executeUpdate();
@@ -685,17 +716,17 @@ public class DatabaseConnectionHandler {
 	}
 	
 	public void databaseSetup() {
-		dropDigitalContentTableIfExists();
+		dropTableIfExists();
 
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("CREATE TABLE digital_content (token_id varchar2(20) not null PRIMARY KEY, creator varchar(20), file_format varchar2(20))");
-//			stmt.executeUpdate("CREATE TABLE collaterals (token_id varchar(20) NOT NULL," +
-//					"    tokenType varchar(20)," +
-//					"    loanee varchar(20)," +
-//					"    loaner varchar(20)," +
-//					"    token_rate decimal(10, 2)," +
-//					"    PRIMARY KEY (token_id))");
+			stmt.executeUpdate("CREATE TABLE digital_content (token_id varchar(20) NOT NULL, creator varchar(20), file_format varchar(20), PRIMARY KEY (token_id))");
+			stmt.executeUpdate("CREATE TABLE collaterals (token_id varchar(20) NOT NULL," +
+					"    token_type varchar(20)," +
+					"    loanee varchar(20)," +
+					"    loaner varchar(20)," +
+					"    token_rate int," +
+					"    PRIMARY KEY (token_id))");
 //			stmt.executeUpdate("CREATE TABLE gaming (token_id varchar(20) NOT NULL," +
 //					"    game_id varchar(20)," +
 //					"    publisher varchar(20)," +
@@ -771,9 +802,9 @@ public class DatabaseConnectionHandler {
 
 		DigitalContent digitalContent1 = new DigitalContent("ilpoi", "Bill russ", "mp4");
 		insertDigitalContent(digitalContent1);
-//
-//		Collaterals collateral1 = new Collaterals("cvbnm", "Bank", "ubc", "scotia", new BigDecimal(30));
-//		insertCollaterals(collateral1);
+
+		Collaterals collateral1 = new Collaterals("cvbnm", "Bank", "ubc", "scotia", 30);
+		insertCollaterals(collateral1);
 //
 //		Gaming gameItem1 = new Gaming("ixnxe", "00034", "valve");
 //		insertGaming(gameItem1);
@@ -801,8 +832,32 @@ public class DatabaseConnectionHandler {
 
 		return result.toArray(new DigitalContent[result.size()]);
 	}
+
+	public Collaterals[] getCollateralsInfo() {
+		ArrayList<Collaterals> result = new ArrayList<>();
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM collaterals");
+
+			while(rs.next()) {
+				Collaterals model = new Collaterals(rs.getString("token_id"),
+						rs.getString("token_type"),
+						rs.getString("loanee"),
+						rs.getString("loaner"),
+						rs.getInt("token_rate"));
+				result.add(model);
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+
+		return result.toArray(new Collaterals[result.size()]);
+	}
 	
-	private void dropDigitalContentTableIfExists() {
+	private void dropTableIfExists() {
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
@@ -810,6 +865,54 @@ public class DatabaseConnectionHandler {
 			while(rs.next()) {
 				if(rs.getString(1).toLowerCase().equals("digital_content")) {
 					stmt.execute("DROP TABLE digital_content");
+					break;
+				}
+				if(rs.getString(1).toLowerCase().equals("collaterals")) {
+					stmt.execute("DROP TABLE collaterals");
+					break;
+				}
+				if(rs.getString(1).toLowerCase().equals("gaming")) {
+					stmt.execute("DROP TABLE gaming");
+					break;
+				}
+				if(rs.getString(1).toLowerCase().equals("nft_owns")) {
+					stmt.execute("DROP TABLE nft_owns");
+					break;
+				}
+				if(rs.getString(1).toLowerCase().equals("people")) {
+					stmt.execute("DROP TABLE people");
+					break;
+				}
+				if(rs.getString(1).toLowerCase().equals("sellers")) {
+					stmt.execute("DROP TABLE sellers");
+					break;
+				}
+				if(rs.getString(1).toLowerCase().equals("buyers")) {
+					stmt.execute("DROP TABLE buyers");
+					break;
+				}
+				if(rs.getString(1).toLowerCase().equals("sells_to")) {
+					stmt.execute("DROP TABLE sells_to");
+					break;
+				}
+				if(rs.getString(1).toLowerCase().equals("host_website")) {
+					stmt.execute("DROP TABLE host_website");
+					break;
+				}
+				if(rs.getString(1).toLowerCase().equals("lists_on")) {
+					stmt.execute("DROP TABLE lists_on");
+					break;
+				}
+				if(rs.getString(1).toLowerCase().equals("hosted_on")) {
+					stmt.execute("DROP TABLE hosted_on");
+					break;
+				}
+				if(rs.getString(1).toLowerCase().equals("bid_on")) {
+					stmt.execute("DROP TABLE bid_on");
+					break;
+				}
+				if(rs.getString(1).toLowerCase().equals("buys_from")) {
+					stmt.execute("DROP TABLE buys_from");
 					break;
 				}
 			}

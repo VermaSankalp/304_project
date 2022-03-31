@@ -1,17 +1,15 @@
 package nft.model;
 
-import java.math.BigDecimal;
-
 public class Collaterals {
     private final String tokenID;
-    private final String type;
+    private final String tokenType;
     private final String loanee;
     private final String loaner;
-    private final BigDecimal tokenRate;
+    private final int tokenRate;
 
-    public Collaterals(String tokenID, String type, String loanee, String loaner, BigDecimal tokenRate) {
+    public Collaterals(String tokenID, String type, String loanee, String loaner, int tokenRate) {
         this.tokenID = tokenID;
-        this.type = type;
+        this.tokenType = type;
         this.loanee = loanee;
         this.loaner = loaner;
         this.tokenRate = tokenRate;
@@ -21,8 +19,8 @@ public class Collaterals {
         return tokenID;
     }
 
-    public String getType() {
-        return type;
+    public String getTokenType() {
+        return tokenType;
     }
 
     public String getLoanee() {
@@ -33,7 +31,7 @@ public class Collaterals {
         return loaner;
     }
 
-    public BigDecimal getTokenRate() {
+    public int getTokenRate() {
         return tokenRate;
     }
 }
