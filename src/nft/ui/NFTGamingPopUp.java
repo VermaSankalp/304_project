@@ -142,7 +142,7 @@ public class NFTGamingPopUp {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /* need to add updateGaming here, after they finish implementing that */
+                dHandler.updateGaming(insertedTokenID, insertedgameID, insertedPublisher);
             }
         });
        

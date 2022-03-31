@@ -114,7 +114,7 @@ public class NFTDigitalContentPopUp {
 
         String insertedTokenID = tokenIDField.getText();
         String insertedCreator = creatorField.getText();
-        String insertedPublisher = fileFormatField.getText();
+        String insertedFileFormat = fileFormatField.getText();
 
         
 
@@ -129,7 +129,7 @@ public class NFTDigitalContentPopUp {
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DigitalContent newDigitalContent = new DigitalContent(insertedTokenID, insertedCreator, insertedPublisher);
+                DigitalContent newDigitalContent = new DigitalContent(insertedTokenID, insertedCreator, insertedFileFormat);
                 dHandler.insertDigitalContent(newDigitalContent);
             }
         });
@@ -142,7 +142,7 @@ public class NFTDigitalContentPopUp {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /* need to add updateGaming here, after they finish implementing that */
+                dHandler.updateDigitalContent(insertedTokenID, insertedCreator, insertedFileFormat);
             }
         });
        

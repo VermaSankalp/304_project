@@ -145,7 +145,7 @@ public class NFTOwnersPopUp {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /* need to add updateOwner here method, after they finish implementing that */
+                dHandler.updateNFTOwns(insertedTokenID, insertedPersonID, insertedTokenType);
             }
         });
        

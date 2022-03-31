@@ -158,7 +158,7 @@ public class NFTCollateralsPopUp {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /* need to add updateColatteral here, after they finish implementing that */
+                dHandler.updateCollaterals(insertedTokenID, insertedTokenType, insertedLoanee, insertedLoanerString,new BigDecimal(insertedTokenRate));
             }
         });
     }

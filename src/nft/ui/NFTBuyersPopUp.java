@@ -156,9 +156,8 @@ public class NFTBuyersPopUp {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /* need to add updateBuyer here, after they finish implementing that */
+                dHandler.updateBuyers(insertedPersonID, insertedBuyerID, new BigDecimal(insertedBid));
             }
         });
-       
     }
 }
