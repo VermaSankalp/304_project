@@ -1,34 +1,18 @@
--- drop table digital_content cascade constraints;
--- drop table collaterals cascade constraints;
--- drop table gaming cascade constraints;
--- drop table nft_owns cascade constraints;
--- drop table people cascade constraints;
--- drop table sellers cascade constraints;
--- drop table buyers cascade constraints;
--- drop table sells_to cascade constraints;
--- drop table host_website cascade constraints;
--- drop table lists_on cascade constraints;
--- drop table hosted_on cascade constraints;
--- drop table bid_on cascade constraints;
--- drop table buys_from cascade constraints;
-
 CREATE TABLE digital_content (
-    token_id varchar(20) NOT NULL,
-    creator varchar(20),
-    file_format varchar(20),
-    PRIMARY KEY (token_id)
+    token_id varchar2(20) not null PRIMARY KEY,
+    creator varchar2(20),
+    file_format varchar2(20)
+    -- PRIMARY KEY (token_id)
 );
 
 CREATE TABLE collaterals (
-    token_id_c varchar(20) NOT NULL,
+    token_id varchar(20) NOT NULL,
     tokenType varchar(20),
     loanee varchar(20),
     loaner varchar(20),
     token_rate decimal(10, 2),
     PRIMARY KEY (token_id)
 );
-
-grant select, insert, update, delete on collaterals to user2;
 
 CREATE TABLE gaming (
     token_id varchar(20) NOT NULL,
@@ -116,8 +100,7 @@ CREATE TABLE buys_from (
     FOREIGN KEY (domain) REFERENCES host_website(domain)
 )
 
-grant select, insert, update, delete on customer to user2;
+INSERT INTO digital_content VALUES ("ilpoi", "Bill russ", "mp4");
 
-
-INSERT INTO nft_owns VALUES ("12344556", "123412", "ETH");
-INSERT INTO nft_owns VALUES ("12344556", "12222", "doge");
+-- INSERT INTO nft_owns VALUES ("12344556", "123412", "ETH");
+-- INSERT INTO nft_owns VALUES ("12344556", "12222", "doge");

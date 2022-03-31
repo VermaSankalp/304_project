@@ -14,10 +14,10 @@ import nft.model.DigitalContent;
 public interface TerminalTransactionsDelegate {
 	public void databaseSetup();
 	
-	public void deleteBranch(int branchId);
-	public void insertBranch(DigitalContent model);
-	public void showBranch();
-	public void updateBranch(int branchId, String name);
+	public void deleteDigitalContent(String tokenID);
+	public void insertDigitalContent(DigitalContent model);
+	public void showDigitalContent();
+	public void updateDigitalContent(String tokenId, String name, String fileFormat);
 	
 	public void terminalTransactionsFinished();
 }

@@ -1,18 +1,16 @@
 package nft.database;
 
-import java.io.*;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import nft.model.*;
-import oracle.jdbc.driver.SQLUtil;
 
 /**
  * This class handles all database related transactions
  */
 public class DatabaseConnectionHandler {
 	// Use this version of the ORACLE_URL if you are running the code off of the server
-	//	private static final String ORACLE_URL = "jdbc:oracle:thin:@dbhost.students.cs.ubc.ca:1522:stu";
+	// private static final String ORACLE_URL = "jdbc:oracle:thin:@dbhost.students.cs.ubc.ca:1522:stu";
 	// Use this version of the ORACLE_URL if you are tunneling into the undergrad servers
 	private static final String ORACLE_URL = "jdbc:oracle:thin:@localhost:1522:stu";
 	private static final String EXCEPTION_TAG = "[EXCEPTION]";
@@ -23,17 +21,16 @@ public class DatabaseConnectionHandler {
 	public DatabaseConnectionHandler() {
 
 		try {
-			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-			this.connection = DriverManager.getConnection(ORACLE_URL, "ora_brendons", "a87271490");
+
 			// Load the Oracle JDBC driver
 			// Note that the path could change for new drivers
-			ScriptRunner sr = new ScriptRunner(connection, false, true);
-			Reader reader = new BufferedReader(new FileReader("src/nft/sql/scripts/databaseNFT.sql"));
-			sr.runScript(reader);
+			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+//			this.connection = DriverManager.getConnection(ORACLE_URL, "ora_brendons", "a87271490");
+//			ScriptRunner sr = new ScriptRunner(connection, false, true);
+//			Reader reader = new BufferedReader(new FileReader("src/nft/sql/scripts/databaseNFT.sql"));
+//			sr.runScript(reader);
 		} catch (SQLException e) {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -47,24 +44,24 @@ public class DatabaseConnectionHandler {
 		}
 	}
 
-	public void deleteBranch(int branchId) {
-		try {
-			PreparedStatement ps = connection.prepareStatement("DELETE FROM branch WHERE branch_id = ?");
-			ps.setInt(1, branchId);
-			
-			int rowCount = ps.executeUpdate();
-			if (rowCount == 0) {
-				System.out.println(WARNING_TAG + " Branch " + branchId + " does not exist!");
-			}
-			
-			connection.commit();
-	
-			ps.close();
-		} catch (SQLException e) {
-			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-			rollbackConnection();
-		}
-	}
+//	public void deleteBranch(int branchId) {
+//		try {
+//			PreparedStatement ps = connection.prepareStatement("DELETE FROM branch WHERE branch_id = ?");
+//			ps.setInt(1, branchId);
+//
+//			int rowCount = ps.executeUpdate();
+//			if (rowCount == 0) {
+//				System.out.println(WARNING_TAG + " Branch " + branchId + " does not exist!");
+//			}
+//
+//			connection.commit();
+//
+//			ps.close();
+//		} catch (SQLException e) {
+//			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//			rollbackConnection();
+//		}
+//	}
 	
 	public void insertHostWebsite(HostWebsite model) {
 		try {
@@ -499,8 +496,7 @@ public class DatabaseConnectionHandler {
 		}
 		return finalResult;
 	}
-	
-	
+
 	public void updateHostWebsite(String domain, Date publishedDate, int nftQuantity, String currency) {
 		try {
 			PreparedStatement ps = connection.prepareStatement("UPDATE host_website SET published_on = ?, nft_quantity = ?, currency = ? WHERE domain = ?");
@@ -689,14 +685,11 @@ public class DatabaseConnectionHandler {
 	}
 	
 	public void databaseSetup() {
-		dropBranchTableIfExists();
-		
-//		try {
-//			Statement stmt = connection.createStatement();
-//			stmt.executeUpdate("CREATE TABLE digital_content (token_id varchar(20) NOT NULL," +
-//					" creator varchar(20)," +
-//					" file_format varchar(20)," +
-//					" PRIMARY KEY (token_id))");
+		dropDigitalContentTableIfExists();
+
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("CREATE TABLE digital_content (token_id varchar2(20) not null PRIMARY KEY, creator varchar(20), file_format varchar2(20))");
 //			stmt.executeUpdate("CREATE TABLE collaterals (token_id varchar(20) NOT NULL," +
 //					"    tokenType varchar(20)," +
 //					"    loanee varchar(20)," +
@@ -756,11 +749,11 @@ public class DatabaseConnectionHandler {
 //					"    PRIMARY KEY (domain, buyer_id)," +
 //					"    FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id)," +
 //					"    FOREIGN KEY (domain) REFERENCES host_website(domain))");
-//			stmt.close();
-//		} catch (SQLException e) {
-//			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-//		}
-		
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+//
 //		HostWebsite website1 = new HostWebsite("www.example.com", new Date(56), 10, "bitcoin");
 //		insertHostWebsite(website1);
 //
@@ -775,9 +768,9 @@ public class DatabaseConnectionHandler {
 //
 //		NFTOwns nft1 = new NFTOwns("olapo", "18675", "x-token");
 //		insertNftOwns(nft1);
-//
-//		DigitalContent digitalContent1 = new DigitalContent("ilpoi", "Bill russ", "mp4");
-//		insertDigitalContent(digitalContent1);
+
+		DigitalContent digitalContent1 = new DigitalContent("ilpoi", "Bill russ", "mp4");
+		insertDigitalContent(digitalContent1);
 //
 //		Collaterals collateral1 = new Collaterals("cvbnm", "Bank", "ubc", "scotia", new BigDecimal(30));
 //		insertCollaterals(collateral1);
@@ -785,15 +778,38 @@ public class DatabaseConnectionHandler {
 //		Gaming gameItem1 = new Gaming("ixnxe", "00034", "valve");
 //		insertGaming(gameItem1);
 	}
+
+	public DigitalContent[] getDigitalContentInfo() {
+		ArrayList<DigitalContent> result = new ArrayList<>();
+
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM digital_content");
+
+			while(rs.next()) {
+				DigitalContent model = new DigitalContent(rs.getString("token_id"),
+						rs.getString("creator"),
+						rs.getString("file_format"));
+				result.add(model);
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+
+		return result.toArray(new DigitalContent[result.size()]);
+	}
 	
-	private void dropBranchTableIfExists() {
+	private void dropDigitalContentTableIfExists() {
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
 			
 			while(rs.next()) {
-				if(rs.getString(1).toLowerCase().equals("branch")) {
-					stmt.execute("DROP TABLE branch");
+				if(rs.getString(1).toLowerCase().equals("digital_content")) {
+					stmt.execute("DROP TABLE digital_content");
 					break;
 				}
 			}
