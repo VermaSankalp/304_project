@@ -1,24 +1,38 @@
+drop table digital_content cascade constraints;
+drop table collaterals cascade constraints;
+drop table gaming cascade constraints;
+drop table nft_owns cascade constraints;
+drop table people cascade constraints;
+drop table sellers cascade constraints;
+drop table buyers cascade constraints;
+drop table sells_to cascade constraints;
+drop table host_website cascade constraints;
+drop table lists_on cascade constraints;
+drop table hosted_on cascade constraints;
+drop table bid_on cascade constraints;
+drop table buys_from cascade constraints;
+
 CREATE TABLE digital_content (
     token_id varchar(20) NOT NULL,
     creator varchar(20),
     file_format varchar(20),
-    PRIMARY KEY (token_id),
+    PRIMARY KEY (token_id)
 );
 
 CREATE TABLE collaterals (
-    token_id varchar(20) NOT NULL,
+    token_id_c varchar(20) NOT NULL,
     tokenType varchar(20),
     loanee varchar(20),
     loaner varchar(20),
     token_rate decimal(10, 2),
-    PRIMARY KEY (token_id),
+    PRIMARY KEY (token_id)
 );
 
 CREATE TABLE gaming (
     token_id varchar(20) NOT NULL,
     game_id varchar(20),
     publisher varchar(20),
-    PRIMARY KEY (token_id),
+    PRIMARY KEY (token_id)
 );
 
 CREATE TABLE nft_owns (
@@ -26,14 +40,14 @@ CREATE TABLE nft_owns (
     person_id varchar(20) NOT NULL,
     token_type varchar(20),
     PRIMARY KEY (token_id),
-    FOREIGN KEY (person_id) REFERENCES sellers(person_id),
+    FOREIGN KEY (person_id) REFERENCES sellers(person_id)
 )
 
 CREATE TABLE people (
     person_id varchar(20) NOT NULL,
     name varchar(20),
     age integer(3),
-    PRIMARY KEY (person_id),
+    PRIMARY KEY (person_id)
 )
 
 CREATE TABLE sellers (
@@ -41,7 +55,7 @@ CREATE TABLE sellers (
     c_address varchar(20),
     nft_quantity integer,
     PRIMARY KEY (person_id),
-    UNIQUE (c_address),
+    UNIQUE (c_address)
 )
 
 CREATE TABLE buyers (
@@ -49,7 +63,7 @@ CREATE TABLE buyers (
     buyer_id varchar(20),
     current_bid decimal(15, 2),
     PRIMARY KEY (person_id),
-    UNIQUE (buyer_id),
+    UNIQUE (buyer_id)
 )
 
 CREATE TABLE sells_to (
@@ -57,7 +71,7 @@ CREATE TABLE sells_to (
     c_address varchar(20),
     PRIMARY KEY (buyer_id, c_address),
     FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id),
-    FOREIGN KEY (c_address) REFERENCES sellers(c_address),
+    FOREIGN KEY (c_address) REFERENCES sellers(c_address)
 )
 
 CREATE TABLE host_website (
@@ -65,7 +79,7 @@ CREATE TABLE host_website (
     published_on date,
     nft_quantity integer,
     currency varchar(20),
-    PRIMARY KEY (domain),
+    PRIMARY KEY (domain)
 )
 
 CREATE TABLE lists_on (
@@ -73,7 +87,7 @@ CREATE TABLE lists_on (
     c_address varchar(20),
     PRIMARY KEY (domain, c_address),
     FOREIGN KEY (domain) REFERENCES host_website(domain),
-    FOREIGN KEY (c_address) REFERENCES sellers(c_address),
+    FOREIGN KEY (c_address) REFERENCES sellers(c_address)
 )
 
 CREATE TABLE hosted_on (
@@ -81,7 +95,7 @@ CREATE TABLE hosted_on (
     token_id varchar(20) NOT NULL,
     PRIMARY KEY (domain, token_id),
     FOREIGN KEY (domain) REFERENCES host_website(domain),
-    FOREIGN KEY (token_id) REFERENCES nft_owns(token_id),
+    FOREIGN KEY (token_id) REFERENCES nft_owns(token_id)
 )
 
 CREATE TABLE bid_on (
@@ -89,7 +103,7 @@ CREATE TABLE bid_on (
     buyer_id varchar(20) NOT NULL,
     PRIMARY KEY (token_id, buyer_id),
     FOREIGN KEY (token_id) REFERENCES nft_owns(token_id),
-    FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id),
+    FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id)
 )
 
 CREATE TABLE buys_from (
@@ -97,8 +111,9 @@ CREATE TABLE buys_from (
     buyer_id varchar(20) NOT NULL,
     PRIMARY KEY (domain, buyer_id),
     FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id),
-    FOREIGN KEY (domain) REFERENCES host_website(domain),
+    FOREIGN KEY (domain) REFERENCES host_website(domain)
 )
+
 
 INSERT INTO nft_owns VALUES ("12344556", "123412", "ETH");
 INSERT INTO nft_owns VALUES ("12344556", "12222", "doge");
