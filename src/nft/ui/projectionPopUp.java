@@ -32,10 +32,10 @@ public class projectionPopUp {
     private void addProjectionString(ArrayList<String> columns, JPanel panel, String table) {
         DatabaseConnectionHandler dHandler = new DatabaseConnectionHandler();
         String returned = dHandler.projection(table, columns);
+        System.out.println(returned);
         JLabel stringLabel = new JLabel(returned);
         panel.add(stringLabel);
     }
-
 
     
 }

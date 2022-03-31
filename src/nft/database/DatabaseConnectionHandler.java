@@ -3,8 +3,6 @@ package nft.database;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
-
-import javafx.util.Pair;
 import nft.model.*;
 
 /**
@@ -493,41 +491,6 @@ public class DatabaseConnectionHandler {
 		return finalResult;
 	}
 	
-	public DigitalContent[] getBranchInfo() {
-		ArrayList<DigitalContent> result = new ArrayList<DigitalContent>();
-		
-		try {
-			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM branch");
-		
-//    		// get info on ResultSet
-//    		ResultSetMetaData rsmd = rs.getMetaData();
-//
-//    		System.out.println(" ");
-//
-//    		// display column names;
-//    		for (int i = 0; i < rsmd.getColumnCount(); i++) {
-//    			// get column name and print it
-//    			System.out.printf("%-15s", rsmd.getColumnName(i + 1));
-//    		}
-			
-			while(rs.next()) {
-				DigitalContent model = new DigitalContent(rs.getString("branch_addr"),
-													rs.getString("branch_city"),
-													rs.getInt("branch_id"),
-													rs.getString("branch_name"),
-													rs.getInt("branch_phone"));
-				result.add(model);
-			}
-
-			rs.close();
-			stmt.close();
-		} catch (SQLException e) {
-			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-		}	
-		
-		return result.toArray(new DigitalContent[result.size()]);
-	}
 	
 	public void updateHostWebsite(String domain, Date publishedDate, int nftQuantity, String currency) {
 		try {
@@ -721,7 +684,6 @@ public class DatabaseConnectionHandler {
 		
 		try {
 			Statement stmt = connection.createStatement();
-//			stmt.executeUpdate("CREATE TABLE branch (branch_id integer PRIMARY KEY, branch_name varchar2(20) not null, branch_addr varchar2(50), branch_city varchar2(20) not null, branch_phone integer)");
 			stmt.executeUpdate("CREATE TABLE digital_content (token_id varchar(20) NOT NULL," +
 					" creator varchar(20)," +
 					" file_format varchar(20)," +
@@ -790,11 +752,6 @@ public class DatabaseConnectionHandler {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}
 		
-//		DigitalContent branch1 = new DigitalContent("123 Charming Ave", "Vancouver", 1, "First Branch", 1234567);
-//		insertBranch(branch1);
-//
-//		DigitalContent branch2 = new DigitalContent("123 Coco Ave", "Vancouver", 2, "Second Branch", 1234568);
-//		insertBranch(branch2);
 		HostWebsite website1 = new HostWebsite("www.example.com", new Date(56), 10, "bitcoin");
 		insertHostWebsite(website1);
 

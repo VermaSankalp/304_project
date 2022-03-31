@@ -100,6 +100,5 @@ CREATE TABLE buys_from (
     FOREIGN KEY (domain) REFERENCES host_website(domain),
 )
 
-/*
-INSERT INTO branch VALUES (1, "ABC", "123 Charming Ave", "Vancouver", "6041234567");
-INSERT INTO branch VALUES (2, "DEF", "123 Coco Ave", "Vancouver", "6044567890");
+INSERT INTO nft_owns VALUES ("12344556", "123412", "ETH");
+INSERT INTO nft_owns VALUES ("12344556", "12222", "doge");

@@ -1,6 +1,7 @@
 package nft.ui;
 
 import javax.swing.*;
+import nft.database.DatabaseConnectionHandler;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,9 +10,11 @@ import java.awt.event.ActionListener;
 /* Creates a the main page GUI. Here you get to choose which relation you want to modify */
 public class MainGUI {
     private JFrame GUIFrame;
+    private  DatabaseConnectionHandler dHandler;
 
 
     public MainGUI() {
+        dHandler = new DatabaseConnectionHandler();
         GUIFrame = new JFrame();
         JPanel GUIPanel = new JPanel();
         GUIPanel.setBorder(BorderFactory.createEmptyBorder(100,100,100,100));

@@ -3,9 +3,9 @@ package nft.model;
 import java.math.BigDecimal;
 
 public class Buyers {
-    private final String personID;
-    private final String buyerID;
-    private final BigDecimal currentBid;
+    private String personID;
+    private String buyerID;
+    private BigDecimal currentBid;
 
     public Buyers(String personID, String buyerID, BigDecimal currentBid) {
         this.personID = personID;
