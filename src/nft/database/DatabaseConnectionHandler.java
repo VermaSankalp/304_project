@@ -496,6 +496,38 @@ public class DatabaseConnectionHandler {
 		}
 		return finalResult;
 	}
+	
+	//Join the sellers and buyers
+	public String join() {
+		String finalResult = null;
+		try {
+			StringBuilder result = new StringBuilder(10000);
+			int tupleCount = 1;
+
+			Statement stmt = connection.createStatement();
+			ResultSet queryResult = stmt.executeQuery("SELECT * FROM sellers S, buyers B WHERE S.person_id = B.person_id");
+
+			while (queryResult.next()) {
+				result.append(tupleCount).append(") ");
+				result.append("Person_id: ").append(queryResult.getString("person_id"));
+				result.append("c_address: ").append(queryResult.getString("c_address"));
+				result.append("nft_quantity: ").append(queryResult.getString("nft_quantity"));
+				result.append("buyer_id: ").append(queryResult.getString("buyer_id"));
+				result.append("current_bid: ").append(queryResult.getString("current_bid"));
+				result.append("\n");
+				++tupleCount;
+			}
+
+			stmt.close();
+			queryResult.close();
+
+			finalResult = result.toString();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+		return finalResult;
+	}
 
 	public void updateHostWebsite(String domain, Date publishedDate, int nftQuantity, String currency) {
 		try {
