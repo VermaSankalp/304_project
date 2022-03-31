@@ -115,7 +115,7 @@ public class DatabaseConnectionHandler {
 
 	public void deletePeople(String personID) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("DELETE FROM people WHERE personID = ?");
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM people WHERE person_id = ?");
 			ps.setString(1, personID);
 
 			int rowCount = ps.executeUpdate();
@@ -151,7 +151,7 @@ public class DatabaseConnectionHandler {
 
 	public void deleteBuyers(String personID) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("DELETE FROM buyers WHERE personID = ?");
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM buyers WHERE person_id = ?");
 			ps.setString(1, personID);
 
 			int rowCount = ps.executeUpdate();
@@ -187,7 +187,7 @@ public class DatabaseConnectionHandler {
 
 	public void deleteSellers(String personID) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("DELETE FROM sellers WHERE personID = ?");
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM sellers WHERE person_id = ?");
 			ps.setString(1, personID);
 
 			int rowCount = ps.executeUpdate();
@@ -223,7 +223,7 @@ public class DatabaseConnectionHandler {
 
 	public void deleteNFTOwns(String tokenID) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("DELETE FROM buyers WHERE tokenID = ?");
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM buyers WHERE token_id = ?");
 			ps.setString(1, tokenID);
 
 			int rowCount = ps.executeUpdate();
@@ -259,7 +259,7 @@ public class DatabaseConnectionHandler {
 
 	public void deleteDigitalContent(String tokenID) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("DELETE FROM digital_content WHERE tokenID = ?");
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM digital_content WHERE token_id = ?");
 			ps.setString(1, tokenID);
 
 			int rowCount = ps.executeUpdate();
@@ -297,7 +297,7 @@ public class DatabaseConnectionHandler {
 
 	public void deleteCollaterals(String tokenID) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("DELETE FROM collaterals WHERE tokenID = ?");
+			PreparedStatement ps = connection.prepareStatement("DELETE FROM collaterals WHERE token_id = ?");
 			ps.setString(1, tokenID);
 
 			int rowCount = ps.executeUpdate();
@@ -355,7 +355,7 @@ public class DatabaseConnectionHandler {
 		ArrayList<Buyers> result = new ArrayList<>();
 
 		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT b.buyerID FROM buyers b WHERE b.currentBid > ?");
+			PreparedStatement ps = connection.prepareStatement("SELECT b.buyer_id FROM buyers b WHERE b.current_bid > ?");
 			ps.setBigDecimal(1, bid);
 
 			ps.execute();
@@ -386,7 +386,7 @@ public class DatabaseConnectionHandler {
 		ArrayList<People> result = new ArrayList<>();
 
 		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT p.personID FROM People p WHERE NOT EXISTS (SELECT o.personID FROM NFTOwns o WHERE o.personID <> p.personID");
+			PreparedStatement ps = connection.prepareStatement("SELECT p.person_id FROM People p WHERE NOT EXISTS (SELECT o.person_id FROM NFTOwns o WHERE o.person_id <> p.person_id");
 
 			ps.execute();
 			ResultSet queryResult = ps.getResultSet();
@@ -600,6 +600,87 @@ public class DatabaseConnectionHandler {
 			int rowCount = ps.executeUpdate();
 			if (rowCount == 0) {
 				System.out.println(WARNING_TAG + " Buyer " + buyerId + " does not exist!");
+			}
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void updateNFTOwns(String tokenID, String personID, String tokenType) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("UPDATE nft_owns SET token_id = ?, token_type = ? WHERE person_id = ?");
+			ps.setString(1, tokenID);
+			ps.setString(2, tokenType);
+			ps.setString(3, personID);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + " Person " + personID + " does not exist!");
+			}
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void updateCollaterals(String tokenID, String type, String loanee, String loaner, BigDecimal tokenRate) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("UPDATE collaterals SET loanee = ?, loaner = ?, type = ?, token_rate = ? WHERE token_id = ?");
+			ps.setString(1, loanee);
+			ps.setString(2, loaner);
+			ps.setString(3, type);
+			ps.setBigDecimal(4, tokenRate);
+			ps.setString(5, tokenID);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + " Collateral " + tokenID + " does not exist!");
+			}
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void updateDigitalContent(String tokenID, String creator, String fileFormat) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("UPDATE digital_content SET creator = ?, file_format = ? WHERE token_id = ?");
+			ps.setString(1, creator);
+			ps.setString(2, fileFormat);
+			ps.setString(3, tokenID);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + " Digital Content " + tokenID + " does not exist!");
+			}
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+	public void updateGaming(String tokenID, String gameID, String publisher) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("UPDATE gaming SET game_id = ?, publisher = ? WHERE token_id = ?");
+			ps.setString(1, gameID);
+			ps.setString(2, publisher);
+			ps.setString(3, tokenID);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + " Gaming " + tokenID + " does not exist!");
 			}
 			connection.commit();
 
