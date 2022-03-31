@@ -529,24 +529,85 @@ public class DatabaseConnectionHandler {
 		return result.toArray(new DigitalContent[result.size()]);
 	}
 	
-	public void updateBranch(int id, String name) {
+	public void updateHostWebsite(String domain, Date publishedDate, int nftQuantity, String currency) {
 		try {
-		  PreparedStatement ps = connection.prepareStatement("UPDATE branch SET branch_name = ? WHERE branch_id = ?");
-		  ps.setString(1, name);
-		  ps.setInt(2, id);
-		
-		  int rowCount = ps.executeUpdate();
-		  if (rowCount == 0) {
-		      System.out.println(WARNING_TAG + " Branch " + id + " does not exist!");
-		  }
-	
-		  connection.commit();
-		  
-		  ps.close();
+			PreparedStatement ps = connection.prepareStatement("UPDATE host_website SET published_on = ?, nft_quantity = ?, currency = ? WHERE domain = ?");
+			ps.setDate(1, publishedDate);
+			ps.setInt(2, nftQuantity);
+			ps.setString(3, currency);
+			ps.setString(4, domain);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + " Host website " + domain + " does not exist!");
+			}
+			connection.commit();
+
+			ps.close();
 		} catch (SQLException e) {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 			rollbackConnection();
-		}	
+		}
+	}
+
+	public void updatePeople(String peopleId, String name, int age) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("UPDATE people SET name = ?, age = ? WHERE person_id = ?");
+			ps.setString(1, name);
+			ps.setInt(2, age);
+			ps.setString(3, peopleId);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + " Person " + peopleId + " does not exist!");
+			}
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void updateSellers(String personId, String cAddress, int nftQuantity) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("UPDATE sellers SET nft_quantity = ? WHERE person_id = ? AND c_address = ?");
+			ps.setInt(1, nftQuantity);
+			ps.setString(2, personId);
+			ps.setString(3, cAddress);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + " Seller " + personId + " does not exist!");
+			}
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
+	}
+
+	public void updateBuyers(String personId, String buyerId, BigDecimal currentBid) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("UPDATE buyers SET current_bid = ? WHERE person_id = ? AND buyer_id = ?");
+			ps.setBigDecimal(1, currentBid);
+			ps.setString(2, personId);
+			ps.setString(3, buyerId);
+
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 0) {
+				System.out.println(WARNING_TAG + " Buyer " + buyerId + " does not exist!");
+			}
+			connection.commit();
+
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+			rollbackConnection();
+		}
 	}
 	
 	public boolean login(String username, String password) {
