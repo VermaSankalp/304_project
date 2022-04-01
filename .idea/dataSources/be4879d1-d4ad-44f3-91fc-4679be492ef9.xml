@@ -294,11 +294,11 @@
     <schema id="97" parent="1" name="ORA_BRENDONS">
       <CreatedTimestamp>2022-03-16.23:40:20</CreatedTimestamp>
       <Current>1</Current>
-      <IntrospectionL1Timestamp>2022-03-31.09:21:43</IntrospectionL1Timestamp>
-      <IntrospectionL2Timestamp>2022-03-31.09:21:43</IntrospectionL2Timestamp>
-      <IntrospectionL3Timestamp>2022-03-31.09:21:43</IntrospectionL3Timestamp>
+      <IntrospectionL1Timestamp>2022-03-31.13:31:38</IntrospectionL1Timestamp>
+      <IntrospectionL2Timestamp>2022-03-31.13:31:38</IntrospectionL2Timestamp>
+      <IntrospectionL3Timestamp>2022-03-31.13:31:38</IntrospectionL3Timestamp>
       <IntrospectionVersion>200820</IntrospectionVersion>
-      <ModifiedTimestamp>2022-03-31.09:22:03</ModifiedTimestamp>
+      <ModifiedTimestamp>2022-03-31.13:20:57</ModifiedTimestamp>
       <ObjectId>1545</ObjectId>
     </schema>
     <schema id="98" parent="1" name="ORA_BRYANKOU">
@@ -1842,9 +1842,9 @@
     </schema>
     <schema id="611" parent="1" name="PUBLIC">
       <CreatedTimestamp>2019-04-16.17:56:16</CreatedTimestamp>
-      <IntrospectionL1Timestamp>2022-03-31.09:21:43</IntrospectionL1Timestamp>
-      <IntrospectionL2Timestamp>2022-03-31.09:21:43</IntrospectionL2Timestamp>
-      <IntrospectionL3Timestamp>2022-03-31.09:21:43</IntrospectionL3Timestamp>
+      <IntrospectionL1Timestamp>2022-03-31.12:42:06</IntrospectionL1Timestamp>
+      <IntrospectionL2Timestamp>2022-03-31.12:42:06</IntrospectionL2Timestamp>
+      <IntrospectionL3Timestamp>2022-03-31.12:42:06</IntrospectionL3Timestamp>
       <IntrospectionVersion>200820</IntrospectionVersion>
       <ModifiedTimestamp>2020-12-28.11:16:25</ModifiedTimestamp>
       <ObjectId>1</ObjectId>
@@ -3779,42 +3779,45 @@
       <TemporaryPreserve>1</TemporaryPreserve>
     </table>
     <table id="1250" parent="97" name="COLLATERALS">
-      <CreatedTimestamp>2022-03-31.09:22:03</CreatedTimestamp>
+      <CreatedTimestamp>2022-03-31.13:20:57</CreatedTimestamp>
       <DetailsLevel>3</DetailsLevel>
-      <ModifiedTimestamp>2022-03-31.09:22:03</ModifiedTimestamp>
-      <ObjectId>892079</ObjectId>
+      <ModifiedTimestamp>2022-03-31.13:20:57</ModifiedTimestamp>
+      <ObjectId>897215</ObjectId>
       <TemporaryPreserve>1</TemporaryPreserve>
     </table>
     <table id="1251" parent="97" name="DIGITAL_CONTENT">
+      <CreatedTimestamp>2022-03-31.13:20:57</CreatedTimestamp>
       <DetailsLevel>3</DetailsLevel>
-      <ObjectId>892075</ObjectId>
-    </table>
-    <table id="1252" parent="97" name="DIGITAL_CONTENT">
-      <CreatedTimestamp>2022-03-31.09:22:03</CreatedTimestamp>
-      <DetailsLevel>3</DetailsLevel>
-      <ModifiedTimestamp>2022-03-31.09:22:03</ModifiedTimestamp>
-      <ObjectId>892077</ObjectId>
+      <ModifiedTimestamp>2022-03-31.13:20:57</ModifiedTimestamp>
+      <ObjectId>897213</ObjectId>
       <TemporaryPreserve>1</TemporaryPreserve>
     </table>
-    <table id="1253" parent="97" name="DIGITAL_CONTENT2">
+    <table id="1252" parent="97" name="DIGITAL_CONTENT2">
       <CreatedTimestamp>2022-03-31.05:49:08</CreatedTimestamp>
       <DetailsLevel>3</DetailsLevel>
       <ModifiedTimestamp>2022-03-31.05:49:08</ModifiedTimestamp>
       <ObjectId>889979</ObjectId>
       <TemporaryPreserve>1</TemporaryPreserve>
     </table>
-    <table id="1254" parent="97" name="DIGITAL_CONTENT_2">
+    <table id="1253" parent="97" name="DIGITAL_CONTENT_2">
       <CreatedTimestamp>2022-03-31.05:47:38</CreatedTimestamp>
       <DetailsLevel>3</DetailsLevel>
       <ModifiedTimestamp>2022-03-31.05:47:38</ModifiedTimestamp>
       <ObjectId>889973</ObjectId>
       <TemporaryPreserve>1</TemporaryPreserve>
     </table>
-    <table id="1255" parent="97" name="EDITORS">
+    <table id="1254" parent="97" name="EDITORS">
       <CreatedTimestamp>2022-03-16.23:40:20</CreatedTimestamp>
       <DetailsLevel>3</DetailsLevel>
       <ModifiedTimestamp>2022-03-16.23:40:20</ModifiedTimestamp>
       <ObjectId>804541</ObjectId>
+      <TemporaryPreserve>1</TemporaryPreserve>
+    </table>
+    <table id="1255" parent="97" name="GAMING">
+      <CreatedTimestamp>2022-03-31.13:20:57</CreatedTimestamp>
+      <DetailsLevel>3</DetailsLevel>
+      <ModifiedTimestamp>2022-03-31.13:20:57</ModifiedTimestamp>
+      <ObjectId>897217</ObjectId>
       <TemporaryPreserve>1</TemporaryPreserve>
     </table>
     <table id="1256" parent="97" name="PUBLISHERS">
@@ -60955,69 +60958,83 @@
       <DataType>NUMBER(*)|0s</DataType>
       <Position>5</Position>
     </column>
-    <index id="8407" parent="1250" name="SYS_C001004245">
+    <index id="8407" parent="1250" name="SYS_C001012686">
       <ColNames>TOKEN_ID</ColNames>
-      <CreatedTimestamp>2022-03-31.09:22:03</CreatedTimestamp>
-      <ModifiedTimestamp>2022-03-31.09:22:03</ModifiedTimestamp>
+      <CreatedTimestamp>2022-03-31.13:20:57</CreatedTimestamp>
+      <ModifiedTimestamp>2022-03-31.13:20:57</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>892080</ObjectId>
+      <ObjectId>897216</ObjectId>
       <TablespaceName>USERS</TablespaceName>
       <Unique>1</Unique>
     </index>
-    <key id="8408" parent="1250" name="SYS_C001004245">
+    <key id="8408" parent="1250" name="SYS_C001012686">
       <ColNames>TOKEN_ID</ColNames>
       <InitiallyDeferred>1</InitiallyDeferred>
-      <ModifiedTimestamp>2022-03-31.09:22:03</ModifiedTimestamp>
+      <ModifiedTimestamp>2022-03-31.13:20:57</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
-      <UnderlyingIndexName>SYS_C001004245</UnderlyingIndexName>
+      <UnderlyingIndexName>SYS_C001012686</UnderlyingIndexName>
     </key>
     <column id="8409" parent="1251" name="TOKEN_ID">
-      <Position>1</Position>
-    </column>
-    <column id="8410" parent="1251" name="CREATOR">
-      <Position>2</Position>
-    </column>
-    <column id="8411" parent="1251" name="FILE_FORMAT">
-      <Position>3</Position>
-    </column>
-    <index id="8412" parent="1251" name="SYS_C001004243">
-      <ColNames>TOKEN_ID</ColNames>
-      <CreatedTimestamp>2022-03-31.09:22:03</CreatedTimestamp>
-      <ModifiedTimestamp>2022-03-31.09:22:03</ModifiedTimestamp>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>892078</ObjectId>
-      <TablespaceName>USERS</TablespaceName>
-      <Unique>1</Unique>
-    </index>
-    <index id="8413" parent="1251" name="SYS_C001004241">
-      <ObjectId>892076</ObjectId>
-    </index>
-    <key id="8414" parent="1251" name="SYS_C001004243">
-      <ColNames>TOKEN_ID</ColNames>
-      <InitiallyDeferred>1</InitiallyDeferred>
-      <ModifiedTimestamp>2022-03-31.09:22:03</ModifiedTimestamp>
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>SYS_C001004243</UnderlyingIndexName>
-    </key>
-    <key id="8415" parent="1251" name="SYS_C001004241">
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-    </key>
-    <column id="8416" parent="1252" name="TOKEN_ID">
       <DataType>VARCHAR2(20 byte)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="8417" parent="1252" name="CREATOR">
+    <column id="8410" parent="1251" name="CREATOR">
       <DataType>VARCHAR2(20 byte)|0s</DataType>
       <Position>2</Position>
     </column>
-    <column id="8418" parent="1252" name="FILE_FORMAT">
+    <column id="8411" parent="1251" name="FILE_FORMAT">
       <DataType>VARCHAR2(20 byte)|0s</DataType>
       <Position>3</Position>
     </column>
+    <index id="8412" parent="1251" name="SYS_C001012684">
+      <ColNames>TOKEN_ID</ColNames>
+      <CreatedTimestamp>2022-03-31.13:20:57</CreatedTimestamp>
+      <ModifiedTimestamp>2022-03-31.13:20:57</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>897214</ObjectId>
+      <TablespaceName>USERS</TablespaceName>
+      <Unique>1</Unique>
+    </index>
+    <key id="8413" parent="1251" name="SYS_C001012684">
+      <ColNames>TOKEN_ID</ColNames>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2022-03-31.13:20:57</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C001012684</UnderlyingIndexName>
+    </key>
+    <column id="8414" parent="1252" name="TOKEN_ID_DC">
+      <DataType>VARCHAR2(20 byte)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="8415" parent="1252" name="CREATOR_DC">
+      <DataType>VARCHAR2(20 byte)|0s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="8416" parent="1252" name="FILE_FORMAT_DC">
+      <DataType>VARCHAR2(20 byte)|0s</DataType>
+      <Position>3</Position>
+    </column>
+    <index id="8417" parent="1252" name="SYS_C001001433">
+      <ColNames>TOKEN_ID_DC</ColNames>
+      <CreatedTimestamp>2022-03-31.05:49:08</CreatedTimestamp>
+      <ModifiedTimestamp>2022-03-31.05:49:08</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>889980</ObjectId>
+      <TablespaceName>USERS</TablespaceName>
+      <Unique>1</Unique>
+    </index>
+    <key id="8418" parent="1252" name="SYS_C001001433">
+      <ColNames>TOKEN_ID_DC</ColNames>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2022-03-31.05:49:08</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C001001433</UnderlyingIndexName>
+    </key>
     <column id="8419" parent="1253" name="TOKEN_ID_DC">
       <DataType>VARCHAR2(20 byte)|0s</DataType>
       <NotNull>1</NotNull>
@@ -61031,37 +61048,7 @@
       <DataType>VARCHAR2(20 byte)|0s</DataType>
       <Position>3</Position>
     </column>
-    <index id="8422" parent="1253" name="SYS_C001001433">
-      <ColNames>TOKEN_ID_DC</ColNames>
-      <CreatedTimestamp>2022-03-31.05:49:08</CreatedTimestamp>
-      <ModifiedTimestamp>2022-03-31.05:49:08</ModifiedTimestamp>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>889980</ObjectId>
-      <TablespaceName>USERS</TablespaceName>
-      <Unique>1</Unique>
-    </index>
-    <key id="8423" parent="1253" name="SYS_C001001433">
-      <ColNames>TOKEN_ID_DC</ColNames>
-      <InitiallyDeferred>1</InitiallyDeferred>
-      <ModifiedTimestamp>2022-03-31.05:49:08</ModifiedTimestamp>
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>SYS_C001001433</UnderlyingIndexName>
-    </key>
-    <column id="8424" parent="1254" name="TOKEN_ID_DC">
-      <DataType>VARCHAR2(20 byte)|0s</DataType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="8425" parent="1254" name="CREATOR_DC">
-      <DataType>VARCHAR2(20 byte)|0s</DataType>
-      <Position>2</Position>
-    </column>
-    <column id="8426" parent="1254" name="FILE_FORMAT_DC">
-      <DataType>VARCHAR2(20 byte)|0s</DataType>
-      <Position>3</Position>
-    </column>
-    <index id="8427" parent="1254" name="SYS_C001001427">
+    <index id="8422" parent="1253" name="SYS_C001001427">
       <ColNames>TOKEN_ID_DC</ColNames>
       <CreatedTimestamp>2022-03-31.05:47:38</CreatedTimestamp>
       <ModifiedTimestamp>2022-03-31.05:47:38</ModifiedTimestamp>
@@ -61070,7 +61057,7 @@
       <TablespaceName>USERS</TablespaceName>
       <Unique>1</Unique>
     </index>
-    <key id="8428" parent="1254" name="SYS_C001001427">
+    <key id="8423" parent="1253" name="SYS_C001001427">
       <ColNames>TOKEN_ID_DC</ColNames>
       <InitiallyDeferred>1</InitiallyDeferred>
       <ModifiedTimestamp>2022-03-31.05:47:39</ModifiedTimestamp>
@@ -61078,50 +61065,50 @@
       <Primary>1</Primary>
       <UnderlyingIndexName>SYS_C001001427</UnderlyingIndexName>
     </key>
-    <column id="8429" parent="1255" name="ED_ID">
+    <column id="8424" parent="1254" name="ED_ID">
       <DataType>CHAR(11 byte)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="8430" parent="1255" name="ED_LNAME">
+    <column id="8425" parent="1254" name="ED_LNAME">
       <DataType>VARCHAR2(40 byte)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="8431" parent="1255" name="ED_FNAME">
+    <column id="8426" parent="1254" name="ED_FNAME">
       <DataType>VARCHAR2(20 byte)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="8432" parent="1255" name="ED_POS">
+    <column id="8427" parent="1254" name="ED_POS">
       <DataType>VARCHAR2(12 byte)|0s</DataType>
       <Position>4</Position>
     </column>
-    <column id="8433" parent="1255" name="PHONE">
+    <column id="8428" parent="1254" name="PHONE">
       <DataType>CHAR(12 byte)|0s</DataType>
       <Position>5</Position>
     </column>
-    <column id="8434" parent="1255" name="ADDRESS">
+    <column id="8429" parent="1254" name="ADDRESS">
       <DataType>VARCHAR2(40 byte)|0s</DataType>
       <Position>6</Position>
     </column>
-    <column id="8435" parent="1255" name="CITY">
+    <column id="8430" parent="1254" name="CITY">
       <DataType>VARCHAR2(20 byte)|0s</DataType>
       <Position>7</Position>
     </column>
-    <column id="8436" parent="1255" name="STATE">
+    <column id="8431" parent="1254" name="STATE">
       <DataType>CHAR(2 byte)|0s</DataType>
       <Position>8</Position>
     </column>
-    <column id="8437" parent="1255" name="ZIP">
+    <column id="8432" parent="1254" name="ZIP">
       <DataType>CHAR(5 byte)|0s</DataType>
       <Position>9</Position>
     </column>
-    <column id="8438" parent="1255" name="ED_BOSS">
+    <column id="8433" parent="1254" name="ED_BOSS">
       <DataType>CHAR(11 byte)|0s</DataType>
       <Position>10</Position>
     </column>
-    <foreign-key id="8439" parent="1255" name="SYS_C00891586">
+    <foreign-key id="8434" parent="1254" name="SYS_C00891586">
       <ColNames>ED_BOSS</ColNames>
       <ModifiedTimestamp>2022-03-16.23:40:20</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
@@ -61129,7 +61116,7 @@
       <RefKeyName>SYS_C00891585</RefKeyName>
       <RefTableName>EDITORS</RefTableName>
     </foreign-key>
-    <index id="8440" parent="1255" name="SYS_C00891585">
+    <index id="8435" parent="1254" name="SYS_C00891585">
       <ColNames>ED_ID</ColNames>
       <CreatedTimestamp>2022-03-16.23:40:20</CreatedTimestamp>
       <ModifiedTimestamp>2022-03-16.23:40:20</ModifiedTimestamp>
@@ -61138,13 +61125,43 @@
       <TablespaceName>USERS</TablespaceName>
       <Unique>1</Unique>
     </index>
-    <key id="8441" parent="1255" name="SYS_C00891585">
+    <key id="8436" parent="1254" name="SYS_C00891585">
       <ColNames>ED_ID</ColNames>
       <InitiallyDeferred>1</InitiallyDeferred>
       <ModifiedTimestamp>2022-03-16.23:40:20</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>SYS_C00891585</UnderlyingIndexName>
+    </key>
+    <column id="8437" parent="1255" name="TOKEN_ID">
+      <DataType>VARCHAR2(20 byte)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="8438" parent="1255" name="GAME_ID">
+      <DataType>VARCHAR2(20 byte)|0s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="8439" parent="1255" name="PUBLISHER">
+      <DataType>VARCHAR2(20 byte)|0s</DataType>
+      <Position>3</Position>
+    </column>
+    <index id="8440" parent="1255" name="SYS_C001012688">
+      <ColNames>TOKEN_ID</ColNames>
+      <CreatedTimestamp>2022-03-31.13:20:57</CreatedTimestamp>
+      <ModifiedTimestamp>2022-03-31.13:20:57</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>897218</ObjectId>
+      <TablespaceName>USERS</TablespaceName>
+      <Unique>1</Unique>
+    </index>
+    <key id="8441" parent="1255" name="SYS_C001012688">
+      <ColNames>TOKEN_ID</ColNames>
+      <InitiallyDeferred>1</InitiallyDeferred>
+      <ModifiedTimestamp>2022-03-31.13:20:57</ModifiedTimestamp>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>SYS_C001012688</UnderlyingIndexName>
     </key>
     <column id="8442" parent="1256" name="PUB_ID">
       <DataType>CHAR(4 byte)|0s</DataType>

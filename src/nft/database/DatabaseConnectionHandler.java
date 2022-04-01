@@ -354,37 +354,6 @@ public class DatabaseConnectionHandler {
 		}
 	}
 
-	public String join() {
-		String finalResult = null;
-		try {
-			StringBuilder result = new StringBuilder(10000);
-			int tupleCount = 1;
-
-			Statement stmt = connection.createStatement();
-			ResultSet queryResult = stmt.executeQuery("SELECT * FROM sellers S, buyers B WHERE S.person_id = B.person_id");
-
-			while (queryResult.next()) {
-				result.append(tupleCount).append(") ");
-				result.append("Person_id: ").append(queryResult.getString("person_id"));
-				result.append("c_address: ").append(queryResult.getString("c_address"));
-				result.append("nft_quantity: ").append(queryResult.getString("nft_quantity"));
-				result.append("buyer_id: ").append(queryResult.getString("buyer_id"));
-				result.append("current_bid: ").append(queryResult.getString("current_bid"));
-				result.append("\n");
-				++tupleCount;
-			}
-
-			stmt.close();
-			queryResult.close();
-
-			finalResult = result.toString();
-		} catch (SQLException e) {
-			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-			rollbackConnection();
-		}
-		return finalResult;
-	}
-
 	// find buyers with current bids > ?
 	public Buyers[] selectionBuyersWithBidsGreaterThan(BigDecimal bid) {
 		ArrayList<Buyers> result = new ArrayList<>();
@@ -753,93 +722,85 @@ public class DatabaseConnectionHandler {
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("CREATE TABLE digital_content (token_id varchar(20) NOT NULL, creator varchar(20), file_format varchar(20), PRIMARY KEY (token_id))");
-			stmt.executeUpdate("CREATE TABLE collaterals (token_id varchar(20) NOT NULL," +
+			stmt.executeUpdate("CREATE TABLE collaterals (token_id varchar(20) NOT NULL, token_type varchar(20), loanee varchar(20), loaner varchar(20), token_rate int, PRIMARY KEY (token_id))");
+			stmt.executeUpdate("CREATE TABLE gaming (token_id varchar(20) NOT NULL, game_id varchar(20), publisher varchar(20), PRIMARY KEY (token_id))");
+			stmt.executeUpdate("CREATE TABLE nft_owns (token_id varchar(20) NOT NULL," +
+					"    person_id varchar(20) NOT NULL," +
 					"    token_type varchar(20)," +
-					"    loanee varchar(20)," +
-					"    loaner varchar(20)," +
-					"    token_rate int," +
-					"    PRIMARY KEY (token_id))");
-//			stmt.executeUpdate("CREATE TABLE gaming (token_id varchar(20) NOT NULL," +
-//					"    game_id varchar(20)," +
-//					"    publisher varchar(20)," +
-//					"    PRIMARY KEY (token_id))");
-//			stmt.executeUpdate("CREATE TABLE nft_owns (token_id varchar(20) NOT NULL," +
-//					"    person_id varchar(20) NOT NULL," +
-//					"    token_type varchar(20)," +
-//					"    PRIMARY KEY (token_id)," +
-//					"    FOREIGN KEY (person_id) REFERENCES sellers(person_id))");
-//			stmt.executeUpdate("CREATE TABLE people (person_id varchar(20) NOT NULL," +
-//					"    name varchar(20)," +
-//					"    age integer(3)," +
-//					"    PRIMARY KEY (person_id))");
-//			stmt.executeUpdate("CREATE TABLE sellers (person_id varchar(20) NOT NULL," +
-//					"    c_address varchar(20)," +
-//					"    nft_quantity integer," +
-//					"    PRIMARY KEY (person_id)," +
-//					"    UNIQUE (c_address))");
-//			stmt.executeUpdate("CREATE TABLE buyers (person_id varchar(20) NOT NULL," +
-//					"    buyer_id varchar(20)," +
-//					"    current_bid decimal(15, 2)," +
-//					"    PRIMARY KEY (person_id)," +
-//					"    UNIQUE (buyer_id))");
-//			stmt.executeUpdate("CREATE TABLE sells_to (buyer_id varchar(20) NOT NULL," +
-//					"    c_address varchar(20)," +
-//					"    PRIMARY KEY (buyer_id, c_address)," +
-//					"    FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id)," +
-//					"    FOREIGN KEY (c_address) REFERENCES sellers(c_address))");
-//			stmt.executeUpdate("CREATE TABLE host_website (domain varchar(20) NOT NULL," +
-//					"    published_on date," +
-//					"    nft_quantity integer," +
-//					"    currency varchar(20)," +
-//					"    PRIMARY KEY (domain))");
-//			stmt.executeUpdate("CREATE TABLE lists_on (domain varchar(20) NOT NULL," +
-//					"    c_address varchar(20)," +
-//					"    PRIMARY KEY (domain, c_address)," +
-//					"    FOREIGN KEY (domain) REFERENCES host_website(domain)," +
-//					"    FOREIGN KEY (c_address) REFERENCES sellers(c_address))");
-//			stmt.executeUpdate("CREATE TABLE hosted_on (domain varchar(20) NOT NULL," +
-//					"    token_id varchar(20) NOT NULL," +
-//					"    PRIMARY KEY (domain, token_id)," +
-//					"    FOREIGN KEY (domain) REFERENCES host_website(domain)," +
-//					"    FOREIGN KEY (token_id) REFERENCES nft_owns(token_id))");
-//			stmt.executeUpdate("CREATE TABLE bid_on (token_id varchar(20) NOT NULL," +
-//					"    buyer_id varchar(20) NOT NULL," +
-//					"    PRIMARY KEY (token_id, buyer_id)," +
-//					"    FOREIGN KEY (token_id) REFERENCES nft_owns(token_id)," +
-//					"    FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id))");
-//			stmt.executeUpdate("CREATE TABLE buys_from (domain varchar(20) NOT NULL," +
-//					"    buyer_id varchar(20) NOT NULL," +
-//					"    PRIMARY KEY (domain, buyer_id)," +
-//					"    FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id)," +
-//					"    FOREIGN KEY (domain) REFERENCES host_website(domain))");
+					"    PRIMARY KEY (token_id)," +
+					"    FOREIGN KEY (person_id) REFERENCES sellers(person_id))");
+			stmt.executeUpdate("CREATE TABLE people (person_id varchar(20) NOT NULL," +
+					"    name varchar(20)," +
+					"    age integer(3)," +
+					"    PRIMARY KEY (person_id))");
+			stmt.executeUpdate("CREATE TABLE sellers (person_id varchar(20) NOT NULL," +
+					"    c_address varchar(20)," +
+					"    nft_quantity integer," +
+					"    PRIMARY KEY (person_id)," +
+					"    UNIQUE (c_address))");
+			stmt.executeUpdate("CREATE TABLE buyers (person_id varchar(20) NOT NULL," +
+					"    buyer_id varchar(20)," +
+					"    current_bid decimal(15, 2)," +
+					"    PRIMARY KEY (person_id)," +
+					"    UNIQUE (buyer_id))");
+			stmt.executeUpdate("CREATE TABLE sells_to (buyer_id varchar(20) NOT NULL," +
+					"    c_address varchar(20)," +
+					"    PRIMARY KEY (buyer_id, c_address)," +
+					"    FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id)," +
+					"    FOREIGN KEY (c_address) REFERENCES sellers(c_address))");
+			stmt.executeUpdate("CREATE TABLE host_website (domain varchar(20) NOT NULL," +
+					"    published_on date," +
+					"    nft_quantity integer," +
+					"    currency varchar(20)," +
+					"    PRIMARY KEY (domain))");
+			stmt.executeUpdate("CREATE TABLE lists_on (domain varchar(20) NOT NULL," +
+					"    c_address varchar(20)," +
+					"    PRIMARY KEY (domain, c_address)," +
+					"    FOREIGN KEY (domain) REFERENCES host_website(domain)," +
+					"    FOREIGN KEY (c_address) REFERENCES sellers(c_address))");
+			stmt.executeUpdate("CREATE TABLE hosted_on (domain varchar(20) NOT NULL," +
+					"    token_id varchar(20) NOT NULL," +
+					"    PRIMARY KEY (domain, token_id)," +
+					"    FOREIGN KEY (domain) REFERENCES host_website(domain)," +
+					"    FOREIGN KEY (token_id) REFERENCES nft_owns(token_id))");
+			stmt.executeUpdate("CREATE TABLE bid_on (token_id varchar(20) NOT NULL," +
+					"    buyer_id varchar(20) NOT NULL," +
+					"    PRIMARY KEY (token_id, buyer_id)," +
+					"    FOREIGN KEY (token_id) REFERENCES nft_owns(token_id)," +
+					"    FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id))");
+			stmt.executeUpdate("CREATE TABLE buys_from (domain varchar(20) NOT NULL," +
+					"    buyer_id varchar(20) NOT NULL," +
+					"    PRIMARY KEY (domain, buyer_id)," +
+					"    FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id)," +
+					"    FOREIGN KEY (domain) REFERENCES host_website(domain))");
 			stmt.close();
 		} catch (SQLException e) {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}
-//
-//		HostWebsite website1 = new HostWebsite("www.example.com", new Date(56), 10, "bitcoin");
-//		insertHostWebsite(website1);
-//
-//		People person1 = new People("12345", "Rob robson", 43);
-//		insertPeople(person1);
-//
-//		Sellers seller1 = new Sellers("45678", "asdfkl", new BigDecimal(10));
-//		insertSellers(seller1);
-//
-//		Buyers buyer1 = new Buyers("10298", "ascxz", new BigDecimal(30));
-//		insertBuyers(buyer1);
-//
-//		NFTOwns nft1 = new NFTOwns("olapo", "18675", "x-token");
-//		insertNftOwns(nft1);
 
 		DigitalContent digitalContent1 = new DigitalContent("ilpoi", "Bill russ", "mp4");
 		insertDigitalContent(digitalContent1);
 
 		Collaterals collateral1 = new Collaterals("cvbnm", "Bank", "ubc", "scotia", 30);
 		insertCollaterals(collateral1);
-//
-//		Gaming gameItem1 = new Gaming("ixnxe", "00034", "valve");
-//		insertGaming(gameItem1);
+
+		HostWebsite website1 = new HostWebsite("www.example.com", new Date(56), 10, "bitcoin");
+		insertHostWebsite(website1);
+
+		People person1 = new People("12345", "Rob robson", 43);
+		insertPeople(person1);
+
+		Sellers seller1 = new Sellers("45678", "asdfkl", new BigDecimal(10));
+		insertSellers(seller1);
+
+		Buyers buyer1 = new Buyers("10298", "ascxz", new BigDecimal(30));
+		insertBuyers(buyer1);
+
+		NFTOwns nft1 = new NFTOwns("olapo", "18675", "x-token");
+		insertNftOwns(nft1);
+
+		Gaming gameItem1 = new Gaming("ixnxe", "00034", "valve");
+		insertGaming(gameItem1);
 	}
 
 	public DigitalContent[] getDigitalContentInfo() {
@@ -893,59 +854,59 @@ public class DatabaseConnectionHandler {
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
-			
+
 			while(rs.next()) {
 				if(rs.getString(1).toLowerCase().equals("digital_content")) {
 					stmt.execute("DROP TABLE digital_content");
-					break;
+					continue;
 				}
 				if(rs.getString(1).toLowerCase().equals("collaterals")) {
 					stmt.execute("DROP TABLE collaterals");
-					break;
+					continue;
 				}
 				if(rs.getString(1).toLowerCase().equals("gaming")) {
 					stmt.execute("DROP TABLE gaming");
-					break;
+					continue;
 				}
 				if(rs.getString(1).toLowerCase().equals("nft_owns")) {
 					stmt.execute("DROP TABLE nft_owns");
-					break;
+					continue;
 				}
 				if(rs.getString(1).toLowerCase().equals("people")) {
 					stmt.execute("DROP TABLE people");
-					break;
+					continue;
 				}
 				if(rs.getString(1).toLowerCase().equals("sellers")) {
 					stmt.execute("DROP TABLE sellers");
-					break;
+					continue;
 				}
 				if(rs.getString(1).toLowerCase().equals("buyers")) {
 					stmt.execute("DROP TABLE buyers");
-					break;
+					continue;
 				}
 				if(rs.getString(1).toLowerCase().equals("sells_to")) {
 					stmt.execute("DROP TABLE sells_to");
-					break;
+					continue;
 				}
 				if(rs.getString(1).toLowerCase().equals("host_website")) {
 					stmt.execute("DROP TABLE host_website");
-					break;
+					continue;
 				}
 				if(rs.getString(1).toLowerCase().equals("lists_on")) {
 					stmt.execute("DROP TABLE lists_on");
-					break;
+					continue;
 				}
 				if(rs.getString(1).toLowerCase().equals("hosted_on")) {
 					stmt.execute("DROP TABLE hosted_on");
-					break;
+					continue;
 				}
 				if(rs.getString(1).toLowerCase().equals("bid_on")) {
 					stmt.execute("DROP TABLE bid_on");
-					break;
+					continue;
 				}
 				if(rs.getString(1).toLowerCase().equals("buys_from")) {
 					stmt.execute("DROP TABLE buys_from");
-					break;
+					continue;
 				}
 			}
 			

@@ -62,7 +62,7 @@ public class TerminalTransactions {
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         int choice = INVALID_INPUT;
 
-        while (choice != 5) {
+        while (choice != 0) {
             System.out.println();
             System.out.println("1. Insert Digital Content");
             System.out.println("2. Delete Digital Content");
@@ -72,6 +72,7 @@ public class TerminalTransactions {
             System.out.println("6. Delete Collaterals");
             System.out.println("7. Update Collaterals");
             System.out.println("8. Show Collaterals");
+            System.out.println("9. Find Buyers with bids > ?");
             System.out.println("0. Quit");
 
             choice = readInteger(false);
@@ -103,6 +104,9 @@ public class TerminalTransactions {
                         break;
                     case 8:
                         delegate.showCollaterals();
+                        break;
+                    case 9:
+                        handleSelection();
                         break;
                     case 0:
                         handleQuitOption();
@@ -251,6 +255,16 @@ public class TerminalTransactions {
         delegate.updateCollaterals(tokenId, tokenType, loanee, loaner, tokenRate);
     }
 
+    private void handleSelection() {
+        BigDecimal bid = null;
+        while (bid  == null) {
+            System.out.println("Find buyers with bids greater than: ");
+            bid = readBigDecimal(false);
+        }
+
+        delegate.selection(bid);
+    }
+
     private void handleQuitOption() {
         System.out.println("Good Bye!");
 
@@ -283,17 +297,17 @@ public class TerminalTransactions {
         return input;
     }
 
-    private BigDecimal readBigInteger(boolean allowEmpty) {
+    private BigDecimal readBigDecimal(boolean allowEmpty) {
         String line = null;
-        BigDecimal input = null;
+        BigDecimal input = new BigDecimal(-1);
         try {
             line = bufferedReader.readLine();
             input = new BigDecimal(line);
         } catch (IOException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         } catch (NumberFormatException e) {
-            if (allowEmpty && line.length() == 0) {
-                input = null;
+            if (allowEmpty && Objects.requireNonNull(line).length() == 0) {
+                input = new BigDecimal(-1);
             } else {
                 System.out.println(WARNING_TAG + " Your input was not correct");
             }

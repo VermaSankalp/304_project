@@ -26,6 +26,8 @@ public interface TerminalTransactionsDelegate {
 	public void insertCollaterals(Collaterals model);
 	public void showCollaterals();
 	public void updateCollaterals(String tokenId, String tokenType, String loanee, String loaner, int tokenRate);
-	
+
+	public void selection(BigDecimal bid);
+
 	public void terminalTransactionsFinished();
 }

@@ -8,6 +8,8 @@
  import nft.ui2.LoginWindow;
  import nft.ui2.TerminalTransactions;
 
+ import java.math.BigDecimal;
+
  /**
   * This is the main controller class that will orchestrate everything.
   */
@@ -125,6 +127,10 @@
 
 	 public void updateCollaterals(String tokenId, String tokenType, String loanee, String loaner, int tokenRate) {
 		 dbHandler.updateCollaterals(tokenId, tokenType, loanee, loaner, tokenRate);
+	 }
+
+	 public void selection(BigDecimal bid) {
+		 dbHandler.selectionBuyersWithBidsGreaterThan(bid);
 	 }
 
 
