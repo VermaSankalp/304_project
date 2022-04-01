@@ -630,12 +630,12 @@ public class DatabaseConnectionHandler {
 		}
 	}
 
-	public void updateCollaterals(String tokenID, String type, String loanee, String loaner, int tokenRate) {
+	public void updateCollaterals(String tokenID, String token_type, String loanee, String loaner, int tokenRate) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("UPDATE collaterals SET loanee = ?, loaner = ?, type = ?, token_rate = ? WHERE token_id = ?");
+			PreparedStatement ps = connection.prepareStatement("UPDATE collaterals SET loanee = ?, loaner = ?, token_type = ?, token_rate = ? WHERE token_id = ?");
 			ps.setString(1, loanee);
 			ps.setString(2, loaner);
-			ps.setString(3, type);
+			ps.setString(3, token_type);
 			ps.setInt(4, tokenRate);
 			ps.setString(5, tokenID);
 
@@ -719,64 +719,134 @@ public class DatabaseConnectionHandler {
 	public void databaseSetup() {
 		dropTableIfExists();
 
+		createTableDigitalContent();
+		System.out.println("dc");
+		createTableCollaterals();
+		System.out.println("c");
+		createTableGaming();
+		System.out.println("g");
+		createTableSellers();
+		System.out.println("s");
+		createTableBuyers();
+		System.out.println("b");
+		createTableNftOwns();
+		System.out.println("n");
+		createTablePeople();
+		System.out.println("p");
+		createTableHostWebsite();
+
+	}
+
+	public void createTableDigitalContent() {
 		try {
 			Statement stmt = connection.createStatement();
-			// stmt.executeUpdate("CREATE TABLE digital_content (token_id varchar(20) NOT NULL, creator varchar(20), file_format varchar(20), PRIMARY KEY (token_id))");
+			stmt.executeUpdate("CREATE TABLE digital_content (token_id varchar(20) NOT NULL, creator varchar(20), file_format varchar(20), PRIMARY KEY (token_id))");
 
-			stmt.executeUpdate("CREATE TABLE collaterals (token_id varchar(20) NOT NULL, token_type varchar(20), loanee varchar(20), loaner varchar(20), token_rate int, PRIMARY KEY (token_id))");
-
-			stmt.executeUpdate("CREATE TABLE gaming (token_id varchar(20) NOT NULL, game_id varchar(20), publisher varchar(20), PRIMARY KEY (token_id))");
-
-			stmt.executeUpdate("CREATE TABLE sellers (person_id varchar(20) NOT NULL, c_address varchar(20), nft_quantity integer, PRIMARY KEY (person_id), UNIQUE (c_address))");
-
-			stmt.executeUpdate("CREATE TABLE buyers (person_id varchar(20) NOT NULL, buyer_id varchar(20), current_bid decimal(15, 2), PRIMARY KEY (person_id), UNIQUE (buyer_id))");
-
-			stmt.executeUpdate("CREATE TABLE nft_owns (token_id varchar(20) NOT NULL, person_id varchar(20) NOT NULL, token_type varchar(20), PRIMARY KEY (token_id), FOREIGN KEY (person_id) REFERENCES sellers(person_id))");
-
-			stmt.executeUpdate("CREATE TABLE people (person_id varchar(20) NOT NULL, name varchar(20), age integer(3), PRIMARY KEY (person_id))");
-
-			stmt.executeUpdate("CREATE TABLE sells_to (buyer_id varchar(20) NOT NULL, c_address varchar(20), PRIMARY KEY (buyer_id, c_address), FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id), FOREIGN KEY (c_address) REFERENCES sellers(c_address))");
-
-			stmt.executeUpdate("CREATE TABLE host_website (domain varchar(20) NOT NULL, published_on date, nft_quantity integer, currency varchar(20), PRIMARY KEY (domain))");
-
-			stmt.executeUpdate("CREATE TABLE lists_on (domain varchar(20) NOT NULL, c_address varchar(20), PRIMARY KEY (domain, c_address), FOREIGN KEY (domain) REFERENCES host_website(domain), FOREIGN KEY (c_address) REFERENCES sellers(c_address))");
-
-			stmt.executeUpdate("CREATE TABLE hosted_on (domain varchar(20) NOT NULL, token_id varchar(20) NOT NULL,  PRIMARY KEY (domain, token_id), FOREIGN KEY (domain) REFERENCES host_website(domain), FOREIGN KEY (token_id) REFERENCES nft_owns(token_id))");
-
-			stmt.executeUpdate("CREATE TABLE bid_on (token_id varchar(20) NOT NULL,  buyer_id varchar(20) NOT NULL, PRIMARY KEY (token_id, buyer_id), FOREIGN KEY (token_id) REFERENCES nft_owns(token_id), FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id))");
-
-			stmt.executeUpdate("CREATE TABLE buys_from (domain varchar(20) NOT NULL, buyer_id varchar(20) NOT NULL, PRIMARY KEY (domain, buyer_id), FOREIGN KEY (buyer_id) REFERENCES buyers(buyer_id), FOREIGN KEY (domain) REFERENCES host_website(domain))");
+			DigitalContent digitalContent1 = new DigitalContent("ilpoi", "Bill russ", "mp4");
+			insertDigitalContent(digitalContent1);
 
 			stmt.close();
-
 		} catch (SQLException e) {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}
+	}
 
-		DigitalContent digitalContent1 = new DigitalContent("ilpoi", "Bill russ", "mp4");
-		insertDigitalContent(digitalContent1);
+	public void createTableCollaterals() {
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("CREATE TABLE collaterals (token_id varchar(20) NOT NULL, token_type varchar(20), loanee varchar(20), loaner varchar(20), token_rate int, PRIMARY KEY (token_id))");
 
-		Collaterals collateral1 = new Collaterals("cvbnm", "Bank", "ubc", "scotia", 30);
-		insertCollaterals(collateral1);
+			Collaterals collateral1 = new Collaterals("cvbnm", "Bank", "ubc", "scotia", 30);
+			insertCollaterals(collateral1);
 
-		HostWebsite website1 = new HostWebsite("www.example.com", "15/2/22", 10, "bitcoin");
-		insertHostWebsite(website1);
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
 
-		People person1 = new People("12345", "Rob robson", 43);
-		insertPeople(person1);
+	public void createTableGaming() {
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("CREATE TABLE gaming (token_id varchar(20) NOT NULL, game_id varchar(20), publisher varchar(20), PRIMARY KEY (token_id))");
 
-		Sellers seller1 = new Sellers("45678", "asdfkl", new BigDecimal(10));
-		insertSellers(seller1);
+			Gaming gameItem1 = new Gaming("ixnxe", "00034", "valve");
+			insertGaming(gameItem1);
 
-		Buyers buyer1 = new Buyers("10298", "ascxz", new BigDecimal(30));
-		insertBuyers(buyer1);
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
 
-		NFTOwns nft1 = new NFTOwns("olapo", "18675", "x-token");
-		insertNftOwns(nft1);
+	public void createTableSellers() {
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("CREATE TABLE sellers (person_id varchar(20) NOT NULL, c_address varchar(20), nft_quantity integer, PRIMARY KEY (person_id), UNIQUE (c_address))");
 
-		Gaming gameItem1 = new Gaming("ixnxe", "00034", "valve");
-		insertGaming(gameItem1);
+			Sellers seller1 = new Sellers("45678", "asdfkl", new BigDecimal(10));
+			insertSellers(seller1);
 
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	public void createTableBuyers() {
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("CREATE TABLE buyers (person_id varchar(20) NOT NULL, buyer_id varchar(20), current_bid decimal(15, 2), PRIMARY KEY (person_id), UNIQUE (buyer_id))");
+
+			Buyers buyer1 = new Buyers("10298", "ascxz", new BigDecimal(30));
+			insertBuyers(buyer1);
+
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	public void createTableNftOwns() {
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("CREATE TABLE nft_owns (token_id varchar(20) NOT NULL, person_id varchar(20) NOT NULL, token_type varchar(20), PRIMARY KEY (token_id), FOREIGN KEY (person_id) REFERENCES sellers(person_id))");
+
+			NFTOwns nft1 = new NFTOwns("olapo", "18675", "x-token");
+			insertNftOwns(nft1);
+
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	public void createTablePeople() {
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("CREATE TABLE people (person_id varchar(20) NOT NULL, name varchar(20), age integer, PRIMARY KEY (person_id))");
+
+			People person1 = new People("12345", "Rob robson", 43);
+			insertPeople(person1);
+
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	public void createTableHostWebsite() {
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("CREATE TABLE host_website (domain varchar(20) NOT NULL, published_on date, nft_quantity integer, currency varchar(20), PRIMARY KEY (domain))");
+
+			HostWebsite website1 = new HostWebsite("www.example.com", "15/2/2020", 10, "bitcoin");
+			insertHostWebsite(website1);
+
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
 	}
 
 	public DigitalContent[] getDigitalContentInfo() {
@@ -825,8 +895,24 @@ public class DatabaseConnectionHandler {
 
 		return result.toArray(new Collaterals[result.size()]);
 	}
-	
+
 	private void dropTableIfExists() {
+		dropDigitalContentTableIfExists();
+		dropCollateralsTableIfExists();
+		dropGamingTableIfExists();
+		dropNFTOwnsTableIfExists();
+		dropPeopleTableIfExists();
+		dropSellersTableIfExists();
+		dropBuyersTableIfExists();
+		dropSellsToTableIfExists();
+		dropHostWebsiteTableIfExists();
+		dropListsOnTableIfExists();
+		dropHostedOnTableIfExists();
+		dropBidOnTableIfExists();
+		dropBuysFromTableIfExists();
+	}
+	
+	private void dropDigitalContentTableIfExists() {
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
@@ -834,58 +920,238 @@ public class DatabaseConnectionHandler {
 			while(rs.next()) {
 				if(rs.getString(1).toLowerCase().equals("digital_content")) {
 					stmt.execute("DROP TABLE digital_content");
-					System.out.println("digitalcontent r");
-					continue;
+					break;
 				}
-//				if(rs.getString(1).toLowerCase().equals("collaterals")) {
-//					stmt.execute("DROP TABLE collaterals");
-//					continue;
-//				}
-//				if(rs.getString(1).toLowerCase().equals("gaming")) {
-//					stmt.execute("DROP TABLE gaming");
-//					continue;
-//				}
-//				if(rs.getString(1).toLowerCase().equals("nft_owns")) {
-//					stmt.execute("DROP TABLE nft_owns");
-//					continue;
-//				}
-//				if(rs.getString(1).toLowerCase().equals("people")) {
-//					stmt.execute("DROP TABLE people");
-//					continue;
-//				}
-//				if(rs.getString(1).toLowerCase().equals("sellers")) {
-//					stmt.execute("DROP TABLE sellers");
-//					continue;
-//				}
-//				if(rs.getString(1).toLowerCase().equals("buyers")) {
-//					stmt.execute("DROP TABLE buyers");
-//					continue;
-//				}
-//				if(rs.getString(1).toLowerCase().equals("sells_to")) {
-//					stmt.execute("DROP TABLE sells_to");
-//					continue;
-//				}
-//				if(rs.getString(1).toLowerCase().equals("host_website")) {
-//					stmt.execute("DROP TABLE host_website");
-//					continue;
-//				}
-//				if(rs.getString(1).toLowerCase().equals("lists_on")) {
-//					stmt.execute("DROP TABLE lists_on");
-//					continue;
-//				}
-//				if(rs.getString(1).toLowerCase().equals("hosted_on")) {
-//					stmt.execute("DROP TABLE hosted_on");
-//					continue;
-//				}
-//				if(rs.getString(1).toLowerCase().equals("bid_on")) {
-//					stmt.execute("DROP TABLE bid_on");
-//					continue;
-//				}
-//				if(rs.getString(1).toLowerCase().equals("buys_from")) {
-//					stmt.execute("DROP TABLE buys_from");
-//				}
 			}
 			
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	private void dropCollateralsTableIfExists() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
+
+			while(rs.next()) {
+				if(rs.getString(1).toLowerCase().equals("collaterals")) {
+					stmt.execute("DROP TABLE collaterals");
+					break;
+				}
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	private void dropGamingTableIfExists() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
+
+			while(rs.next()) {
+				if(rs.getString(1).toLowerCase().equals("gaming")) {
+					stmt.execute("DROP TABLE gaming");
+					break;
+				}
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	private void dropNFTOwnsTableIfExists() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
+
+			while(rs.next()) {
+				if(rs.getString(1).toLowerCase().equals("nft_owns")) {
+					stmt.execute("DROP TABLE nft_owns");
+					break;
+				}
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	private void dropPeopleTableIfExists() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
+
+			while(rs.next()) {
+				if(rs.getString(1).toLowerCase().equals("people")) {
+					stmt.execute("DROP TABLE people");
+					break;
+				}
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	private void dropSellersTableIfExists() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
+
+			while(rs.next()) {
+				if(rs.getString(1).toLowerCase().equals("sellers")) {
+					stmt.execute("DROP TABLE sellers");
+					break;
+				}
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	private void dropBuyersTableIfExists() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
+
+			while(rs.next()) {
+				if(rs.getString(1).toLowerCase().equals("buyers")) {
+					stmt.execute("DROP TABLE buyers");
+					break;
+				}
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	private void dropSellsToTableIfExists() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
+
+			while(rs.next()) {
+				if(rs.getString(1).toLowerCase().equals("sells_to")) {
+					stmt.execute("DROP TABLE sells_to");
+					break;
+				}
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	private void dropHostWebsiteTableIfExists() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
+
+			while(rs.next()) {
+				if(rs.getString(1).toLowerCase().equals("host_website")) {
+					stmt.execute("DROP TABLE host_website");
+					break;
+				}
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	private void dropListsOnTableIfExists() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
+
+			while(rs.next()) {
+				if(rs.getString(1).toLowerCase().equals("lists_on")) {
+					stmt.execute("DROP TABLE lists_on");
+					break;
+				}
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	private void dropHostedOnTableIfExists() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
+
+			while(rs.next()) {
+				if(rs.getString(1).toLowerCase().equals("hosted_on")) {
+					stmt.execute("DROP TABLE hosted_on");
+					break;
+				}
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	private void dropBidOnTableIfExists() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
+
+			while(rs.next()) {
+				if(rs.getString(1).toLowerCase().equals("bid_on")) {
+					stmt.execute("DROP TABLE bid_on");
+					break;
+				}
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+	}
+
+	private void dropBuysFromTableIfExists() {
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select table_name from user_tables");
+
+			while(rs.next()) {
+				if(rs.getString(1).toLowerCase().equals("buys_from")) {
+					stmt.execute("DROP TABLE buys_from");
+					break;
+				}
+			}
+
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
