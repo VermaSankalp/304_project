@@ -717,11 +717,11 @@ public class DatabaseConnectionHandler {
 	}
 	
 	public void databaseSetup() {
-		// dropTableIfExists();
+		dropTableIfExists();
 
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("CREATE TABLE digital_content (token_id varchar(20) NOT NULL, creator varchar(20), file_format varchar(20), PRIMARY KEY (token_id))");
+			// stmt.executeUpdate("CREATE TABLE digital_content (token_id varchar(20) NOT NULL, creator varchar(20), file_format varchar(20), PRIMARY KEY (token_id))");
 
 			stmt.executeUpdate("CREATE TABLE collaterals (token_id varchar(20) NOT NULL, token_type varchar(20), loanee varchar(20), loaner varchar(20), token_rate int, PRIMARY KEY (token_id))");
 
@@ -749,34 +749,33 @@ public class DatabaseConnectionHandler {
 
 			stmt.close();
 
-			DigitalContent digitalContent1 = new DigitalContent("ilpoi", "Bill russ", "mp4");
-			insertDigitalContent(digitalContent1);
-
-			Collaterals collateral1 = new Collaterals("cvbnm", "Bank", "ubc", "scotia", 30);
-			insertCollaterals(collateral1);
-
-			HostWebsite website1 = new HostWebsite("www.example.com", "15/2/22", 10, "bitcoin");
-			insertHostWebsite(website1);
-
-			People person1 = new People("12345", "Rob robson", 43);
-			insertPeople(person1);
-
-			Sellers seller1 = new Sellers("45678", "asdfkl", new BigDecimal(10));
-			insertSellers(seller1);
-
-			Buyers buyer1 = new Buyers("10298", "ascxz", new BigDecimal(30));
-			insertBuyers(buyer1);
-
-			NFTOwns nft1 = new NFTOwns("olapo", "18675", "x-token");
-			insertNftOwns(nft1);
-
-			Gaming gameItem1 = new Gaming("ixnxe", "00034", "valve");
-			insertGaming(gameItem1);
-
 		} catch (SQLException e) {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}
 
+		DigitalContent digitalContent1 = new DigitalContent("ilpoi", "Bill russ", "mp4");
+		insertDigitalContent(digitalContent1);
+
+		Collaterals collateral1 = new Collaterals("cvbnm", "Bank", "ubc", "scotia", 30);
+		insertCollaterals(collateral1);
+
+		HostWebsite website1 = new HostWebsite("www.example.com", "15/2/22", 10, "bitcoin");
+		insertHostWebsite(website1);
+
+		People person1 = new People("12345", "Rob robson", 43);
+		insertPeople(person1);
+
+		Sellers seller1 = new Sellers("45678", "asdfkl", new BigDecimal(10));
+		insertSellers(seller1);
+
+		Buyers buyer1 = new Buyers("10298", "ascxz", new BigDecimal(30));
+		insertBuyers(buyer1);
+
+		NFTOwns nft1 = new NFTOwns("olapo", "18675", "x-token");
+		insertNftOwns(nft1);
+
+		Gaming gameItem1 = new Gaming("ixnxe", "00034", "valve");
+		insertGaming(gameItem1);
 
 	}
 
@@ -834,56 +833,57 @@ public class DatabaseConnectionHandler {
 
 			while(rs.next()) {
 				if(rs.getString(1).toLowerCase().equals("digital_content")) {
-					stmt.execute("drop table DIGITAL_CONTENT");
+					stmt.execute("DROP TABLE digital_content");
+					System.out.println("digitalcontent r");
 					continue;
 				}
-				if(rs.getString(1).toLowerCase().equals("collaterals")) {
-					stmt.execute("drop table COLLATERALS");
-					continue;
-				}
-				if(rs.getString(1).toLowerCase().equals("gaming")) {
-					stmt.execute("drop table GAMING");
-					continue;
-				}
-				if(rs.getString(1).toLowerCase().equals("nft_owns")) {
-					stmt.execute("drop table NFT_OWNS");
-					continue;
-				}
-				if(rs.getString(1).toLowerCase().equals("people")) {
-					stmt.execute("drop table PEOPLE");
-					continue;
-				}
-				if(rs.getString(1).toLowerCase().equals("sellers")) {
-					stmt.execute("drop table SELLERS");
-					continue;
-				}
-				if(rs.getString(1).toLowerCase().equals("buyers")) {
-					stmt.execute("drop table BUYERS");
-					continue;
-				}
-				if(rs.getString(1).toLowerCase().equals("sells_to")) {
-					stmt.execute("drop table SELLS_TO");
-					continue;
-				}
-				if(rs.getString(1).toLowerCase().equals("host_website")) {
-					stmt.execute("drop table HOST_WEBSITE");
-					continue;
-				}
-				if(rs.getString(1).toLowerCase().equals("lists_on")) {
-					stmt.execute("DROP TABLE LISTS_ON");
-					continue;
-				}
-				if(rs.getString(1).toLowerCase().equals("hosted_on")) {
-					stmt.execute("DROP TABLE HOSTED_ON");
-					continue;
-				}
-				if(rs.getString(1).toLowerCase().equals("bid_on")) {
-					stmt.execute("DROP TABLE BID_ON");
-					continue;
-				}
-				if(rs.getString(1).toLowerCase().equals("buys_from")) {
-					stmt.execute("DROP TABLE BUYS_FROM");
-				}
+//				if(rs.getString(1).toLowerCase().equals("collaterals")) {
+//					stmt.execute("DROP TABLE collaterals");
+//					continue;
+//				}
+//				if(rs.getString(1).toLowerCase().equals("gaming")) {
+//					stmt.execute("DROP TABLE gaming");
+//					continue;
+//				}
+//				if(rs.getString(1).toLowerCase().equals("nft_owns")) {
+//					stmt.execute("DROP TABLE nft_owns");
+//					continue;
+//				}
+//				if(rs.getString(1).toLowerCase().equals("people")) {
+//					stmt.execute("DROP TABLE people");
+//					continue;
+//				}
+//				if(rs.getString(1).toLowerCase().equals("sellers")) {
+//					stmt.execute("DROP TABLE sellers");
+//					continue;
+//				}
+//				if(rs.getString(1).toLowerCase().equals("buyers")) {
+//					stmt.execute("DROP TABLE buyers");
+//					continue;
+//				}
+//				if(rs.getString(1).toLowerCase().equals("sells_to")) {
+//					stmt.execute("DROP TABLE sells_to");
+//					continue;
+//				}
+//				if(rs.getString(1).toLowerCase().equals("host_website")) {
+//					stmt.execute("DROP TABLE host_website");
+//					continue;
+//				}
+//				if(rs.getString(1).toLowerCase().equals("lists_on")) {
+//					stmt.execute("DROP TABLE lists_on");
+//					continue;
+//				}
+//				if(rs.getString(1).toLowerCase().equals("hosted_on")) {
+//					stmt.execute("DROP TABLE hosted_on");
+//					continue;
+//				}
+//				if(rs.getString(1).toLowerCase().equals("bid_on")) {
+//					stmt.execute("DROP TABLE bid_on");
+//					continue;
+//				}
+//				if(rs.getString(1).toLowerCase().equals("buys_from")) {
+//					stmt.execute("DROP TABLE buys_from");
+//				}
 			}
 			
 			rs.close();
