@@ -73,7 +73,10 @@ public class TerminalTransactions {
             System.out.println("6. Delete Collaterals");
             System.out.println("7. Update Collaterals");
             System.out.println("8. Show Collaterals");
-            System.out.println("9. Find Buyers with bids > ?");
+            System.out.println("9. Insert Host Website");
+            System.out.println("10. Delete Host Website");
+            System.out.println("11. Update Host Website");
+            System.out.println("12. Find Buyers with bids > ?");
             System.out.println("0. Quit");
 
             choice = readInteger(false);
@@ -107,6 +110,15 @@ public class TerminalTransactions {
                         delegate.showCollaterals();
                         break;
                     case 9:
+                        handleInsertOptionHostWebsite();
+                        break;
+                    case 10:
+                        handleDeleteOptionHostWebsite();
+                        break;
+                    case 11:
+                        handleUpdateOptionHostWebsite();
+                        break;
+                    case 12:
                         handleSelection();
                         break;
                     case 0:
