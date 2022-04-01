@@ -357,11 +357,11 @@ public class DatabaseConnectionHandler {
 	// find buyers with current bids > ?
 	public Buyers[] selectionBuyersWithBidsGreaterThan(BigDecimal bid) {
 		ArrayList<Buyers> result = new ArrayList<>();
-
+		System.out.println("prestatement");
 		try {
 			PreparedStatement ps = connection.prepareStatement("SELECT b.buyer_id FROM buyers b WHERE b.current_bid > ?");
 			ps.setBigDecimal(1, bid);
-
+			System.out.println("pre");
 			ps.execute();
 			ResultSet queryResult = ps.getResultSet();
 
@@ -720,19 +720,12 @@ public class DatabaseConnectionHandler {
 		dropTableIfExists();
 
 		createTableDigitalContent();
-		System.out.println("dc");
 		createTableCollaterals();
-		System.out.println("c");
 		createTableGaming();
-		System.out.println("g");
 		createTableSellers();
-		System.out.println("s");
 		createTableBuyers();
-		System.out.println("b");
 		createTableNftOwns();
-		System.out.println("n");
 		createTablePeople();
-		System.out.println("p");
 		createTableHostWebsite();
 
 	}
@@ -784,7 +777,7 @@ public class DatabaseConnectionHandler {
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("CREATE TABLE sellers (person_id varchar(20) NOT NULL, c_address varchar(20), nft_quantity integer, PRIMARY KEY (person_id), UNIQUE (c_address))");
 
-			Sellers seller1 = new Sellers("45678", "asdfkl", new BigDecimal(10));
+			Sellers seller1 = new Sellers("18675", "asdfkl", new BigDecimal(10));
 			insertSellers(seller1);
 
 			stmt.close();
@@ -811,7 +804,6 @@ public class DatabaseConnectionHandler {
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("CREATE TABLE nft_owns (token_id varchar(20) NOT NULL, person_id varchar(20) NOT NULL, token_type varchar(20), PRIMARY KEY (token_id), FOREIGN KEY (person_id) REFERENCES sellers(person_id))");
-
 			NFTOwns nft1 = new NFTOwns("olapo", "18675", "x-token");
 			insertNftOwns(nft1);
 
@@ -838,7 +830,7 @@ public class DatabaseConnectionHandler {
 	public void createTableHostWebsite() {
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("CREATE TABLE host_website (domain varchar(20) NOT NULL, published_on date, nft_quantity integer, currency varchar(20), PRIMARY KEY (domain))");
+			stmt.executeUpdate("CREATE TABLE host_website (domain varchar(20) NOT NULL, published_on varchar(20), nft_quantity integer, currency varchar(20), PRIMARY KEY (domain))");
 
 			HostWebsite website1 = new HostWebsite("www.example.com", "15/2/2020", 10, "bitcoin");
 			insertHostWebsite(website1);
@@ -894,6 +886,29 @@ public class DatabaseConnectionHandler {
 		}
 
 		return result.toArray(new Collaterals[result.size()]);
+	}
+
+	public HostWebsite[] getHostWebsiteInfo() {
+		ArrayList<HostWebsite> result = new ArrayList<>();
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM host_website");
+
+			while(rs.next()) {
+				HostWebsite model = new HostWebsite(rs.getString("domain"),
+						rs.getString("published_on"),
+						rs.getInt("nft_quantity"),
+						rs.getString("currency"));
+				result.add(model);
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+
+		return result.toArray(new HostWebsite[result.size()]);
 	}
 
 	private void dropTableIfExists() {

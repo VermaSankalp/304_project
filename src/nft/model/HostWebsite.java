@@ -5,10 +5,10 @@ import java.util.Date;
 public class HostWebsite {
     private final String domain;
     private final String publishedOn;
-    private final Integer NFTQuantity;
+    private final int NFTQuantity;
     private final String currency;
 
-    public HostWebsite(String domain, String publishedOn, Integer NFTQuantity, String currency) {
+    public HostWebsite(String domain, String publishedOn, int NFTQuantity, String currency) {
         this.domain = domain;
         this.publishedOn = publishedOn;
         this.NFTQuantity = NFTQuantity;
@@ -23,7 +23,7 @@ public class HostWebsite {
         return publishedOn;
     }
 
-    public Integer getNFTQuantity() {
+    public int getNFTQuantity() {
         return NFTQuantity;
     }
 

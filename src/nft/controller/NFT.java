@@ -137,6 +137,21 @@
 	 public void updateHostWebsite(String domain, String publishedOn, int nftQuantity, String currency) {
 		 dbHandler.updateHostWebsite(domain, publishedOn, nftQuantity, currency);
 	 }
+	 public void showHostWebsite() {
+		 HostWebsite[] models = dbHandler.getHostWebsiteInfo();
+
+		 for (int i = 0; i < models.length; i++) {
+			 HostWebsite model = models[i];
+
+			 // simplified output formatting; truncation may occur
+			 System.out.printf("%-10.10s", model.getDomain());
+			 System.out.printf("%-20.20s", model.getPublishedOn());
+			 System.out.printf("%-30.30s", model.getNFTQuantity());
+			 System.out.printf("%-40.40s", model.getCurrency());
+
+			 System.out.println();
+		 }
+	 }
 
 	 public void selection(BigDecimal bid) {
 		 dbHandler.selectionBuyersWithBidsGreaterThan(bid);

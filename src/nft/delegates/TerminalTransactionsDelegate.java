@@ -30,6 +30,7 @@ public interface TerminalTransactionsDelegate {
 
 	public void insertHostWebsite(HostWebsite model);
 	public void deleteHostWebsite(String domain);
+	public void showHostWebsite();
 	public void updateHostWebsite(String domain, String publishedOn, int nftQuantity, String currency);
 
 	public void selection(BigDecimal bid);

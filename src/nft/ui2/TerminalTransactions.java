@@ -76,7 +76,8 @@ public class TerminalTransactions {
             System.out.println("9. Insert Host Website");
             System.out.println("10. Delete Host Website");
             System.out.println("11. Update Host Website");
-            System.out.println("12. Find Buyers with bids > ?");
+            System.out.println("12. Show Host Website");
+            System.out.println("13. Find Buyers with bids > ?");
             System.out.println("0. Quit");
 
             choice = readInteger(false);
@@ -119,6 +120,9 @@ public class TerminalTransactions {
                         handleUpdateOptionHostWebsite();
                         break;
                     case 12:
+                        delegate.showHostWebsite();
+                        break;
+                    case 13:
                         handleSelection();
                         break;
                     case 0:
