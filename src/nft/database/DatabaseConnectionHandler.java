@@ -357,22 +357,25 @@ public class DatabaseConnectionHandler {
 	// find buyers with current bids > ?
 	public Buyers[] selectionBuyersWithBidsGreaterThan(BigDecimal bid) {
 		ArrayList<Buyers> result = new ArrayList<>();
-		System.out.println("prestatement");
-		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT b.buyer_id FROM buyers b WHERE b.current_bid > ?");
-			ps.setBigDecimal(1, bid);
-			System.out.println("pre");
-			ps.execute();
-			ResultSet queryResult = ps.getResultSet();
 
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM buyers WHERE current_bid > ?");
+			ps.setBigDecimal(1, bid);
+
+			ps.execute();
+
+			ResultSet queryResult = ps.getResultSet();
 			String personID;
 			String buyerID;
 			BigDecimal currentBid;
+			int i = 1;
 			while (queryResult.next()) {
-				personID = queryResult.getString("personID");
-				buyerID = queryResult.getString("buyerID");
-				currentBid = queryResult.getBigDecimal("currentBid");
+				personID = queryResult.getString(1);
+				buyerID = queryResult.getString(2);
+				currentBid = queryResult.getBigDecimal(3);
 				result.add(new Buyers(personID, buyerID, currentBid));
+				System.out.println(i + ": " + buyerID);
+				i++;
 			}
 
 			ps.close();
@@ -390,19 +393,21 @@ public class DatabaseConnectionHandler {
 		ArrayList<People> result = new ArrayList<>();
 
 		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT p.person_id FROM People p WHERE NOT EXISTS (SELECT o.person_id FROM NFTOwns o WHERE o.person_id <> p.person_id");
-
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM people p WHERE NOT EXISTS (SELECT o.person_id FROM nft_owns o WHERE o.person_id <> p.person_id)");
 			ps.execute();
 			ResultSet queryResult = ps.getResultSet();
 
 			String personID;
 			String name;
-			Integer age;
+			int age;
+			int i = 1;
 			while (queryResult.next()) {
-				personID = queryResult.getString("personID");
-				name = queryResult.getString("name");
-				age = queryResult.getInt("age");
+				personID = queryResult.getString(1);
+				name = queryResult.getString(2);
+				age = queryResult.getInt(3);
 				result.add(new People(personID, name, age));
+				System.out.println(i + ": " + name);
+				i++;
 			}
 
 		} catch (SQLException e) {
@@ -690,6 +695,76 @@ public class DatabaseConnectionHandler {
 			rollbackConnection();
 		}
 	}
+
+	public DigitalContent[] getDigitalContentInfo() {
+		ArrayList<DigitalContent> result = new ArrayList<>();
+
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM digital_content");
+
+			while(rs.next()) {
+				DigitalContent model = new DigitalContent(rs.getString("token_id"),
+						rs.getString("creator"),
+						rs.getString("file_format"));
+				result.add(model);
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+
+		return result.toArray(new DigitalContent[result.size()]);
+	}
+
+	public Collaterals[] getCollateralsInfo() {
+		ArrayList<Collaterals> result = new ArrayList<>();
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM collaterals");
+
+			while(rs.next()) {
+				Collaterals model = new Collaterals(rs.getString("token_id"),
+						rs.getString("token_type"),
+						rs.getString("loanee"),
+						rs.getString("loaner"),
+						rs.getInt("token_rate"));
+				result.add(model);
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+
+		return result.toArray(new Collaterals[result.size()]);
+	}
+
+	public HostWebsite[] getHostWebsiteInfo() {
+		ArrayList<HostWebsite> result = new ArrayList<>();
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM host_website");
+
+			while(rs.next()) {
+				HostWebsite model = new HostWebsite(rs.getString("domain"),
+						rs.getString("published_on"),
+						rs.getInt("nft_quantity"),
+						rs.getString("currency"));
+				result.add(model);
+			}
+
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+		}
+
+		return result.toArray(new HostWebsite[result.size()]);
+	}
 	
 	public boolean login(String username, String password) {
 		try {
@@ -793,6 +868,8 @@ public class DatabaseConnectionHandler {
 
 			Buyers buyer1 = new Buyers("10298", "ascxz", new BigDecimal(30));
 			insertBuyers(buyer1);
+			Buyers buyer2 = new Buyers("54453", "nftKING", new BigDecimal(25));
+			insertBuyers(buyer2);
 
 			stmt.close();
 		} catch (SQLException e) {
@@ -818,8 +895,10 @@ public class DatabaseConnectionHandler {
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("CREATE TABLE people (person_id varchar(20) NOT NULL, name varchar(20), age integer, PRIMARY KEY (person_id))");
 
-			People person1 = new People("12345", "Rob robson", 43);
+			People person1 = new People("18675", "Rob robson", 43);
 			insertPeople(person1);
+			People person2 = new People("99999", "Mark Bob", 23);
+			insertPeople(person2);
 
 			stmt.close();
 		} catch (SQLException e) {
@@ -839,76 +918,6 @@ public class DatabaseConnectionHandler {
 		} catch (SQLException e) {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}
-	}
-
-	public DigitalContent[] getDigitalContentInfo() {
-		ArrayList<DigitalContent> result = new ArrayList<>();
-
-		try {
-			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM digital_content");
-
-			while(rs.next()) {
-				DigitalContent model = new DigitalContent(rs.getString("token_id"),
-						rs.getString("creator"),
-						rs.getString("file_format"));
-				result.add(model);
-			}
-
-			rs.close();
-			stmt.close();
-		} catch (SQLException e) {
-			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-		}
-
-		return result.toArray(new DigitalContent[result.size()]);
-	}
-
-	public Collaterals[] getCollateralsInfo() {
-		ArrayList<Collaterals> result = new ArrayList<>();
-		try {
-			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM collaterals");
-
-			while(rs.next()) {
-				Collaterals model = new Collaterals(rs.getString("token_id"),
-						rs.getString("token_type"),
-						rs.getString("loanee"),
-						rs.getString("loaner"),
-						rs.getInt("token_rate"));
-				result.add(model);
-			}
-
-			rs.close();
-			stmt.close();
-		} catch (SQLException e) {
-			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-		}
-
-		return result.toArray(new Collaterals[result.size()]);
-	}
-
-	public HostWebsite[] getHostWebsiteInfo() {
-		ArrayList<HostWebsite> result = new ArrayList<>();
-		try {
-			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM host_website");
-
-			while(rs.next()) {
-				HostWebsite model = new HostWebsite(rs.getString("domain"),
-						rs.getString("published_on"),
-						rs.getInt("nft_quantity"),
-						rs.getString("currency"));
-				result.add(model);
-			}
-
-			rs.close();
-			stmt.close();
-		} catch (SQLException e) {
-			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-		}
-
-		return result.toArray(new HostWebsite[result.size()]);
 	}
 
 	private void dropTableIfExists() {

@@ -78,6 +78,7 @@ public class TerminalTransactions {
             System.out.println("11. Update Host Website");
             System.out.println("12. Show Host Website");
             System.out.println("13. Find Buyers with bids > ?");
+            System.out.println("14. Find everyone that owns NFTs");
             System.out.println("0. Quit");
 
             choice = readInteger(false);
@@ -124,6 +125,9 @@ public class TerminalTransactions {
                         break;
                     case 13:
                         handleSelection();
+                        break;
+                    case 14:
+                        handleDivision();
                         break;
                     case 0:
                         handleQuitOption();
@@ -348,6 +352,10 @@ public class TerminalTransactions {
         }
 
         delegate.selection(bid);
+    }
+
+    private void handleDivision() {
+        delegate.division();
     }
 
     private void handleQuitOption() {

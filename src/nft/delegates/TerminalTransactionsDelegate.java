@@ -34,6 +34,7 @@ public interface TerminalTransactionsDelegate {
 	public void updateHostWebsite(String domain, String publishedOn, int nftQuantity, String currency);
 
 	public void selection(BigDecimal bid);
+	public void division();
 
 	public void terminalTransactionsFinished();
 }

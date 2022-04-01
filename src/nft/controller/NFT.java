@@ -157,6 +157,8 @@
 		 dbHandler.selectionBuyersWithBidsGreaterThan(bid);
 	 }
 
+	 public void division() {dbHandler.divisionAllNFTOwners();};
+
 
 	 /**
  	 * TerminalTransactionsDelegate Implementation
