@@ -3,8 +3,11 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/src/nft/database/DatabaseConnectionHandler.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/nft/sql/scripts/databaseNFT.sql" dialect="GenericSQL" />
+    <file url="PROJECT" dialect="Oracle" />
   </component>
   <component name="SqlResolveMappings">
-    <file url="PROJECT" scope="" />
+    <file url="file://$PROJECT_DIR$/src/nft/database/DatabaseConnectionHandler.java" scope="" />
+    <file url="file://$PROJECT_DIR$/../example/CPSC304-JavaDemo/resources/ojdbc8.jar" scope="{&quot;node&quot;:{  &quot;@negative&quot;:&quot;1&quot;,  &quot;group&quot;:{   &quot;@kind&quot;:&quot;root&quot;,   &quot;node&quot;:{    &quot;@negative&quot;:&quot;1&quot;   }  } }}" />
+    <file url="PROJECT" scope="{&quot;node&quot;:{  &quot;@negative&quot;:&quot;1&quot;,  &quot;group&quot;:{   &quot;@kind&quot;:&quot;root&quot;,   &quot;node&quot;:{    &quot;@negative&quot;:&quot;1&quot;   }  } }}" />
   </component>
 </project>

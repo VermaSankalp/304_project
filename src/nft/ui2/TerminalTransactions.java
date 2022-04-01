@@ -3,6 +3,7 @@ package nft.ui2;
 import nft.delegates.TerminalTransactionsDelegate;
 import nft.model.Collaterals;
 import nft.model.DigitalContent;
+import nft.model.HostWebsite;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -253,6 +254,74 @@ public class TerminalTransactions {
         }
 
         delegate.updateCollaterals(tokenId, tokenType, loanee, loaner, tokenRate);
+    }
+
+    private void handleInsertOptionHostWebsite() {
+        String domain = "";
+        while (domain == "") {
+            System.out.println("Please enter the Host Website domain you wish to insert: ");
+            domain = readLine().trim();
+        }
+
+        String publishedOn = "";
+        while (publishedOn == "") {
+            System.out.println("Please enter the Host Website publish date you wish to insert: ");
+            publishedOn = readLine().trim();
+        }
+
+        int nftQuantity = INVALID_INPUT;
+        while (nftQuantity == INVALID_INPUT) {
+            System.out.println("Please enter the Host Website nft quantity you wish to insert: ");
+            nftQuantity = readInteger(false);
+        }
+
+        String currency = "";
+        while (currency == "") {
+            System.out.println("Please enter the Host Website currency you wish to insert: ");
+            currency = readLine().trim();
+        }
+
+        HostWebsite model = new HostWebsite(domain, publishedOn, nftQuantity, currency);
+        delegate.insertHostWebsite(model);
+    }
+
+    private void handleDeleteOptionHostWebsite() {
+        String domain = "";
+        while (domain == "") {
+            System.out.print("Please enter the Host Website domain you wish to delete: ");
+            domain = readLine().trim();
+            if (domain != "") {
+                delegate.deleteHostWebsite(domain);
+            }
+        }
+    }
+
+    private void handleUpdateOptionHostWebsite() {
+        String domain = "";
+        while (domain == "") {
+            System.out.println("Please enter the Host Website domain you wish to update: ");
+            domain = readLine().trim();
+        }
+
+        String publishedOn = "";
+        while (publishedOn == "") {
+            System.out.println("Please enter the new published on date: ");
+            publishedOn = readLine().trim();
+        }
+
+        int nftQuantity = INVALID_INPUT;
+        while (nftQuantity == INVALID_INPUT) {
+            System.out.println("Please enter the new nft quantity: ");
+            nftQuantity = readInteger(false);
+        }
+
+        String currency = "";
+        while (currency == "") {
+            System.out.println("Please enter the new currency: ");
+            currency = readLine().trim();
+        }
+
+        delegate.updateHostWebsite(domain, publishedOn, nftQuantity, currency);
     }
 
     private void handleSelection() {

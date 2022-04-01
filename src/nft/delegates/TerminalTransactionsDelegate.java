@@ -2,6 +2,7 @@ package nft.delegates;
 
 import nft.model.Collaterals;
 import nft.model.DigitalContent;
+import nft.model.HostWebsite;
 
 import java.math.BigDecimal;
 
@@ -26,6 +27,10 @@ public interface TerminalTransactionsDelegate {
 	public void insertCollaterals(Collaterals model);
 	public void showCollaterals();
 	public void updateCollaterals(String tokenId, String tokenType, String loanee, String loaner, int tokenRate);
+
+	public void insertHostWebsite(HostWebsite model);
+	public void deleteHostWebsite(String domain);
+	public void updateHostWebsite(String domain, String publishedOn, int nftQuantity, String currency);
 
 	public void selection(BigDecimal bid);
 

@@ -5,6 +5,7 @@
  import nft.delegates.TerminalTransactionsDelegate;
  import nft.model.Collaterals;
  import nft.model.DigitalContent;
+ import nft.model.HostWebsite;
  import nft.ui2.LoginWindow;
  import nft.ui2.TerminalTransactions;
 
@@ -127,6 +128,14 @@
 
 	 public void updateCollaterals(String tokenId, String tokenType, String loanee, String loaner, int tokenRate) {
 		 dbHandler.updateCollaterals(tokenId, tokenType, loanee, loaner, tokenRate);
+	 }
+
+	 public void insertHostWebsite(HostWebsite model) {
+		 dbHandler.insertHostWebsite(model);
+	 }
+	 public void deleteHostWebsite(String domain) {dbHandler.deleteHostWebsite(domain);}
+	 public void updateHostWebsite(String domain, String publishedOn, int nftQuantity, String currency) {
+		 dbHandler.updateHostWebsite(domain, publishedOn, nftQuantity, currency);
 	 }
 
 	 public void selection(BigDecimal bid) {
