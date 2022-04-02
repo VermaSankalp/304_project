@@ -3,9 +3,7 @@
  import nft.database.DatabaseConnectionHandler;
  import nft.delegates.LoginWindowDelegate;
  import nft.delegates.TerminalTransactionsDelegate;
- import nft.model.Collaterals;
- import nft.model.DigitalContent;
- import nft.model.HostWebsite;
+ import nft.model.*;
  import nft.ui2.LoginWindow;
  import nft.ui2.TerminalTransactions;
 
@@ -153,9 +151,41 @@
 		 }
 	 }
 
+	 public void insertGaming(Gaming model) {dbHandler.insertGaming(model);}
+	 public void deleteGaming(String tokenId) {dbHandler.deleteGaming(tokenId);}
+	 public void updateGaming(String tokenId, String gameId, String publisher) {
+		 dbHandler.updateGaming(tokenId, gameId, publisher);
+	 }
+
+	 public void insertNft(NFTOwns model) {dbHandler.insertNftOwns(model);}
+	 public void deleteNft(String tokenId) {dbHandler.deleteNFTOwns(tokenId);}
+	 public void updateNft(String tokenId, String tokenType) {
+		 dbHandler.updateNFTOwns(tokenId, tokenType);
+	 }
+
+	 public void insertPeople(People model) { dbHandler.insertPeople(model); }
+	 public void deletePeople(String personId) {dbHandler.deletePeople(personId);}
+	 public void updatePeople(String personId, String name, int age) {
+		 dbHandler.updatePeople(personId, name, age);
+	 }
+
+	 public void insertSellers(Sellers model) {dbHandler.insertSellers(model);}
+	 public void deleteSellers(String personId) {dbHandler.deleteSellers(personId);}
+	 public void updateSellers(String personId, String cAddress, int nftQuantity) {
+		 dbHandler.updateSellers(personId, cAddress, nftQuantity);
+	 }
+
+	 public void insertBuyers(Buyers model) {dbHandler.insertBuyers(model);}
+	 public void deleteBuyers(String personId) {dbHandler.deleteBuyers(personId);}
+	 public void updateBuyers(String personId, String buyerId, BigDecimal currentBid) {
+		 dbHandler.updateBuyers(personId, buyerId, currentBid);
+	 }
+
 	 public void selection(BigDecimal bid) {
 		 dbHandler.selectionBuyersWithBidsGreaterThan(bid);
 	 }
+
+	 public void projection() {dbHandler.projection();}
 
 	 public void division() {dbHandler.divisionAllNFTOwners();};
 

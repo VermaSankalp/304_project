@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 public class Sellers {
     private final String personID;
     private final String cAddress;
-    private final BigDecimal currentBid;
+    private final int currentBid;
 
-    public Sellers(String personID, String cAddress, BigDecimal currentBid) {
+    public Sellers(String personID, String cAddress, int currentBid) {
         this.personID = personID;
         this.cAddress = cAddress;
         this.currentBid = currentBid;
@@ -20,7 +20,7 @@ public class Sellers {
         return cAddress;
     }
 
-    public BigDecimal getCurrentBid() {
+    public int getCurrentBid() {
         return currentBid;
     }
 }

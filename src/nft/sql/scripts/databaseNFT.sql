@@ -23,10 +23,8 @@ CREATE TABLE gaming (
 
 CREATE TABLE nft_owns (
     token_id varchar(20) NOT NULL,
-    person_id varchar(20) NOT NULL,
     token_type varchar(20),
-    PRIMARY KEY (token_id),
-    FOREIGN KEY (person_id) REFERENCES sellers(person_id)
+    PRIMARY KEY (token_id)
 );
 
 CREATE TABLE people (

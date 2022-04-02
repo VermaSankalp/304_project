@@ -1,9 +1,7 @@
 package nft.ui2;
 
 import nft.delegates.TerminalTransactionsDelegate;
-import nft.model.Collaterals;
-import nft.model.DigitalContent;
-import nft.model.HostWebsite;
+import nft.model.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -78,11 +76,27 @@ public class TerminalTransactions {
             System.out.println("10. Delete Host Website");
             System.out.println("11. Update Host Website");
             System.out.println("12. Show Host Website");
-            System.out.println("13. Find Buyers with bids > ?");
-            System.out.println("14. Find everyone that owns NFTs");
-            System.out.println("15. Find the number of buyers");
-            System.out.println("16. Find the number of NFTs for each currency");
-            System.out.println("17. Find everyone that is a buyer and a seller");
+            System.out.println("13. Insert Gaming");
+            System.out.println("14. Delete Gaming");
+            System.out.println("15. Update Gaming");
+            System.out.println("16. Insert NFT");
+            System.out.println("17. Delete NFT");
+            System.out.println("18. Update NFT");
+            System.out.println("19. Insert People");
+            System.out.println("20. Delete People");
+            System.out.println("21. Update People");
+            System.out.println("22. Insert Sellers");
+            System.out.println("23. Delete Sellers");
+            System.out.println("24. Update Sellers");
+            System.out.println("25. Insert Buyers");
+            System.out.println("26. Delete Buyers");
+            System.out.println("27. Update Buyers");
+            System.out.println("28. Find Buyers with bids > ?");
+            System.out.println("29. Find everyone that owns NFTs");
+            System.out.println("30. Find the number of buyers");
+            System.out.println("31. Find the number of NFTs for each currency");
+            System.out.println("32. Find everyone that is a buyer and a seller");
+            System.out.println("33. Project Token Type, Loanee and Loaner from Collaterals");
             System.out.println("0. Quit");
 
             choice = readInteger(false);
@@ -128,19 +142,67 @@ public class TerminalTransactions {
                         delegate.showHostWebsite();
                         break;
                     case 13:
-                        handleSelection();
+                        handleInsertOptionGaming();
                         break;
                     case 14:
-                        handleDivision();
+                        handleDeleteOptionGaming();
                         break;
                     case 15:
-                        handleAggregation();
+                        handleUpdateOptionGaming();
                         break;
                     case 16:
-                        handleAggregationWithGroupBy();
+                        handleInsertOptionNft();
                         break;
                     case 17:
+                        handleDeleteOptionNft();
+                        break;
+                    case 18:
+                        handleUpdateOptionNft();
+                        break;
+                    case 19:
+                        handleInsertOptionPeople();
+                        break;
+                    case 20:
+                        handleDeleteOptionPeople();
+                        break;
+                    case 21:
+                        handleUpdateOptionPeople();
+                        break;
+                    case 22:
+                        handleInsertOptionSellers();
+                        break;
+                    case 23:
+                        handleDeleteOptionSellers();
+                        break;
+                    case 24:
+                        handleUpdateOptionSellers();
+                        break;
+                    case 25:
+                        handleInsertOptionBuyers();
+                        break;
+                    case 26:
+                        handleDeleteOptionBuyers();
+                        break;
+                    case 27:
+                        handleUpdateOptionBuyers();
+                        break;
+                    case 28:
+                        handleSelection();
+                        break;
+                    case 29:
+                        handleDivision();
+                        break;
+                    case 30:
+                        handleAggregation();
+                        break;
+                    case 31:
+                        handleAggregationWithGroupBy();
+                        break;
+                    case 32:
                         handleJoin();
+                        break;
+                    case 33:
+                        handleProjection();
                         break;
                     case 0:
                         handleQuitOption();
@@ -151,6 +213,274 @@ public class TerminalTransactions {
                 }
             }
         }
+    }
+
+    private void handleInsertOptionPeople() {
+        String personId = "";
+        while (personId == "") {
+            System.out.print("Please enter the Person ID you wish to insert: ");
+            personId = readLine().trim();
+        }
+
+        String name = "";
+        while (name == "") {
+            System.out.print("Please enter the Person name you wish to insert: ");
+            name = readLine().trim();
+        }
+
+        int age = INVALID_INPUT;
+        while (age == INVALID_INPUT) {
+            System.out.print("Please enter the Person age you wish to insert: ");
+            age = readInteger(false);
+        }
+
+        People model = new People(personId, name, age);
+        delegate.insertPeople(model);
+    }
+
+    private void handleDeleteOptionPeople() {
+        String personId = "";
+        while (personId == "") {
+            System.out.print("Please enter the Person ID you wish to delete: ");
+            personId = readLine().trim();
+            if (personId != "") {
+                delegate.deletePeople(personId);
+            }
+        }
+    }
+
+    private void handleUpdateOptionPeople() {
+        String personId = "";
+        while (personId == "") {
+            System.out.print("Please enter the Person ID you wish to update: ");
+            personId = readLine().trim();
+        }
+
+        String name = "";
+        while (name == "") {
+            System.out.print("Please enter the new Person name: ");
+            name = readLine().trim();
+        }
+
+        int age = INVALID_INPUT;
+        while (age == INVALID_INPUT) {
+            System.out.print("Please enter the new Person age: ");
+            age = readInteger(false);
+        }
+
+        delegate.updatePeople(personId, name, age);
+    }
+
+    private void handleInsertOptionSellers() {
+        String personId = "";
+        while (personId == "") {
+            System.out.print("Please enter the Seller ID you wish to insert: ");
+            personId = readLine().trim();
+        }
+
+        String cAddress = "";
+        while (cAddress == "") {
+            System.out.print("Please enter the Seller cAddress you wish to insert: ");
+            cAddress = readLine().trim();
+        }
+
+        int nftQuantity = INVALID_INPUT;
+        while (nftQuantity == INVALID_INPUT) {
+            System.out.print("Please enter the Seller NFT Quantity you wish to insert: ");
+            nftQuantity = readInteger(false);
+        }
+
+        Sellers model = new Sellers(personId, cAddress, nftQuantity);
+        delegate.insertSellers(model);
+    }
+
+    private void handleDeleteOptionSellers() {
+        String personId = "";
+        while (personId == "") {
+            System.out.print("Please enter the Seller ID you wish to delete: ");
+            personId = readLine().trim();
+            if (personId != "") {
+                delegate.deleteSellers(personId);
+            }
+        }
+    }
+
+    private void handleUpdateOptionSellers() {
+        String personId = "";
+        while (personId == "") {
+            System.out.print("Please enter the Seller ID you wish to update: ");
+            personId = readLine().trim();
+        }
+
+        String cAddress = "";
+        while (cAddress == "") {
+            System.out.print("Please enter the Seller cAddress you wish to update: ");
+            cAddress = readLine().trim();
+        }
+
+        int nftQuantity = INVALID_INPUT;
+        while (nftQuantity == INVALID_INPUT) {
+            System.out.print("Please enter the new Seller NFT Quantity: ");
+            nftQuantity = readInteger(false);
+        }
+
+        delegate.updateSellers(personId, cAddress, nftQuantity);
+    }
+
+    private void handleInsertOptionBuyers() {
+        String personId = "";
+        while (personId == "") {
+            System.out.print("Please enter the Person ID you wish to insert: ");
+            personId = readLine().trim();
+        }
+
+        String buyerId = "";
+        while (buyerId == "") {
+            System.out.print("Please enter the Buyer ID you wish to insert: ");
+            buyerId = readLine().trim();
+        }
+
+        BigDecimal currentBid = new BigDecimal(INVALID_INPUT);
+        while (currentBid.compareTo(new BigDecimal(INVALID_INPUT)) == 0) {
+            System.out.print("Please enter the Buyer current bid you wish to insert: ");
+            currentBid = readBigDecimal(false);
+        }
+
+        Buyers model = new Buyers(personId, buyerId, currentBid);
+        delegate.insertBuyers(model);
+    }
+
+    private void handleDeleteOptionBuyers() {
+        String personId = "";
+        while (personId == "") {
+            System.out.print("Please enter the Person ID you wish to delete: ");
+            personId = readLine().trim();
+            if (personId != "") {
+                delegate.deleteBuyers(personId);
+            }
+        }
+    }
+
+    private void handleUpdateOptionBuyers() {
+        String personId = "";
+        while (personId == "") {
+            System.out.print("Please enter the Person ID you wish to update: ");
+            personId = readLine().trim();
+        }
+
+        String buyerId = "";
+        while (buyerId == "") {
+            System.out.print("Please enter the Buyer ID you wish to update: ");
+            buyerId = readLine().trim();
+        }
+
+        BigDecimal currentBid = new BigDecimal(INVALID_INPUT);
+        while (currentBid.compareTo(new BigDecimal(INVALID_INPUT)) == 0) {
+            System.out.print("Please enter the new Buyer current bid: ");
+            currentBid = readBigDecimal(false);
+        }
+
+        delegate.updateBuyers(personId, buyerId, currentBid);
+    }
+
+    private void handleInsertOptionNft() {
+        String tokenId = "";
+        while (tokenId == "") {
+            System.out.print("Please enter the NFT Token ID you wish to insert: ");
+            tokenId = readLine().trim();
+        }
+
+        String tokenType = "";
+        while (tokenType == "") {
+            System.out.print("Please enter the NFT Token Type you wish to insert: ");
+            tokenType = readLine().trim();
+        }
+
+        NFTOwns model = new NFTOwns(tokenId, tokenType);
+        delegate.insertNft(model);
+    }
+
+    private void handleDeleteOptionNft() {
+        String tokenId = "";
+        while (tokenId == "") {
+            System.out.print("Please enter the NFT Token ID you wish to delete: ");
+            tokenId = readLine().trim();
+            if (tokenId != "") {
+                delegate.deleteNft(tokenId);
+            }
+        }
+    }
+
+    private void handleUpdateOptionNft() {
+        String tokenId = "";
+        while (tokenId == "") {
+            System.out.print("Please enter the NFT Token ID you wish to update: ");
+            tokenId = readLine().trim();
+        }
+
+        String tokenType = "";
+        while (tokenType == "") {
+            System.out.print("Please enter the new NFT Token Type: ");
+            tokenType = readLine().trim();
+        }
+
+        delegate.updateNft(tokenId, tokenType);
+    }
+
+    private void handleInsertOptionGaming() {
+        String tokenId = "";
+        while (tokenId == "") {
+            System.out.print("Please enter the Gaming Token ID you wish to insert: ");
+            tokenId = readLine().trim();
+        }
+
+        String gameId = "";
+        while (gameId == "") {
+            System.out.print("Please enter the Game ID you wish to insert: ");
+            gameId = readLine().trim();
+        }
+
+        String publisher = "";
+        while (publisher == "") {
+            System.out.print("Please enter the Publisher you wish to insert: ");
+            publisher = readLine().trim();
+        }
+
+        Gaming model = new Gaming(tokenId, gameId, publisher);
+        delegate.insertGaming(model);
+    }
+
+    private void handleDeleteOptionGaming() {
+        String tokenId = "";
+        while (tokenId == "") {
+            System.out.print("Please enter the Gaming Token ID you wish to delete: ");
+            tokenId = readLine().trim();
+            if (tokenId != "") {
+                delegate.deleteGaming(tokenId);
+            }
+        }
+    }
+
+    private void handleUpdateOptionGaming() {
+        String tokenId = "";
+        while (tokenId == "") {
+            System.out.print("Please enter the Gaming Token ID you wish to update: ");
+            tokenId = readLine().trim();
+        }
+
+        String gameId = "";
+        while (gameId == "") {
+            System.out.print("Please enter the new Game ID: ");
+            gameId = readLine().trim();
+        }
+
+        String publisher = "";
+        while (publisher == "") {
+            System.out.print("Please enter the new Publisher: ");
+            publisher = readLine().trim();
+        }
+
+        delegate.updateGaming(tokenId, gameId, publisher);
     }
 
     private void handleInsertOptionDigitalContent() {
@@ -355,6 +685,10 @@ public class TerminalTransactions {
         }
 
         delegate.updateHostWebsite(domain, publishedOn, nftQuantity, currency);
+    }
+
+    private void handleProjection() {
+        delegate.projection();
     }
 
     private void handleSelection() {

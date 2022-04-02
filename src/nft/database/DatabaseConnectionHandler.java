@@ -177,7 +177,7 @@ public class DatabaseConnectionHandler {
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO sellers VALUES (?,?,?)");
 			ps.setString(1, model.getPersonID());
 			ps.setString(2, model.getCAddress());
-			ps.setBigDecimal(3, model.getCurrentBid());
+			ps.setInt(3, model.getCurrentBid());
 
 			ps.executeUpdate();
 			connection.commit();
@@ -210,10 +210,9 @@ public class DatabaseConnectionHandler {
 
 	public void insertNftOwns(NFTOwns model) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("INSERT INTO nft_owns VALUES (?,?,?)");
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO nft_owns VALUES (?,?)");
 			ps.setString(1, model.getTokenID());
-			ps.setString(2, model.getPersonID());
-			ps.setString(3, model.getTokenType());
+			ps.setString(2, model.getTokenType());
 
 			ps.executeUpdate();
 			connection.commit();
@@ -417,38 +416,58 @@ public class DatabaseConnectionHandler {
 		return result.toArray(new People[0]);
 	}
 	
-	public String projection(String table, ArrayList<String> attributes) {
-		String finalResult = null;
+//	public String projection(String table, ArrayList<String> attributes) {
+//		String finalResult = null;
+//		try {
+//			StringBuilder result = new StringBuilder(10000);
+//			int tupleCount = 1;
+//
+//			PreparedStatement ps = connection.prepareStatement("SELECT ? FROM ?");
+//			ps.setArray(1, (Array) attributes);
+//			ps.setString(2, table);
+//
+//			ps.execute();
+//			ResultSet queryResult = ps.getResultSet();
+//
+//			while (queryResult.next()) {
+//				result.append(tupleCount).append(") ");
+//				for (String attribute : attributes) {
+//					result.append(attribute).append("= ").append(queryResult.getString(attribute)).append(" ");
+//				}
+//				result.append("\n");
+//				++tupleCount;
+//			}
+//
+//			connection.commit();
+//			ps.close();
+//			queryResult.close();
+//
+//			finalResult = result.toString();
+//		} catch (SQLException e) {
+//			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//			rollbackConnection();
+//		}
+//		return finalResult;
+//	}
+
+	public void projection() {
 		try {
-			StringBuilder result = new StringBuilder(10000);
 			int tupleCount = 1;
 
-			PreparedStatement ps = connection.prepareStatement("SELECT ? FROM ?");
-			ps.setArray(1, (Array) attributes);
-			ps.setString(2, table);
-
-			ps.execute();
-			ResultSet queryResult = ps.getResultSet();
+			Statement stmt = connection.createStatement();
+			ResultSet queryResult = stmt.executeQuery("SELECT token_rate, loanee, loaner FROM collaterals");
 
 			while (queryResult.next()) {
-				result.append(tupleCount).append(") ");
-				for (String attribute : attributes) {
-					result.append(attribute).append("= ").append(queryResult.getString(attribute)).append(" ");
-				}
-				result.append("\n");
+				System.out.print(tupleCount + ") ");
+				System.out.print("Token rate: " + queryResult.getInt(1) + " | ");
+				System.out.print("Loanee: " + queryResult.getString(2) + " | ");
+				System.out.println("Loaner: " + queryResult.getString(3));
 				++tupleCount;
 			}
-
-			connection.commit();
-			ps.close();
-			queryResult.close();
-
-			finalResult = result.toString();
 		} catch (SQLException e) {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 			rollbackConnection();
 		}
-		return finalResult;
 	}
 
 	public String aggregation() {
@@ -623,16 +642,15 @@ public class DatabaseConnectionHandler {
 		}
 	}
 
-	public void updateNFTOwns(String tokenID, String personID, String tokenType) {
+	public void updateNFTOwns(String tokenID, String tokenType) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("UPDATE nft_owns SET token_id = ?, token_type = ? WHERE person_id = ?");
-			ps.setString(1, tokenID);
-			ps.setString(2, tokenType);
-			ps.setString(3, personID);
+			PreparedStatement ps = connection.prepareStatement("UPDATE nft_owns SET token_type = ? WHERE token_id = ?");
+			ps.setString(1, tokenType);
+			ps.setString(2, tokenID);
 
 			int rowCount = ps.executeUpdate();
 			if (rowCount == 0) {
-				System.out.println(WARNING_TAG + " Person " + personID + " does not exist!");
+				System.out.println(WARNING_TAG + " NFT " + tokenID + " does not exist!");
 			}
 			connection.commit();
 
@@ -860,9 +878,9 @@ public class DatabaseConnectionHandler {
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("CREATE TABLE sellers (person_id varchar(20) NOT NULL, c_address varchar(20), nft_quantity integer, PRIMARY KEY (person_id), UNIQUE (c_address))");
 
-			Sellers seller1 = new Sellers("18675", "asdfkl", new BigDecimal(10));
+			Sellers seller1 = new Sellers("18675", "asdfkl", 10);
 			insertSellers(seller1);
-			Sellers seller2 = new Sellers("22222", "qwerqwer", new BigDecimal(5));
+			Sellers seller2 = new Sellers("22222", "qwerqwer", 5);
 			insertSellers(seller2);
 
 			stmt.close();
@@ -892,10 +910,10 @@ public class DatabaseConnectionHandler {
 	public void createTableNftOwns() {
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("CREATE TABLE nft_owns (token_id varchar(20) NOT NULL, person_id varchar(20) NOT NULL, token_type varchar(20), PRIMARY KEY (token_id), FOREIGN KEY (person_id) REFERENCES sellers(person_id))");
-			NFTOwns nft1 = new NFTOwns("olapo", "18675", "x-token");
+			stmt.executeUpdate("CREATE TABLE nft_owns (token_id varchar(20) NOT NULL, token_type varchar(20), PRIMARY KEY (token_id))");
+			NFTOwns nft1 = new NFTOwns("olapo", "x-token");
 			insertNftOwns(nft1);
-			NFTOwns nft2 = new NFTOwns("dogeGIF", "22222", "gif");
+			NFTOwns nft2 = new NFTOwns("dogeGIF", "gif");
 			insertNftOwns(nft2);
 
 			stmt.close();
