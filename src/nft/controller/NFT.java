@@ -159,6 +159,11 @@
 
 	 public void division() {dbHandler.divisionAllNFTOwners();};
 
+	 public void aggregation() {dbHandler.aggregation();}
+
+	 public void aggregationWithGroupBy() {dbHandler.aggregationWithGroupBy();}
+
+	 public void join() {dbHandler.join();}
 
 	 /**
  	 * TerminalTransactionsDelegate Implementation
@@ -181,7 +186,6 @@
       */
  	public void databaseSetup() {
  		dbHandler.databaseSetup();;
-		
  	}
 
  	/**

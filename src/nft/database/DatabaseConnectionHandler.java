@@ -432,8 +432,8 @@ public class DatabaseConnectionHandler {
 
 			while (queryResult.next()) {
 				result.append(tupleCount).append(") ");
-				for (int i = 0; i < attributes.size(); ++i) {
-					result.append(attributes.get(i)).append("= ").append(queryResult.getString(attributes.get(i))).append(" ");
+				for (String attribute : attributes) {
+					result.append(attribute).append("= ").append(queryResult.getString(attribute)).append(" ");
 				}
 				result.append("\n");
 				++tupleCount;
@@ -460,7 +460,7 @@ public class DatabaseConnectionHandler {
 			ResultSet queryResult = stmt.executeQuery("SELECT COUNT(*) FROM buyers");
 
 			while (queryResult.next()) {
-				result.append(queryResult.getInt(0));
+				result.append(queryResult.getInt(1));
 			}
 
 			stmt.close();
@@ -471,6 +471,7 @@ public class DatabaseConnectionHandler {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 			rollbackConnection();
 		}
+		System.out.println("Number of buyers: " + finalResult);
 		return finalResult;
 	}
 
@@ -485,8 +486,9 @@ public class DatabaseConnectionHandler {
 
 			while (queryResult.next()) {
 				result.append(tupleCount).append(") ");
-				result.append("Currency: ").append(queryResult.getString(0));
-				result.append("Average number of NFTs: ").append(queryResult.getString(1));
+				result.append("Currency: ").append(queryResult.getString(1));
+				result.append(", ");
+				result.append("Average number of NFTs: ").append(queryResult.getString(2));
 				result.append("\n");
 				++tupleCount;
 			}
@@ -499,6 +501,7 @@ public class DatabaseConnectionHandler {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 			rollbackConnection();
 		}
+		System.out.println(finalResult);
 		return finalResult;
 	}
 	
@@ -515,9 +518,13 @@ public class DatabaseConnectionHandler {
 			while (queryResult.next()) {
 				result.append(tupleCount).append(") ");
 				result.append("Person_id: ").append(queryResult.getString("person_id"));
+				result.append(", ");
 				result.append("c_address: ").append(queryResult.getString("c_address"));
+				result.append(", ");
 				result.append("nft_quantity: ").append(queryResult.getString("nft_quantity"));
+				result.append(", ");
 				result.append("buyer_id: ").append(queryResult.getString("buyer_id"));
+				result.append(", ");
 				result.append("current_bid: ").append(queryResult.getString("current_bid"));
 				result.append("\n");
 				++tupleCount;
@@ -531,6 +538,7 @@ public class DatabaseConnectionHandler {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 			rollbackConnection();
 		}
+		System.out.println(finalResult);
 		return finalResult;
 	}
 
@@ -854,6 +862,8 @@ public class DatabaseConnectionHandler {
 
 			Sellers seller1 = new Sellers("18675", "asdfkl", new BigDecimal(10));
 			insertSellers(seller1);
+			Sellers seller2 = new Sellers("22222", "qwerqwer", new BigDecimal(5));
+			insertSellers(seller2);
 
 			stmt.close();
 		} catch (SQLException e) {
@@ -870,6 +880,8 @@ public class DatabaseConnectionHandler {
 			insertBuyers(buyer1);
 			Buyers buyer2 = new Buyers("54453", "nftKING", new BigDecimal(25));
 			insertBuyers(buyer2);
+			Buyers buyer3 = new Buyers("22222", "nft>usd", new BigDecimal(25));
+			insertBuyers(buyer3);
 
 			stmt.close();
 		} catch (SQLException e) {
@@ -883,6 +895,8 @@ public class DatabaseConnectionHandler {
 			stmt.executeUpdate("CREATE TABLE nft_owns (token_id varchar(20) NOT NULL, person_id varchar(20) NOT NULL, token_type varchar(20), PRIMARY KEY (token_id), FOREIGN KEY (person_id) REFERENCES sellers(person_id))");
 			NFTOwns nft1 = new NFTOwns("olapo", "18675", "x-token");
 			insertNftOwns(nft1);
+			NFTOwns nft2 = new NFTOwns("dogeGIF", "22222", "gif");
+			insertNftOwns(nft2);
 
 			stmt.close();
 		} catch (SQLException e) {
@@ -913,6 +927,12 @@ public class DatabaseConnectionHandler {
 
 			HostWebsite website1 = new HostWebsite("www.example.com", "15/2/2020", 10, "bitcoin");
 			insertHostWebsite(website1);
+			HostWebsite website2 = new HostWebsite("www.NFTocean.com", "21/7/2019", 8, "usd");
+			insertHostWebsite(website2);
+			HostWebsite website3 = new HostWebsite("www.openNFT.com", "18/6/2020", 23, "doge");
+			insertHostWebsite(website3);
+			HostWebsite website4 = new HostWebsite("www.freeNFTs.com", "01/2/2021", 3, "bitcoin");
+			insertHostWebsite(website4);
 
 			stmt.close();
 		} catch (SQLException e) {

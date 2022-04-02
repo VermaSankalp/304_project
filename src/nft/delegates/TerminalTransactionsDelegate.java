@@ -35,6 +35,9 @@ public interface TerminalTransactionsDelegate {
 
 	public void selection(BigDecimal bid);
 	public void division();
+	public void aggregation();
+	public void aggregationWithGroupBy();
+	public void join();
 
 	public void terminalTransactionsFinished();
 }

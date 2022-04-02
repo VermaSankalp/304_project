@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class TerminalTransactions {
@@ -79,6 +80,9 @@ public class TerminalTransactions {
             System.out.println("12. Show Host Website");
             System.out.println("13. Find Buyers with bids > ?");
             System.out.println("14. Find everyone that owns NFTs");
+            System.out.println("15. Find the number of buyers");
+            System.out.println("16. Find the number of NFTs for each currency");
+            System.out.println("17. Find everyone that is a buyer and a seller");
             System.out.println("0. Quit");
 
             choice = readInteger(false);
@@ -128,6 +132,15 @@ public class TerminalTransactions {
                         break;
                     case 14:
                         handleDivision();
+                        break;
+                    case 15:
+                        handleAggregation();
+                        break;
+                    case 16:
+                        handleAggregationWithGroupBy();
+                        break;
+                    case 17:
+                        handleJoin();
                         break;
                     case 0:
                         handleQuitOption();
@@ -357,6 +370,14 @@ public class TerminalTransactions {
     private void handleDivision() {
         delegate.division();
     }
+
+    private void handleAggregation() {
+        delegate.aggregation();
+    }
+
+    private void handleAggregationWithGroupBy() {delegate.aggregationWithGroupBy();}
+
+    private void handleJoin() {delegate.join();}
 
     private void handleQuitOption() {
         System.out.println("Good Bye!");
