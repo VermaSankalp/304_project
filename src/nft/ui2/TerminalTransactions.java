@@ -106,7 +106,7 @@ public class TerminalTransactions {
             System.out.println("OTHER QUERIES: ");
             System.out.println();
             System.out.println("28. Find Buyers with bids > ? (Selection)");
-            System.out.println("29. Find everyone that owns NFTs (Division)");
+            System.out.println("29. Find everyone that owns all NFTs (Division)");
             System.out.println("30. Find the number of buyers (Aggregation)");
             System.out.println("31. Find the number of NFTs for each currency (Nested aggregation with group-by)");
             System.out.println("32. Find everyone that is a buyer and a seller (Join)");
@@ -404,13 +404,19 @@ public class TerminalTransactions {
             tokenId = readLine().trim();
         }
 
+        String personId = "";
+        while (personId == "") {
+            System.out.print("Please enter the Person ID you wish to insert: ");
+            personId = readLine().trim();
+        }
+
         String tokenType = "";
         while (tokenType == "") {
             System.out.print("Please enter the NFT Token Type you wish to insert: ");
             tokenType = readLine().trim();
         }
 
-        NFTOwns model = new NFTOwns(tokenId, tokenType);
+        NFTOwns model = new NFTOwns(tokenId, personId, tokenType);
         delegate.insertNft(model);
     }
 
@@ -432,13 +438,19 @@ public class TerminalTransactions {
             tokenId = readLine().trim();
         }
 
+        String personId = "";
+        while (personId == "") {
+            System.out.print("Please enter the Person ID you wish to update: ");
+            personId = readLine().trim();
+        }
+
         String tokenType = "";
         while (tokenType == "") {
             System.out.print("Please enter the new NFT Token Type: ");
             tokenType = readLine().trim();
         }
 
-        delegate.updateNft(tokenId, tokenType);
+        delegate.updateNft(tokenId, personId, tokenType);
     }
 
     private void handleInsertOptionGaming() {

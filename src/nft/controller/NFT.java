@@ -159,8 +159,8 @@
 
 	 public void insertNft(NFTOwns model) {dbHandler.insertNftOwns(model);}
 	 public void deleteNft(String tokenId) {dbHandler.deleteNFTOwns(tokenId);}
-	 public void updateNft(String tokenId, String tokenType) {
-		 dbHandler.updateNFTOwns(tokenId, tokenType);
+	 public void updateNft(String tokenId, String personId, String tokenType) {
+		 dbHandler.updateNFTOwns(tokenId, personId, tokenType);
 	 }
 
 	 public void insertPeople(People model) { dbHandler.insertPeople(model); }

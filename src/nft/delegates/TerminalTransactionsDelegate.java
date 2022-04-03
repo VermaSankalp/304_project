@@ -37,7 +37,7 @@ public interface TerminalTransactionsDelegate {
 
 	public void insertNft(NFTOwns model);
 	public void deleteNft(String tokenId);
-	public void updateNft(String tokenId, String tokenType);
+	public void updateNft(String tokenId, String personId, String tokenType);
 
 	public void insertPeople(People model);
 	public void deletePeople(String personId);

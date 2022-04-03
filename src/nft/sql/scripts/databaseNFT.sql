@@ -23,8 +23,10 @@ CREATE TABLE gaming (
 
 CREATE TABLE nft_owns (
     token_id varchar(20) NOT NULL,
+    person_id varchar(20) NOT NULL,
     token_type varchar(20),
-    PRIMARY KEY (token_id)
+    PRIMARY KEY (token_id),
+    FOREIGN KEY (person_id) REFERENCES sellers(person_id)
 );
 
 CREATE TABLE people (
@@ -106,10 +108,10 @@ INSERT INTO sellers VALUES ("22222", "qwerqwer", 5);
 INSERT INTO buyers VALUES ("10298", "ascxz", new BigDecimal(30));
 INSERT INTO buyers VALUES ("54453", "nftKING", new BigDecimal(25));
 INSERT INTO buyers VALUES ("22222", "nft>usd", new BigDecimal(25));
-INSERT INTO nft_owns VALUES ("olapo", "x-token");
-INSERT INTO nft_owns VALUES ("dogeGIF", "gif");
+INSERT INTO nft_owns VALUES ("olapo", "22222", "x-token");
+INSERT INTO nft_owns VALUES ("dogeGIF", "22222", "gif");
 INSERT INTO people VALUES ("18675", "Rob robson", 43);
-INSERT INTO people VALUES ("99999", "Mark Bob", 23);
+INSERT INTO people VALUES ("22222", "Mark Bob", 23);
 INSERT INTO host_website VALUES ("www.example.com", "15/2/2020", 10, "bitcoin");
 INSERT INTO host_website VALUES ("www.NFTocean.com", "21/7/2019", 8, "usd");
 INSERT INTO host_website VALUES ("www.openNFT.com", "18/6/2020", 23, "doge");

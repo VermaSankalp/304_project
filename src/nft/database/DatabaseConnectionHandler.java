@@ -210,9 +210,10 @@ public class DatabaseConnectionHandler {
 
 	public void insertNftOwns(NFTOwns model) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("INSERT INTO nft_owns VALUES (?,?)");
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO nft_owns VALUES (?,?,?)");
 			ps.setString(1, model.getTokenID());
-			ps.setString(2, model.getTokenType());
+			ps.setString(2, model.getPersonId());
+			ps.setString(3, model.getTokenType());
 
 			ps.executeUpdate();
 			connection.commit();
@@ -642,11 +643,12 @@ public class DatabaseConnectionHandler {
 		}
 	}
 
-	public void updateNFTOwns(String tokenID, String tokenType) {
+	public void updateNFTOwns(String tokenID, String personId, String tokenType) {
 		try {
-			PreparedStatement ps = connection.prepareStatement("UPDATE nft_owns SET token_type = ? WHERE token_id = ?");
+			PreparedStatement ps = connection.prepareStatement("UPDATE nft_owns SET token_type = ? WHERE token_id = ? AND person_id = ?");
 			ps.setString(1, tokenType);
 			ps.setString(2, tokenID);
+			ps.setString(3, personId);
 
 			int rowCount = ps.executeUpdate();
 			if (rowCount == 0) {
@@ -910,10 +912,10 @@ public class DatabaseConnectionHandler {
 	public void createTableNftOwns() {
 		try {
 			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("CREATE TABLE nft_owns (token_id varchar(20) NOT NULL, token_type varchar(20), PRIMARY KEY (token_id))");
-			NFTOwns nft1 = new NFTOwns("olapo", "x-token");
+			stmt.executeUpdate("CREATE TABLE nft_owns (token_id varchar(20) NOT NULL, person_id varchar(20) NOT NULL, token_type varchar(20), PRIMARY KEY (token_id), FOREIGN KEY (person_id) REFERENCES sellers(person_id))");
+			NFTOwns nft1 = new NFTOwns("olapo", "22222", "x-token");
 			insertNftOwns(nft1);
-			NFTOwns nft2 = new NFTOwns("dogeGIF", "gif");
+			NFTOwns nft2 = new NFTOwns("dogeGIF", "22222", "gif");
 			insertNftOwns(nft2);
 
 			stmt.close();
@@ -929,7 +931,7 @@ public class DatabaseConnectionHandler {
 
 			People person1 = new People("18675", "Rob robson", 43);
 			insertPeople(person1);
-			People person2 = new People("99999", "Mark Bob", 23);
+			People person2 = new People("22222", "Mark Bob", 23);
 			insertPeople(person2);
 
 			stmt.close();

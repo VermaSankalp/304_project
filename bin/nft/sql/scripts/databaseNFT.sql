@@ -23,8 +23,10 @@ CREATE TABLE gaming (
 
 CREATE TABLE nft_owns (
     token_id varchar(20) NOT NULL,
+    person_id varchar(20) NOT NULL,
     token_type varchar(20),
-    PRIMARY KEY (token_id)
+    PRIMARY KEY (token_id),
+    FOREIGN KEY (person_id) REFERENCES sellers(person_id)
 );
 
 CREATE TABLE people (
@@ -98,14 +100,19 @@ CREATE TABLE buys_from (
     FOREIGN KEY (domain) REFERENCES host_website(domain)
 );
 
--- INSERT INTO host_website VALUES ("www.example.com", new Date(56), 10);
--- INSERT INTO people VALUES ("12345", "Rob robson", 43);
--- INSERT INTO sellers VALUES ("45678", "asdfkl", new BigDecimal(10));
--- INSERT INTO buyers VALUES ("10298", "ascxz", new BigDecimal(30));
--- INSERT INTO nft_owns VALUES ("olapo", "18675", "x-token");
--- INSERT INTO digital_content VALUES ("ilpoi", "Bill russ", "mp4");
--- INSERT INTO collaterals VALUES ("cvbnm", "Bank", "ubc", "scotia", 30);
--- INSERT INTO gaming VALUES ("ixnxe", "00034", "valve");
-
--- INSERT INTO nft_owns VALUES ("12344556", "123412", "ETH");
--- INSERT INTO nft_owns VALUES ("12344556", "12222", "doge");
+INSERT INTO digital_content VALUES ("ilpoi", "Bill russ", "mp4");
+INSERT INTO collaterals VALUES ("cvbnm", "Bank", "ubc", "scotia", 30);
+INSERT INTO gaming VALUES ("ixnxe", "00034", "valve");
+INSERT INTO sellers VALUES ("18675", "asdfkl", 10);
+INSERT INTO sellers VALUES ("22222", "qwerqwer", 5);
+INSERT INTO buyers VALUES ("10298", "ascxz", new BigDecimal(30));
+INSERT INTO buyers VALUES ("54453", "nftKING", new BigDecimal(25));
+INSERT INTO buyers VALUES ("22222", "nft>usd", new BigDecimal(25));
+INSERT INTO nft_owns VALUES ("olapo", "99999", "x-token");
+INSERT INTO nft_owns VALUES ("dogeGIF", "99999", "gif");
+INSERT INTO people VALUES ("18675", "Rob robson", 43);
+INSERT INTO people VALUES ("22222", "Mark Bob", 23);
+INSERT INTO host_website VALUES ("www.example.com", "15/2/2020", 10, "bitcoin");
+INSERT INTO host_website VALUES ("www.NFTocean.com", "21/7/2019", 8, "usd");
+INSERT INTO host_website VALUES ("www.openNFT.com", "18/6/2020", 23, "doge");
+INSERT INTO host_website VALUES ("www.freeNFTs.com", "01/2/2021", 3, "bitcoin");
